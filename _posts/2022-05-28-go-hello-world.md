@@ -12,13 +12,13 @@ This is a sample blog post. You can talk about all sorts of fun things here.
 
 #### Go code
 
-~~~ go
+```go
 package main
 import "fmt"
 func main() {
     fmt.Println("hello world")
 }
-~~~
+```
 
 #### Some PowerShell Code
 
