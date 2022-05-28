@@ -9,7 +9,7 @@ where data is automatically sharded across multiple Redis nodes.
 
 #### docker-compose.yml
 
-``` yml
+``` yaml
 version: "3"
 
 services:
