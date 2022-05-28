@@ -1,4 +1,4 @@
-## Blog Post Title From First Header Clone
+## Hello world in Go
 
 Due to a plugin called `jekyll-titles-from-headings` which is supported by GitHub Pages by default. The above header (in the markdown file) will be automatically used as the pages title.
 
@@ -8,15 +8,16 @@ This is a sample blog post. You can talk about all sorts of fun things here.
 
 ---
 
-### This is a header
+### Hello World!
 
-#### Some T-SQL Code
+#### Go code
 
-```tsql
-SELECT This, [Is], A, Code, Block -- Using SSMS style syntax highlighting
-    , REVERSE('abc')
-FROM dbo.SomeTable s
-    CROSS JOIN dbo.OtherTable o;
+```go
+package main
+import "fmt"
+func main() {
+    fmt.Println("hello world")
+}
 ```
 
 #### Some PowerShell Code
