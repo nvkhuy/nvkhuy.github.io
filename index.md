@@ -1,5 +1,3 @@
-Here you can say lots of fun things about your site.
+"It appears that your wounds are not fatal. You have my sympathy."
 
-Maybe say a some things about yourself.
-
-Or maybe what you plan to blog about.
+-Jotaro Kujo.
