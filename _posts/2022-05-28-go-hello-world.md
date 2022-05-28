@@ -12,7 +12,7 @@ This is a sample blog post. You can talk about all sorts of fun things here.
 
 #### Go code
 
-```go
+```golang
 package main
 import "fmt"
 func main() {
