@@ -2,7 +2,7 @@
 
 Implement golang worker pools
 
-Init worker pools with 3 workers then assign 3, 5, 6, 7 jobs to see runtime difference, each job takes 100ms processing
+Init worker pools with 3 workers then assign 3, 5, 6, 7 tasks to see runtime difference, each task takes 100ms processing
 
 Round 1 - 3 tasks - runtime 101ms
 
