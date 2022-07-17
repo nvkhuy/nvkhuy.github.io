@@ -41,6 +41,7 @@ func main() {
 	log.Println(h)
 	log.Println(heap.Pop(&h))
 }
+
 ```
 
 ### Output
@@ -48,4 +49,5 @@ func main() {
 $go run main.go
 2022/07/15 09:47:10 [1 5 3]
 2022/07/15 09:47:10 1
+
 ```
