@@ -1,8 +1,6 @@
 ---
 layout: post
 ---
-## Go Heap Tree
-
 Implement golang heap tree interface
 
 ---

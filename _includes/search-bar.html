@@ -1,0 +1,60 @@
+<label for="search-bar"></label><input type="search" id="search-bar" placeholder=" Type to search..."/>
+<div id="search-results"></div>
+
+<script type="application/json" id="search-data">{% include post-feed.html %}</script>
+<script>
+    // First, parse the JSON we've thrown into the DOM
+    let searchData = JSON.parse(document.getElementById('search-data').textContent);
+
+    // Create a reference to our search results
+    let searchResultsList = document.getElementById('search-results');
+
+    // And one for our search input
+    let searchInput = document.getElementById('search-bar');
+
+    let updateSearchResults = function (e) {
+        // Make the query case-insensitive
+        let q = e.target.value.toLowerCase();
+        console.log(q);
+        // Empty the search results DOM element
+        searchResultsList.innerHTML = "";
+        // Make sure it isn't empty
+        if (q.trim() !== '') {
+
+            // Loop over all the items in our JSON blob
+            for (let i in searchData) {
+                let searchItem = searchData[i];
+
+                // Check if the title or snippet includes our query string
+                if (searchItem.title.toLowerCase().includes(q) || searchItem.snippet.toLowerCase().includes(q)) {
+
+                    // If it does, append a link to our results element
+                    let searchLink = document.createElement('a');
+                    let title = searchItem.title;
+                    let searchContent = document.createTextNode(title);
+
+                    searchLink.setAttribute('href', searchItem.url);
+                    searchLink.appendChild(searchContent);
+                    searchResultsList.appendChild(searchLink);
+                }
+            }
+        }
+    };
+
+    // Finally, bind our new function to the search input element
+    searchInput.addEventListener('keyup', updateSearchResults);
+</script>
+<style>
+    #search-results a {
+        display: block;
+    }
+
+    #search-bar {
+        border-radius: 25px;
+        border: 2px solid #8a8c7e;
+        padding: 15px;
+        height: 30px;
+        width: 500px;
+        font-size: 13pt;
+    }
+</style>

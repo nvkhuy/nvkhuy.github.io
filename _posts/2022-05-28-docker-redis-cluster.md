@@ -1,8 +1,6 @@
 ---
 layout: post
 ---
-## Redis Cluster Docker Compose
-
 Redis Cluster provides a way to run a Redis installation 
 where data is automatically sharded across multiple Redis nodes.
 

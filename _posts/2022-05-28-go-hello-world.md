@@ -1,9 +1,6 @@
 ---
 layout: post
 ---
-## Hello world in Go
-
----
 
 #### Code
 

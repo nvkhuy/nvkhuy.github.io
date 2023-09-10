@@ -1,3 +1,7 @@
-"It appears that your wounds are not fatal. You have my sympathy."
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
--Jotaro Kujo.
+layout: home
+---
+{% include search-bar.html %}

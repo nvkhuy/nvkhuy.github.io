@@ -1,0 +1,10 @@
+[
+    {% for post in site.posts %}
+        {
+            "title": "{{ post.title }}",
+            "snippet": "{{ post.content | truncatewords: 25 | strip_html | escape | strip_newlines }}",
+            "href": "{{ post.permalink }}",
+            "url": "{{ post.url }}"
+        }{% if forloop.last == false %},{% endif %}
+    {% endfor %}
+]

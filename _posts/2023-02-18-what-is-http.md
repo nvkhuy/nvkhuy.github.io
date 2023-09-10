@@ -1,8 +1,6 @@
 ---
 layout: post
 ---
-## What is http
-
 The Hypertext Transfer Protocol (HTTP) is designed to enable communications between clients and servers.
 
 ---
