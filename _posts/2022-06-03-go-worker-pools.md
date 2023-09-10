@@ -1,3 +1,6 @@
+---
+layout: post
+---
 ## Go Worker Pools
 
 Implement golang worker pools
