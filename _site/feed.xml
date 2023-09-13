@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-14T04:12:35+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">What Is Http</title><link href="http://localhost:4000/what-is-http" rel="alternate" type="text/html" title="What Is Http" /><published>2023-02-18T00:00:00+07:00</published><updated>2023-02-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-http</id><content type="html" xml:base="http://localhost:4000/what-is-http"><![CDATA[<p>HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:</p>
+
+<p><strong>HTTP Methods (HTTP Verbs):</strong>
+HTTP defines several methods or verbs, which are used to specify the desired action to be performed on a resource identified by a URL (Uniform Resource Locator). Each method has a specific purpose:</p>
+
+<ol>
+  <li>
+    <p><strong>GET:</strong> The GET method is used to request data from a specified resource. It retrieves data without causing any change in the server’s state. It’s used for fetching web pages, images, and other resources.</p>
+  </li>
+  <li>
+    <p><strong>POST:</strong> The POST method is used to submit data to be processed to a specified resource. It can be used for form submissions, file uploads, and other actions that may modify server data.</p>
+  </li>
+  <li>
+    <p><strong>PUT:</strong> The PUT method is used to update a resource or create a new resource if it doesn’t exist. It replaces the entire resource with the data provided in the request.</p>
+  </li>
+  <li>
+    <p><strong>PATCH:</strong> The PATCH method is used to apply partial modifications to a resource. It’s typically used when you want to update only specific parts of a resource, rather than replacing the entire resource as in PUT.</p>
+  </li>
+  <li>
+    <p><strong>DELETE:</strong> The DELETE method is used to request the removal of a resource from the server. It deletes the specified resource.</p>
+  </li>
+  <li>
+    <p><strong>HEAD:</strong> The HEAD method is similar to GET but requests only the headers of the response, not the actual content. It’s often used to check if a resource has been modified since a certain date or to gather metadata about the resource.</p>
+  </li>
+  <li>
+    <p><strong>OPTIONS:</strong> The OPTIONS method is used to retrieve information about the communication options for the target resource. It can be used to inquire which HTTP methods are supported by the server for a particular resource.</p>
+  </li>
+  <li>
+    <p><strong>CONNECT:</strong> The CONNECT method is used to establish a network connection to a resource, usually for use with a proxy server. It’s primarily used in the context of HTTPS tunneling.</p>
+  </li>
+  <li>
+    <p><strong>TRACE:</strong> The TRACE method is used to retrieve diagnostic information from the server. It’s primarily used for debugging and testing purposes.</p>
+  </li>
+</ol>
+
+<p><strong>Differences Between HTTP Methods:</strong></p>
+
+<p>The primary differences between these methods lie in their purpose and the effect they have on the server and its resources:</p>
+
+<ul>
+  <li><strong>GET:</strong> Retrieves data from a resource without altering it.</li>
+  <li><strong>POST:</strong> Submits data to the server, potentially leading to changes in server data.</li>
+  <li><strong>PUT:</strong> Replaces an entire resource or creates a new one if it doesn’t exist.</li>
+  <li><strong>PATCH:</strong> Applies partial modifications to a resource.</li>
+  <li><strong>DELETE:</strong> Removes a resource from the server.</li>
+  <li><strong>HEAD:</strong> Retrieves only the headers of a response, not the content.</li>
+  <li><strong>OPTIONS:</strong> Retrieves information about the communication options for a resource.</li>
+  <li><strong>CONNECT:</strong> Establishes a network connection to a resource.</li>
+  <li><strong>TRACE:</strong> Retrieves diagnostic information from the server.</li>
+</ul>
+
+<p>Here’s a comparison of common HTTP methods in a table format:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>HTTP Method</th>
+      <th>Purpose</th>
+      <th>Idempotent</th>
+      <th>Request Body</th>
+      <th>Safe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GET</td>
+      <td>Retrieve data from a resource</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>Submit data to a resource</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>PUT</td>
+      <td>Replace a resource</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>Remove a resource</td>
+      <td>Yes</td>
+      <td>Optional</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>HEAD</td>
+      <td>Retrieve headers only</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OPTIONS</td>
+      <td>Retrieve communication options</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PATCH</td>
+      <td>Apply partial modifications</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>CONNECT</td>
+      <td>Establish network connection</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>TRACE</td>
+      <td>Retrieve diagnostic info</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>
+    <p><strong>Idempotent:</strong> An idempotent method means that making the same request multiple times has the same effect as making it once. For example, multiple GET or DELETE requests with the same parameters should have the same outcome each time. PUT and HEAD are also idempotent if the request body is the same.</p>
+  </li>
+  <li>
+    <p><strong>Request Body:</strong> Indicates whether the HTTP method can include data in the request body. Methods like POST, PUT, DELETE, and PATCH can include a request body, while methods like GET, HEAD, OPTIONS, and TRACE typically do not.</p>
+  </li>
+  <li>
+    <p><strong>Safe:</strong> A safe method is one that should not have any side effects on the server or its resources. Safe methods are generally cacheable, and they don’t change the server state. GET, HEAD, and OPTIONS are considered safe methods.</p>
+  </li>
+</ul>
+
+<p>Please note that while these are general characteristics of these HTTP methods, the specific behavior can vary depending on how they are implemented by a server and the application’s design. Additionally, the use of these methods should adhere to the HTTP specification and best practices for web development.</p>
+
+<p><strong>Why Sending Login Request Using POST:</strong></p>
+
+<p>Sending login requests using the HTTP POST method, as opposed to the GET method, is a common practice for several important reasons:</p>
+
+<ol>
+  <li>
+    <p><strong>Security:</strong> When you submit login credentials (such as a username and password), you want to keep this information confidential. Using a POST request sends the data in the request body, which is not visible in the URL or browser history. In contrast, GET requests append data to the URL as query parameters, making it visible in the browser’s address bar and potentially exposing sensitive information.</p>
+  </li>
+  <li>
+    <p><strong>Data Length:</strong> POST requests can handle larger amounts of data in the request body compared to GET requests, which are limited in the amount of data they can carry in the URL. Login credentials are usually sensitive and may include lengthy encrypted or hashed data, making them unsuitable for inclusion in a URL.</p>
+  </li>
+  <li>
+    <p><strong>Caching:</strong> GET requests are often cached by web browsers, proxies, and other intermediaries. This means that if login credentials were sent via a GET request, they might be stored in browser history, cached on the user’s device, or logged on intermediary servers, posing a security risk.</p>
+  </li>
+  <li>
+    <p><strong>Idempotence:</strong> HTTP GET requests are considered idempotent, meaning they have no side effects on the server and can be safely repeated multiple times without changing the server’s state. Login operations are not idempotent; they typically involve creating a new session or changing the user’s state on the server. Using POST, which is not idempotent, reflects the non-idempotent nature of login requests more accurately.</p>
+  </li>
+  <li>
+    <p><strong>CSRF Protection:</strong> POST requests can include anti-CSRF (Cross-Site Request Forgery) tokens in the request body to protect against CSRF attacks, which involve unauthorized actions being performed on behalf of an authenticated user.</p>
+  </li>
+</ol>
+
+<p>Using the POST method for login requests is a security best practice because it helps protect sensitive data, prevents data from being exposed in URLs, accommodates larger data payloads, and aligns with the non-idempotent and state-changing nature of login operations. It’s essential to follow secure coding practices when implementing authentication mechanisms to ensure the protection of user credentials and sensitive data.</p>
+
+<p><strong>HTTP Methods Categorized Into Two Groups Regarding Caching:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Safe Methods:</strong> Safe methods are HTTP methods that are considered to be safe, meaning they should not have any side effects on the server or its resources. These methods are generally cacheable by intermediaries like web browsers and proxies. Safe methods include:</p>
+
+    <ul>
+      <li>GET: Retrieves data from a resource.</li>
+      <li>HEAD: Retrieves only the headers of a response (similar to GET but without the body).</li>
+      <li>OPTIONS: Retrieves information about the communication options for a resource.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Unsafe Methods:</strong> Unsafe methods are HTTP methods that can have side effects on the server or its resources, and they are generally not cacheable. Unsafe methods include:</p>
+
+    <ul>
+      <li>POST: Submits data to the server to create or modify a resource.</li>
+      <li>PUT: Replaces a resource at a specific URL with new data.</li>
+      <li>DELETE: Requests the removal of a resource from the server.</li>
+      <li>PATCH: Applies partial modifications to a resource.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The HTTP specification defines that safe methods are generally cacheable because they don’t change server state. Therefore, GET, HEAD, and OPTIONS requests are often cached by intermediaries to improve performance and reduce server load. However, caching behavior can be influenced by various factors, including HTTP headers such as “Cache-Control” and “Expires.”</p>
+
+<p><strong>Does Body Data Encrypted When Send POST Request?</strong></p>
+
+<p>When you send data over HTTPS using a POST request, the data in the request body is encrypted. HTTPS (Hypertext Transfer Protocol Secure) is designed to provide a secure and encrypted communication channel between your web browser (or any other client) and the web server. Here’s how the encryption process works:</p>
+
+<ol>
+  <li>
+    <p><strong>SSL/TLS Encryption:</strong> HTTPS uses SSL (Secure Sockets Layer) or its successor, TLS (Transport Layer Security), to encrypt the data transmitted between the client (your computer) and the server. This encryption ensures that the data is protected from eavesdropping and tampering while in transit over the internet.</p>
+  </li>
+  <li>
+    <p><strong>Secure Handshake:</strong> When you establish a connection to a website over HTTPS, your browser and the server go through a handshake process. During this process, they exchange encryption keys and negotiate the encryption parameters to establish a secure session.</p>
+  </li>
+  <li>
+    <p><strong>Request and Response Encryption:</strong> Once the secure session is established, all data exchanged between your client and the server, including the contents of the POST request body, is encrypted before transmission. This means that the data is protected from interception by third parties during its journey from your device to the server.</p>
+  </li>
+  <li>
+    <p><strong>Decryption on the Server:</strong> When the server receives the encrypted data, it has the decryption key to decode the data and process it. This happens on the server side, ensuring that the server can access and understand the contents of the POST request.</p>
+  </li>
+</ol>
+
+<p>HTTPS ensures end-to-end encryption for data sent via POST requests. This encryption is a fundamental aspect of HTTPS, making it a secure way to transmit sensitive information such as login credentials, credit card details, or any other private data over the internet. It provides confidentiality, integrity, and authenticity for the data in transit, helping to protect users’ privacy and security.</p>]]></content><author><name></name></author><category term="computer-network" /><summary type="html"><![CDATA[HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:]]></summary></entry><entry><title type="html">Go Heap Tree</title><link href="http://localhost:4000/go-heap-tree" rel="alternate" type="text/html" title="Go Heap Tree" /><published>2022-07-16T00:00:00+07:00</published><updated>2022-07-16T00:00:00+07:00</updated><id>http://localhost:4000/go-heap-tree</id><content type="html" xml:base="http://localhost:4000/go-heap-tree"><![CDATA[<p>Implement golang heap tree interface</p>
+
+<hr />
+
+<h3 id="code">Code</h3>
+<pre><code class="language-go">package main
+
+import (
+	"container/heap"
+	"log"
+)
+type IntHeap []int
+
+func (h IntHeap) Len() int { 
+    return len(h) 
+}
+func (h IntHeap) Less(i, j int) bool { 
+    return h[i] &lt; h[j] 
+}
+func (h IntHeap) Swap(i, j int) { 
+    h[i], h[j] = h[j], h[i] 
+}
+func (h *IntHeap) Push(x interface{}) {
+	*h = append(*h, x.(int))
+}
+func (h *IntHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+func main() {
+	h := IntHeap{}
+	heap.Push(&amp;h,5)
+	heap.Push(&amp;h,1)
+	heap.Push(&amp;h,3)
+	log.Println(h)
+	log.Println(heap.Pop(&amp;h))
+}
+
+</code></pre>
+
+<h3 id="output">Output</h3>
+<pre><code>$go run main.go
+2022/07/15 09:47:10 [1 5 3]
+2022/07/15 09:47:10 1
+
+</code></pre>]]></content><author><name></name></author><category term="go" /><category term="data-structure" /><summary type="html"><![CDATA[Implement golang heap tree interface]]></summary></entry><entry><title type="html">Go Worker Pools</title><link href="http://localhost:4000/go-worker-pools" rel="alternate" type="text/html" title="Go Worker Pools" /><published>2022-06-03T00:00:00+07:00</published><updated>2022-06-03T00:00:00+07:00</updated><id>http://localhost:4000/go-worker-pools</id><content type="html" xml:base="http://localhost:4000/go-worker-pools"><![CDATA[<p>Implement golang worker pools</p>
+
+<p>Init worker pools with 3 workers then assign 3, 5, 6, 7 tasks to see runtime difference, each task takes 100ms processing</p>
+
+<p>Round 1 - 3 tasks - runtime 101ms</p>
+
+<p>Round 2 - 5 tasks - runtime 202ms</p>
+
+<p>Round 3 - 6 tasks - runtime 202ms</p>
+
+<p>Round 4 - 7 tasks - runtime 302ms</p>
+
+<hr />
+
+<h3 id="code">Code</h3>
+<pre><code class="language-go">package main
+
+import (
+	"log"
+	"time"
+)
+
+type Worker struct {
+	MaxNumJob     int
+	Jobs, Results chan int
+}
+
+func (w *Worker) work(jobs &lt;-chan int, results chan&lt;- int) {
+	for j := range jobs {
+		time.Sleep(100 * time.Millisecond)
+		results &lt;- j
+	}
+}
+func (w *Worker) Init(num int) {
+	w.MaxNumJob = num
+	w.Jobs = make(chan int, w.MaxNumJob)
+	w.Results = make(chan int, w.MaxNumJob)
+	for i := 1; i &lt;= w.MaxNumJob; i++ {
+		go w.work(w.Jobs, w.Results)
+	}
+	return
+}
+func (w *Worker) assign(round int, num int) {
+	log.Println("[Round]", round)
+	start := time.Now()
+	for i := 1; i &lt;= num; i++ {
+		w.Jobs &lt;- i
+	}
+	for i := 1; i &lt;= num; i++ {
+		res := &lt;-w.Results
+		log.Println(res)
+	}
+	end := time.Now()
+	log.Println("Runtime:", end.Sub(start).Milliseconds(), "ms")
+}
+
+func main() {
+	worker := &amp;Worker{}
+	worker.Init(3)
+	worker.assign(1, 3)
+	worker.assign(2, 5)
+	worker.assign(3, 6)
+	worker.assign(4, 7)
+}
+
+</code></pre>
+
+<h3 id="output">Output</h3>
+<pre><code>$go run main.go
+2022/06/03 22:20:01 [Round] 1
+2022/06/03 22:20:01 2
+2022/06/03 22:20:01 1
+2022/06/03 22:20:01 3
+2022/06/03 22:20:01 Runtime: 101 ms
+2022/06/03 22:20:01 [Round] 2
+2022/06/03 22:20:01 1
+2022/06/03 22:20:01 2
+2022/06/03 22:20:01 3
+2022/06/03 22:20:01 4
+2022/06/03 22:20:01 5
+2022/06/03 22:20:01 Runtime: 202 ms
+2022/06/03 22:20:01 [Round] 3
+2022/06/03 22:20:01 2
+2022/06/03 22:20:01 3
+2022/06/03 22:20:01 1
+2022/06/03 22:20:02 4
+2022/06/03 22:20:02 6
+2022/06/03 22:20:02 5
+2022/06/03 22:20:02 Runtime: 202 ms
+2022/06/03 22:20:02 [Round] 4
+2022/06/03 22:20:02 2
+2022/06/03 22:20:02 3
+2022/06/03 22:20:02 1
+2022/06/03 22:20:02 4
+2022/06/03 22:20:02 6
+2022/06/03 22:20:02 5
+2022/06/03 22:20:02 7
+2022/06/03 22:20:02 Runtime: 302 ms
+
+</code></pre>]]></content><author><name></name></author><category term="go" /><category term="goroutine" /><category term="concurrency" /><summary type="html"><![CDATA[Implement golang worker pools]]></summary></entry><entry><title type="html">Docker Redis Cluster</title><link href="http://localhost:4000/docker-redis-cluster" rel="alternate" type="text/html" title="Docker Redis Cluster" /><published>2022-05-28T00:00:00+07:00</published><updated>2022-05-28T00:00:00+07:00</updated><id>http://localhost:4000/docker-redis-cluster</id><content type="html" xml:base="http://localhost:4000/docker-redis-cluster"><![CDATA[<p>Redis Cluster provides a way to run a Redis installation 
+where data is automatically sharded across multiple Redis nodes.</p>
+
+<hr />
+
+<h3 id="code">Code</h3>
+
+<h4 id="docker-composeyml">docker-compose.yml</h4>
+
+<pre><code>version: "3"
+
+services:
+  redis-cluster:
+    image: grokzen/redis-cluster:latest
+    ports:
+      - "26379-26384:26379-26384"
+    environment:
+      - "INITIAL_PORT=26379"
+      - "MASTERS=5"
+      - "SLAVES_PER_MASTER=1"
+      - "SENTINEL=false"
+      - "REDIS_CLUSTER_IP=0.0.0.0"
+      - "IP=0.0.0.0"
+      - "BIND_ADDRESS=0.0.0.0"
+</code></pre>
+
+<h3 id="docker-compose">Docker compose</h3>
+<pre><code>$ docker-compose up -d
+</code></pre>
+
+<h3 id="connect-redis-cluster">Connect redis cluster</h3>
+<pre><code>$ redis-client -c -h 127.0.0.1 -p 26379
+</code></pre>]]></content><author><name></name></author><category term="docker" /><category term="redis" /><summary type="html"><![CDATA[Redis Cluster provides a way to run a Redis installation where data is automatically sharded across multiple Redis nodes.]]></summary></entry></feed>
