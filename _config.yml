@@ -43,3 +43,7 @@ defaults:
       type: posts
     values:
       tags: Other
+  - scope:
+      path: "/tags/*"
+    values:
+      tags: Other
