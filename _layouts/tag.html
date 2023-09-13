@@ -1,0 +1,23 @@
+---
+layout: default
+---
+<!doctype html>
+<html>
+  <body>
+    <h3>📌 Tags: </h3>
+    <div class="tags">
+        {% for tag in site.tags %}
+        <a href="/tags/{{ tag[0] | slugify }}">{{ tag[0] }}</a>
+        {% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+    </div>
+    <h2># {{page.tag}}</h2>
+    <ul>
+      {% for post in site.posts %}
+        {% if post.tags contains page.tag %}
+          <a class="post" href="{{ post.url }}">↳ {{ post.date | date: "%B %Y" }} - {{ post.title }}</a>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </body>
+</html>
