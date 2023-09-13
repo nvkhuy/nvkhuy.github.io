@@ -1,4 +1,4 @@
-<label for="search-bar"></label><input type="search" id="search-bar" placeholder=" type to search..."/>
+<label for="search-bar"></label><input type="search" id="search-bar" placeholder="search here ..."/>
 <div id="search-results"></div>
 
 <script type="application/json" id="search-data">{% include post-feed.html %}</script>
@@ -14,30 +14,26 @@
 
     let updateSearchResults = function (e) {
         // Make the query case-insensitive
-        let q = e.target.value.toLowerCase();
-        console.log(q);
+        let q = e.target.value.trim().toLowerCase();
         // Empty the search results DOM element
         searchResultsList.innerHTML = "";
+
         // Make sure it isn't empty
-        if (q.trim() !== '') {
+        if (q !== '') {
+            // Filter the searchData array to include only matching items
+            let matchingItems = searchData.filter(searchItem => {
+                let title = searchItem.title.toLowerCase();
+                let snippet = searchItem.snippet.toLowerCase();
+                return title.includes(q) || snippet.includes(q);
+            });
 
-            // Loop over all the items in our JSON blob
-            for (let i in searchData) {
-                let searchItem = searchData[i];
-
-                // Check if the title or snippet includes our query string
-                if (searchItem.title.toLowerCase().includes(q) || searchItem.snippet.toLowerCase().includes(q)) {
-
-                    // If it does, append a link to our results element
-                    let searchLink = document.createElement('a');
-                    let title = searchItem.title;
-                    let searchContent = document.createTextNode(title);
-
-                    searchLink.setAttribute('href', searchItem.url);
-                    searchLink.appendChild(searchContent);
-                    searchResultsList.appendChild(searchLink);
-                }
-            }
+            // Create and append links for matching items
+            matchingItems.forEach(searchItem => {
+                let searchLink = document.createElement('a');
+                searchLink.href = searchItem.url;
+                searchLink.textContent = searchItem.title;
+                searchResultsList.appendChild(searchLink);
+            });
         }
     };
 

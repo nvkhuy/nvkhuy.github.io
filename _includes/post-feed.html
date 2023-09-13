@@ -4,7 +4,13 @@
             "title": "{{ post.title }}",
             "snippet": "{{ post.content | truncatewords: 25 | strip_html | escape | strip_newlines }}",
             "href": "{{ post.permalink }}",
-            "url": "{{ post.url }}"
+            "url": "{{ post.url }}",
+            "date": "{{ post.date }}",
+            "tags": [
+                {% for tag in post.tags %}
+                    "{{ tag }}"{% if forloop.last == false %},{% endif %}
+                {% endfor %}
+            ]
         }{% if forloop.last == false %},{% endif %}
     {% endfor %}
 ]
