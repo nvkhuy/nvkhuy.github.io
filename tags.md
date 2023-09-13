@@ -1,5 +1,5 @@
 ---
-layout: tag-list
+layout: tag
 title: Tags
 permalink: /tags
 ---
