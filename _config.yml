@@ -43,8 +43,3 @@ defaults:
       type: posts
     values:
       tags: Other
-
-collections:
-  tags:
-    output: true
-    permalink: /tags/:name/
