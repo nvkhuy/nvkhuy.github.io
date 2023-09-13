@@ -1,5 +1,7 @@
 ---
 layout: post
+tags: go goroutine concurrency
+permalink: /go-worker-pools
 ---
 Implement golang worker pools
 

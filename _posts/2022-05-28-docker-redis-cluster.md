@@ -1,5 +1,7 @@
 ---
 layout: post
+tags: docker redis
+permalink: /docker-redis-cluster
 ---
 Redis Cluster provides a way to run a Redis installation 
 where data is automatically sharded across multiple Redis nodes.

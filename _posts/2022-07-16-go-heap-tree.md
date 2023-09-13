@@ -1,5 +1,7 @@
 ---
 layout: post
+tags: go data-structure
+permalink: /go-heap-tree
 ---
 Implement golang heap tree interface
 
