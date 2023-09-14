@@ -31,16 +31,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Configure Git Identity
-      run: |
-        git config user.name "nvkhuy"
-        git config user.email "khanhhuynguyenvu@gmail.com"
-        
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Create and Checkout gh-pages Branch
       run: |
+        git config user.name "nvkhuy"
+        git config user.email "khanhhuynguyenvu@gmail.com"
         git checkout --orphan gh-pages
         git rm -rf .
         git clean -fxd
