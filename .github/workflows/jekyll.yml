@@ -47,10 +47,12 @@ jobs:
         git add .
         git commit -m "Deploy Jekyll site to gh-pages"
         git push origin gh-pages
-      env:
-          GH_TOKEN: ${{ secrets.NVKHUY_BOT_TOKEN }}
+      with:
+        github_token: ${{ secrets.NVKHUY_BOT_TOKEN }}
 
     - name: Clean up
       run: |
         git checkout main
         git branch -D gh-pages
+      with:
+        github_token: ${{ secrets.NVKHUY_BOT_TOKEN }}
