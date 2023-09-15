@@ -1,0 +1,151 @@
+<div class="container">
+    <div class="select-box">
+        <label for="tags">Tag</label>
+        <select id="tags"></select>
+    </div>
+    <div class="select-box">
+        <label for="difficulties">Difficulty</label>
+        <select id="difficulties"></select>
+    </div>
+    <button onclick="changeRandomBar()">🎲</button>
+    <button onclick="resetRandomBar()">❌</button>
+</div>
+
+<div id="random-result"></div>
+
+
+<script type="application/json" id="leetfeed">{% include leet-feed.html %}</script>
+<script>
+    let leet_feed_data = JSON.parse(document.getElementById('leetfeed').textContent);
+    let toJson = function (txt) {
+        let data = {}
+        const tags = txt.split('## **').slice(1);
+        for (let _tag of tags) {
+            let cut_size = _tag.indexOf("**") + 2;
+            let tag_name = _tag.substring(0, cut_size - 2).toLowerCase();
+
+            let tag = _tag.slice(cut_size);
+            let difs = tag.split("### ").splice(1);
+            data[tag_name] = {}
+            for (let _diff of difs) {
+                let probs = _diff.split("- ");
+                let diff_name = probs[0].toLowerCase();
+
+                probs = probs.slice(1, probs.length);
+                data[tag_name][diff_name] = []
+                for (let prob of probs) {
+                    let inputString = prob;
+                    // Using regular expressions to extract the text within square brackets and parentheses
+                    let matches = inputString.match(/\[(.*?)\]\((.*?)\)/);
+
+                    if (matches) {
+                        let title = matches[1]; // Extracted text within square brackets
+                        let url = matches[2];   // Extracted text within parentheses
+                        data[tag_name][diff_name].push({
+                            "title": title,
+                            "url": url
+                        });
+                    } else {
+                        console.error("String format not as expected.");
+                    }
+                }
+            }
+        }
+        return data;
+    }
+    let emojis = ['🧠', '🤯', '🚀', '🚨', '👻', '😆', '😩', '👮', '🎃', '😶', '😤', '🤔', '🧑‍🏭','🤓','🤙','🦸🏻‍♀️','😈','🐼','👾'];
+    let random_data = toJson(leet_feed_data[0].content);
+    let capitalizeFirstLetter = function (s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    let set_tags_option = function () {
+        let select = document.getElementById("tags");
+        for (let key in random_data) {
+            let newOption = document.createElement("option");
+            newOption.value = key;
+            newOption.text = capitalizeFirstLetter(key);
+            select.appendChild(newOption);
+        }
+    }
+    let set_difficulty_option = function () {
+        let select = document.getElementById("difficulties");
+        for (let key of ['easy', 'medium', 'hard']) {
+            let newOption = document.createElement("option");
+            newOption.value = key;
+            newOption.text = capitalizeFirstLetter(key);
+            select.appendChild(newOption);
+        }
+    }
+    set_tags_option();
+    set_difficulty_option();
+    let changeRandomBar = function () {
+        let tag = document.getElementById("tags").value;
+        let difficulty = document.getElementById("difficulties").value
+        let random_index = Math.floor(Math.random() * random_data[tag][difficulty].length);
+        let item = random_data[tag][difficulty][random_index];
+
+        let result_bar = document.getElementById('random-result');
+        result_bar.innerHTML = "";
+        let q = document.createElement('a');
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        q.href = item.url;
+        q.textContent = randomEmoji + ' ' + item.title;
+        result_bar.appendChild(q);
+    }
+    let resetRandomBar = function () {
+        let result_bar = document.getElementById('random-result');
+        result_bar.innerHTML = "";
+    }
+</script>
+<style>
+    .container {
+        display: flex;
+        align-items: center;
+    }
+
+    .select-box {
+        margin-right: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    select {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 17px;
+    }
+
+    #random-result {
+        margin-top: 10px;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 0px 15px;
+        font-size: 40px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        box-shadow: 0 5px #545353;
+        transform: translateY(5px);
+    }
+</style>

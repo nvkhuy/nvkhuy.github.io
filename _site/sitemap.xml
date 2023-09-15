@@ -17,6 +17,10 @@
 <lastmod>2023-02-18T00:00:00+07:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/leetcode-most-asked-questions</loc>
+<lastmod>2023-09-15T00:00:00+07:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -51,5 +55,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/tags/computer-network/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/tags/leetcode/</loc>
 </url>
 </urlset>
