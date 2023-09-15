@@ -7,8 +7,8 @@
 <meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Leetcode Most Asked Questions" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="List Order By Frequency" />
-<meta property="og:description" content="List Order By Frequency" />
+<meta name="description" content="Random Tag Difficulty 🎲 ❌ List Order By Frequency" />
+<meta property="og:description" content="Random Tag Difficulty 🎲 ❌ List Order By Frequency" />
 <link rel="canonical" href="http://localhost:4000/leetcode-most-asked-questions" />
 <meta property="og:url" content="http://localhost:4000/leetcode-most-asked-questions" />
 <meta property="og:site_name" content="nvkhuy" />
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Leetcode Most Asked Questions" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-09-15T00:00:00+07:00","datePublished":"2023-09-15T00:00:00+07:00","description":"List Order By Frequency","headline":"Leetcode Most Asked Questions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/leetcode-most-asked-questions"},"url":"http://localhost:4000/leetcode-most-asked-questions"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-09-15T00:00:00+07:00","datePublished":"2023-09-15T00:00:00+07:00","description":"Random Tag Difficulty 🎲 ❌ List Order By Frequency","headline":"Leetcode Most Asked Questions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/leetcode-most-asked-questions"},"url":"http://localhost:4000/leetcode-most-asked-questions"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="nvkhuy" /><link type="image/png" sizes="48x48" rel="icon" href="/static/images/nvkh.png">
 
@@ -109,7 +109,177 @@
     </div>
 
     <div class="post-content e-content" itemprop="articleBody">
-        <h1 id="list-order-by-frequency">List Order By Frequency</h1>
+        <h1 id="random">Random</h1>
+<div class="container">
+    <div class="select-box">
+        <label for="tags">Tag</label>
+        <select id="tags"></select>
+    </div>
+    <div class="select-box">
+        <label for="difficulties">Difficulty</label>
+        <select id="difficulties"></select>
+    </div>
+    <button onclick="changeRandomBar()">🎲</button>
+    <button onclick="resetRandomBar()">❌</button>
+</div>
+
+<div id="random-result"></div>
+
+<script type="application/json" id="leetfeed">[
+    
+        
+            {
+                "content": "# Random{% include random-leetcode-bar.html %}# List Order By Frequency## **Array**### Easy- [Two Sum](https://leetcode.com/problems/two-sum/)- [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)- [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)- [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/description/)- [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)- [Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/description/)- [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/)- [Move Zeroes](https://leetcode.com/problems/move-zeroes/description/)- [Check If It Is a Straight Line](https://leetcode.com/problems/check-if-it-is-a-straight-line/description/)- [Binary Search](https://leetcode.com/problems/binary-search/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Richest Customer Wealth](https://leetcode.com/problems/richest-customer-wealth/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Flood Fill](https://leetcode.com/problems/flood-fill/description/)### Medium- [Predict the Winner](https://leetcode.com/problems/predict-the-winner/description/)- [Spiral Matrix](https://leetcode.com/problems/spiral-matrix/description/)- [3Sum](https://leetcode.com/problems/3sum/description/)- [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)- [Number of Islands](https://leetcode.com/problems/number-of-islands/description/)- [Next Permutation](https://leetcode.com/problems/next-permutation/description/)- [Container With Most Water](https://leetcode.com/problems/container-with-most-water/description/)- [Maximum Subarray](https://leetcode.com/problems/maximum-subarray/description/)- [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/description/)- [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)- [Rotate Image](https://leetcode.com/problems/rotate-image/description/)- [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/)- [Shortest Bridge](https://leetcode.com/problems/shortest-bridge/description/)- [Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/)- [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)- [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)### Hard- [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/)- [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)- [Minimum Number of Taps to Open to Water a Garden](https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/)- [Frog Jump](https://leetcode.com/problems/frog-jump/description/)- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)## **Sorting**### Easy- [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)- [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Can Make Arithmetic Progression From Sequence](https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/description/)- [Average Salary Excluding the Minimum and Maximum Salary](https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary/description/)- [Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/description/)- [Sort Array by Increasing Frequency](https://leetcode.com/problems/sort-array-by-increasing-frequency/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [The K Weakest Rows in a Matrix](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/)- [Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap/description/)- [Maximum Product of Three Numbers](https://leetcode.com/problems/maximum-product-of-three-numbers/description/)- [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/description/)- [Minimum Absolute Difference](https://leetcode.com/problems/minimum-absolute-difference/description/)### Medium- [3Sum](https://leetcode.com/problems/3sum/description/)- [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Reorganize String](https://leetcode.com/problems/reorganize-string/description/)- [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)- [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)- [Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/)- [4Sum](https://leetcode.com/problems/4sum/description/)- [Meeting Rooms II ~ Premium](https://leetcode.com/problems/meeting-rooms-ii/description/)- [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/)- [Largest Number](https://leetcode.com/problems/largest-number/description/)- [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/)- [Maximum Length of Pair Chain](https://leetcode.com/problems/maximum-length-of-pair-chain/description/)- [Design a Todo List ~ Premium](https://leetcode.com/problems/design-a-todo-list/description/)- [Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes/description/)### Hard- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)- [Maximum Number of Events That Can Be Attended II](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/)- [Put Marbles in Bags](https://leetcode.com/problems/put-marbles-in-bags/description/)- [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)"
+            }
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+]</script>
+
+<script>
+    let leet_feed_data = JSON.parse(document.getElementById('leetfeed').textContent);
+    let toJson = function (txt) {
+        let data = {}
+        const tags = txt.split('## **').slice(1);
+        for (let _tag of tags) {
+            let cut_size = _tag.indexOf("**") + 2;
+            let tag_name = _tag.substring(0, cut_size - 2).toLowerCase();
+
+            let tag = _tag.slice(cut_size);
+            let difs = tag.split("### ").splice(1);
+            data[tag_name] = {}
+            for (let _diff of difs) {
+                let probs = _diff.split("- ");
+                let diff_name = probs[0].toLowerCase();
+
+                probs = probs.slice(1, probs.length);
+                data[tag_name][diff_name] = []
+                for (let prob of probs) {
+                    let inputString = prob;
+                    // Using regular expressions to extract the text within square brackets and parentheses
+                    let matches = inputString.match(/\[(.*?)\]\((.*?)\)/);
+
+                    if (matches) {
+                        let title = matches[1]; // Extracted text within square brackets
+                        let url = matches[2];   // Extracted text within parentheses
+                        data[tag_name][diff_name].push({
+                            "title": title,
+                            "url": url
+                        });
+                    } else {
+                        console.error("String format not as expected.");
+                    }
+                }
+            }
+        }
+        return data;
+    }
+    let emojis = ['🧠', '🤯', '🚀', '🚨', '👻', '😆', '😩', '👮', '🎃', '😶', '😤', '🤔', '🧑‍🏭','🤓','🤙','🦸🏻‍♀️','😈','🐼','👾'];
+    let random_data = toJson(leet_feed_data[0].content);
+    let capitalizeFirstLetter = function (s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    let set_tags_option = function () {
+        let select = document.getElementById("tags");
+        for (let key in random_data) {
+            let newOption = document.createElement("option");
+            newOption.value = key;
+            newOption.text = capitalizeFirstLetter(key);
+            select.appendChild(newOption);
+        }
+    }
+    let set_difficulty_option = function () {
+        let select = document.getElementById("difficulties");
+        for (let key of ['easy', 'medium', 'hard']) {
+            let newOption = document.createElement("option");
+            newOption.value = key;
+            newOption.text = capitalizeFirstLetter(key);
+            select.appendChild(newOption);
+        }
+    }
+    set_tags_option();
+    set_difficulty_option();
+    let changeRandomBar = function () {
+        let tag = document.getElementById("tags").value;
+        let difficulty = document.getElementById("difficulties").value
+        let random_index = Math.floor(Math.random() * random_data[tag][difficulty].length);
+        let item = random_data[tag][difficulty][random_index];
+
+        let result_bar = document.getElementById('random-result');
+        result_bar.innerHTML = "";
+        let q = document.createElement('a');
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        q.href = item.url;
+        q.textContent = randomEmoji + ' ' + item.title;
+        result_bar.appendChild(q);
+    }
+    let resetRandomBar = function () {
+        let result_bar = document.getElementById('random-result');
+        result_bar.innerHTML = "";
+    }
+</script>
+
+<style>
+    .container {
+        display: flex;
+        align-items: center;
+    }
+
+    .select-box {
+        margin-right: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    select {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 17px;
+    }
+
+    #random-result {
+        margin-top: 10px;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 0px 15px;
+        font-size: 40px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        box-shadow: 0 5px #545353;
+        transform: translateY(5px);
+    }
+</style>
+
+<h1 id="list-order-by-frequency">List Order By Frequency</h1>
 
 <h2 id="array"><strong>Array</strong></h2>
 
@@ -157,8 +327,8 @@
 
 <h3 id="hard">Hard</h3>
 <ul>
-  <li><a href="https://leetcode.com/problems/trapping-rain-water/description/">Trapping Rain Water - Hard</a></li>
-  <li><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/">Median of Two Sorted Arrays - Hard</a></li>
+  <li><a href="https://leetcode.com/problems/trapping-rain-water/description/">Trapping Rain Water</a></li>
+  <li><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/">Median of Two Sorted Arrays</a></li>
   <li><a href="https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/">Minimum Number of Taps to Open to Water a Garden</a></li>
   <li><a href="https://leetcode.com/problems/frog-jump/description/">Frog Jump</a></li>
   <li><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/">Minimum Cost to Make Array Equal</a></li>
@@ -195,12 +365,12 @@
   <li><a href="https://leetcode.com/problems/boats-to-save-people/description/">Boats to Save People</a></li>
   <li><a href="https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/">Least Number of Unique Integers after K Removals</a></li>
   <li><a href="https://leetcode.com/problems/4sum/description/">4Sum</a></li>
-  <li><a href="https://leetcode.com/problems/meeting-rooms-ii/description/">Meeting Rooms II - Premium</a></li>
+  <li><a href="https://leetcode.com/problems/meeting-rooms-ii/description/">Meeting Rooms II ~ Premium</a></li>
   <li><a href="https://leetcode.com/problems/top-k-frequent-elements/description/">Top K Frequent Elements</a></li>
   <li><a href="https://leetcode.com/problems/largest-number/description/">Largest Number</a></li>
   <li><a href="https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/">Number of Subsequences That Satisfy the Given Sum Condition</a></li>
   <li><a href="https://leetcode.com/problems/maximum-length-of-pair-chain/description/">Maximum Length of Pair Chain</a></li>
-  <li><a href="https://leetcode.com/problems/design-a-todo-list/description/">Design a Todo List - Premium</a></li>
+  <li><a href="https://leetcode.com/problems/design-a-todo-list/description/">Design a Todo List ~ Premium</a></li>
   <li><a href="https://leetcode.com/problems/rank-teams-by-votes/description/">Rank Teams by Votes</a></li>
 </ul>
 

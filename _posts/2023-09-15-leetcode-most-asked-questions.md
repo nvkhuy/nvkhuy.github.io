@@ -3,7 +3,10 @@ layout: post
 tags: leetcode
 permalink: /leetcode-most-asked-questions
 ---
+# Random
+{% include random-leetcode-bar.html %}
 # List Order By Frequency
+
 
 ## **Array**
 
@@ -46,8 +49,8 @@ permalink: /leetcode-most-asked-questions
 - [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)
 
 ### Hard
-- [Trapping Rain Water - Hard](https://leetcode.com/problems/trapping-rain-water/description/)
-- [Median of Two Sorted Arrays - Hard](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)
+- [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/)
+- [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)
 - [Minimum Number of Taps to Open to Water a Garden](https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/)
 - [Frog Jump](https://leetcode.com/problems/frog-jump/description/)
 - [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)
@@ -80,12 +83,12 @@ permalink: /leetcode-most-asked-questions
 - [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)
 - [Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/)
 - [4Sum](https://leetcode.com/problems/4sum/description/)
-- [Meeting Rooms II - Premium](https://leetcode.com/problems/meeting-rooms-ii/description/)
+- [Meeting Rooms II ~ Premium](https://leetcode.com/problems/meeting-rooms-ii/description/)
 - [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/)
 - [Largest Number](https://leetcode.com/problems/largest-number/description/)
 - [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/)
 - [Maximum Length of Pair Chain](https://leetcode.com/problems/maximum-length-of-pair-chain/description/)
-- [Design a Todo List - Premium](https://leetcode.com/problems/design-a-todo-list/description/)
+- [Design a Todo List ~ Premium](https://leetcode.com/problems/design-a-todo-list/description/)
 - [Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes/description/)
 
 ### Hard
