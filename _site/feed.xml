@@ -1,4 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-14T14:01:57+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">What Is Http</title><link href="http://localhost:4000/what-is-http" rel="alternate" type="text/html" title="What Is Http" /><published>2023-02-18T00:00:00+07:00</published><updated>2023-02-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-http</id><content type="html" xml:base="http://localhost:4000/what-is-http"><![CDATA[<p>HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-15T12:41:09+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Leetcode Most Asked Questions</title><link href="http://localhost:4000/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>http://localhost:4000/leetcode-most-asked-questions</id><content type="html" xml:base="http://localhost:4000/leetcode-most-asked-questions"><![CDATA[<h1 id="list-order-by-frequency">List Order By Frequency</h1>
+
+<h2 id="array"><strong>Array</strong></h2>
+
+<h3 id="easy">Easy</h3>
+<ul>
+  <li><a href="https://leetcode.com/problems/two-sum/">Two Sum</a></li>
+  <li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/">Best Time to Buy and Sell Stock</a></li>
+  <li><a href="https://leetcode.com/problems/unique-number-of-occurrences/description/">Unique Number of Occurrences</a></li>
+  <li><a href="https://leetcode.com/problems/merge-sorted-array/description/">Merge Sorted Array</a></li>
+  <li><a href="https://leetcode.com/problems/contains-duplicate/description/">Contains Duplicate</a></li>
+  <li><a href="https://leetcode.com/problems/pascals-triangle/description/">Pascal’s Triangle</a></li>
+  <li><a href="https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/">Sort Integers by The Number of 1 Bits</a></li>
+  <li><a href="https://leetcode.com/problems/running-sum-of-1d-array/description/">Running Sum of 1d Array</a></li>
+  <li><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/">Remove Duplicates from Sorted Array</a></li>
+  <li><a href="https://leetcode.com/problems/move-zeroes/description/">Move Zeroes</a></li>
+  <li><a href="https://leetcode.com/problems/check-if-it-is-a-straight-line/description/">Check If It Is a Straight Line</a></li>
+  <li><a href="https://leetcode.com/problems/binary-search/description/">Binary Search</a></li>
+  <li><a href="https://leetcode.com/problems/majority-element/description/">Majority Element</a></li>
+  <li><a href="https://leetcode.com/problems/richest-customer-wealth/description/">Richest Customer Wealth</a></li>
+  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/description/">Intersection of Two Arrays</a></li>
+  <li><a href="https://leetcode.com/problems/flood-fill/description/">Flood Fill</a></li>
+</ul>
+
+<h3 id="medium">Medium</h3>
+<ul>
+  <li><a href="https://leetcode.com/problems/predict-the-winner/description/">Predict the Winner</a></li>
+  <li><a href="https://leetcode.com/problems/spiral-matrix/description/">Spiral Matrix</a></li>
+  <li><a href="https://leetcode.com/problems/3sum/description/">3Sum</a></li>
+  <li><a href="https://leetcode.com/problems/merge-intervals/description/">Merge Intervals</a></li>
+  <li><a href="https://leetcode.com/problems/number-of-islands/description/">Number of Islands</a></li>
+  <li><a href="https://leetcode.com/problems/next-permutation/description/">Next Permutation</a></li>
+  <li><a href="https://leetcode.com/problems/container-with-most-water/description/">Container With Most Water</a></li>
+  <li><a href="https://leetcode.com/problems/maximum-subarray/description/">Maximum Subarray</a></li>
+  <li><a href="https://leetcode.com/problems/minimize-maximum-of-array/description/">Minimize Maximum of Array</a></li>
+  <li><a href="https://leetcode.com/problems/group-anagrams/description/">Group Anagrams</a></li>
+  <li><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Subarray Sum Equals K</a></li>
+  <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/description/">Kth Largest Element in an Array</a></li>
+  <li><a href="https://leetcode.com/problems/rotate-image/description/">Rotate Image</a></li>
+  <li><a href="https://leetcode.com/problems/longest-consecutive-sequence/description/">Longest Consecutive Sequence</a></li>
+  <li><a href="https://leetcode.com/problems/shortest-bridge/description/">Shortest Bridge</a></li>
+  <li><a href="https://leetcode.com/problems/fair-distribution-of-cookies/description/">Fair Distribution of Cookies</a></li>
+  <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/description/">Search in Rotated Sorted Array</a></li>
+  <li><a href="https://leetcode.com/problems/boats-to-save-people/description/">Boats to Save People</a></li>
+</ul>
+
+<h3 id="hard">Hard</h3>
+<ul>
+  <li><a href="https://leetcode.com/problems/trapping-rain-water/description/">Trapping Rain Water - Hard</a></li>
+  <li><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/">Median of Two Sorted Arrays - Hard</a></li>
+  <li><a href="https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/">Minimum Number of Taps to Open to Water a Garden</a></li>
+  <li><a href="https://leetcode.com/problems/frog-jump/description/">Frog Jump</a></li>
+  <li><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/">Minimum Cost to Make Array Equal</a></li>
+</ul>
+
+<h2 id="sorting"><strong>Sorting</strong></h2>
+<h3 id="easy-1">Easy</h3>
+<ul>
+  <li><a href="https://leetcode.com/problems/merge-sorted-array/description/">Merge Sorted Array</a></li>
+  <li><a href="https://leetcode.com/problems/contains-duplicate/description/">Contains Duplicate</a></li>
+  <li><a href="https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/">Sort Integers by The Number of 1 Bits</a></li>
+  <li><a href="https://leetcode.com/problems/valid-anagram/description/">Valid Anagram</a></li>
+  <li><a href="https://leetcode.com/problems/majority-element/description/">Majority Element</a></li>
+  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/description/">Intersection of Two Arrays</a></li>
+  <li><a href="https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/description/">Can Make Arithmetic Progression From Sequence</a></li>
+  <li><a href="https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary/description/">Average Salary Excluding the Minimum and Maximum Salary</a></li>
+  <li><a href="https://leetcode.com/problems/squares-of-a-sorted-array/description/">Squares of a Sorted Array</a></li>
+  <li><a href="https://leetcode.com/problems/sort-array-by-increasing-frequency/description/">Sort Array by Increasing Frequency</a></li>
+  <li><a href="https://leetcode.com/problems/missing-number/description/">Missing Number</a></li>
+  <li><a href="https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/">The K Weakest Rows in a Matrix</a></li>
+  <li><a href="https://leetcode.com/problems/fair-candy-swap/description/">Fair Candy Swap</a></li>
+  <li><a href="https://leetcode.com/problems/maximum-product-of-three-numbers/description/">Maximum Product of Three Numbers</a></li>
+  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays-ii/description/">Intersection of Two Arrays II</a></li>
+  <li><a href="https://leetcode.com/problems/minimum-absolute-difference/description/">Minimum Absolute Difference</a></li>
+</ul>
+
+<h3 id="medium-1">Medium</h3>
+<ul>
+  <li><a href="https://leetcode.com/problems/3sum/description/">3Sum</a></li>
+  <li><a href="https://leetcode.com/problems/merge-intervals/description/">Merge Intervals</a></li>
+  <li><a href="https://leetcode.com/problems/group-anagrams/description/">Group Anagrams</a></li>
+  <li><a href="https://leetcode.com/problems/reorganize-string/description/">Reorganize String</a></li>
+  <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/description/">Kth Largest Element in an Array</a></li>
+  <li><a href="https://leetcode.com/problems/boats-to-save-people/description/">Boats to Save People</a></li>
+  <li><a href="https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/">Least Number of Unique Integers after K Removals</a></li>
+  <li><a href="https://leetcode.com/problems/4sum/description/">4Sum</a></li>
+  <li><a href="https://leetcode.com/problems/meeting-rooms-ii/description/">Meeting Rooms II - Premium</a></li>
+  <li><a href="https://leetcode.com/problems/top-k-frequent-elements/description/">Top K Frequent Elements</a></li>
+  <li><a href="https://leetcode.com/problems/largest-number/description/">Largest Number</a></li>
+  <li><a href="https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/">Number of Subsequences That Satisfy the Given Sum Condition</a></li>
+  <li><a href="https://leetcode.com/problems/maximum-length-of-pair-chain/description/">Maximum Length of Pair Chain</a></li>
+  <li><a href="https://leetcode.com/problems/design-a-todo-list/description/">Design a Todo List - Premium</a></li>
+  <li><a href="https://leetcode.com/problems/rank-teams-by-votes/description/">Rank Teams by Votes</a></li>
+</ul>
+
+<h3 id="hard-1">Hard</h3>
+<ul>
+  <li><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/">Minimum Cost to Make Array Equal</a></li>
+  <li><a href="https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/">Maximum Number of Events That Can Be Attended II</a></li>
+  <li><a href="https://leetcode.com/problems/put-marbles-in-bags/description/">Put Marbles in Bags</a></li>
+  <li><a href="https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/">Smallest Range Covering Elements from K Lists</a></li>
+</ul>]]></content><author><name></name></author><category term="leetcode" /><summary type="html"><![CDATA[List Order By Frequency]]></summary></entry><entry><title type="html">What Is Http</title><link href="http://localhost:4000/what-is-http" rel="alternate" type="text/html" title="What Is Http" /><published>2023-02-18T00:00:00+07:00</published><updated>2023-02-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-http</id><content type="html" xml:base="http://localhost:4000/what-is-http"><![CDATA[<p>HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:</p>
 
 <p><strong>HTTP Methods (HTTP Verbs):</strong>
 HTTP defines several methods or verbs, which are used to specify the desired action to be performed on a resource identified by a URL (Uniform Resource Locator). Each method has a specific purpose:</p>
