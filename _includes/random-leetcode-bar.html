@@ -53,10 +53,10 @@
         }
         return data;
     }
-    let emojis = ['🧠', '🤯', '🚀', '🚨', '👻', '😆', '😩', '👮', '🎃', '😶', '😤', '🤔', '🧑‍🏭','🤓','🤙','🦸🏻‍♀️','😈','🐼','👾'];
+    let emojis = ['🧠', '🤯', '🚀', '🚨', '👻', '😆', '😩', '👮', '🎃', '😶', '😤', '🤔', '🧑‍🏭', '🤓', '🤙', '🦸🏻‍♀️', '😈', '🐼', '👾'];
     let random_data = toJson(leet_feed_data[0].content);
     let capitalizeFirstLetter = function (s) {
-        return s.charAt(0).toUpperCase() + s.slice(1);
+        return s.replace(/\b\w/g, match => match.toUpperCase());
     }
     let set_tags_option = function () {
         let select = document.getElementById("tags");
