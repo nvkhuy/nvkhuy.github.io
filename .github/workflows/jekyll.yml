@@ -43,6 +43,8 @@ jobs:
         git clean -fxd
         git checkout main -- _site/* # Copy the contents of _site from the main branch
         git mv _site/* .
+        git checkout main -- Ads.txt # Copy the contents of _site from the main branch
+        git mv Ads.txt .
         rm -r _site
         git add .
         git commit -m "Deploy Jekyll site to gh-pages"
