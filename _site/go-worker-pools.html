@@ -47,13 +47,21 @@ if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNo
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FLXLZ5BFS5"></script>
 <script>
-  console.log('production');
-  console.log('G-FLXLZ5BFS5');
+  console.log('analytics: production');
+  // console.log('G-FLXLZ5BFS5');
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-FLXLZ5BFS5');
+</script>
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2585976587586538"
+     crossorigin="anonymous"></script>
+<script>
+    console.log('adsense: production');
+    // console.log('ca-pub-2585976587586538');
 </script>
   
 </head><body><header class="site-header" role="banner">
