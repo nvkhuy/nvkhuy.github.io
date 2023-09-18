@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>What is ACID in database | nvkhuy</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="What is ACID in database" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:" />
+<meta property="og:description" content="ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:" />
+<meta property="og:site_name" content="nvkhuy" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-09-18T00:00:00+07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="What is ACID in database" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-09-18T00:00:00+07:00","datePublished":"2023-09-18T00:00:00+07:00","description":"ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:","headline":"What is ACID in database","mainEntityOfPage":{"@type":"WebPage","@id":"/what-is-acid-in-database"},"url":"/what-is-acid-in-database"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="nvkhuy" /><script>
+if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-FLXLZ5BFS5', 'auto');
+  ga('send', 'pageview');
+}
+</script>
+  
+<link type="image/png" sizes="48x48" rel="icon" href="/static/images/nvkh.png">
+
+  <!-- highlight.js support -->
+  <link rel="stylesheet" href="/js/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="/js/highlightjs/styles/ssms.css" />
+
+  <script type="text/javascript" src="/js/highlightjs/highlight.min.js"></script>
+
+  <script type="text/javascript" src="/js/highlightjs/languages/plaintext.min.js"></script>
+  <script type="text/javascript" src="/js/highlightjs/languages/powershell.min.js"></script>
+  <script type="text/javascript" src="/js/highlightjs/languages/tsql.min.js"></script>
+  <script type="text/javascript" src="/js/highlightjs/languages/go.min.js"></script>
+
+  <script type="text/javascript"> hljs.highlightAll(); </script>
+  <!-- end highlight.js support -->
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FLXLZ5BFS5"></script>
+<script>
+  console.log('analytics: production');
+  // console.log('G-FLXLZ5BFS5');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FLXLZ5BFS5');
+</script>
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2585976587586538"
+     crossorigin="anonymous"></script>
+<script>
+    console.log('adsense: production');
+    // console.log('ca-pub-2585976587586538');
+</script>
+  
+</head><body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">nvkhuy</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/archive.html">Archive</a><a class="page-link" href="/tags">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <link href="/css/override.css" rel="stylesheet" type="text/css">
+<article class="post h-entry" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">What is ACID in database</h1>
+        <div class="tags">
+            Tags:
+            
+                <a href="/tags/database">database</a>
+                
+            
+        </div>
+        <p class="post-meta">
+            <time class="dt-published" datetime="2023-09-18T00:00:00+07:00" itemprop="datePublished">Sep 18, 2023
+            </time>
+            </p>
+    </header>
+
+    <div class="share-links">
+        <style>
+  #share-buttons {display: inline-block; vertical-align: middle; }
+  #share-buttons:after {content: ""; display: block; clear: both;}
+  #share-buttons > div {position: relative; text-align: left; height: 36px; width: 32px; float: left; text-align: center;}
+  #share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+  #share-buttons > div:hover {cursor: pointer;}
+  #share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+  #share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+  #share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+  #share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+  #share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+  #share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+  #share-buttons > div.facebook > svg {height: 18px; margin-top: 9px;}
+  #share-buttons > div.twitter > svg {height: 20px; margin-top: 8px;}
+  #share-buttons > div.linkedin > svg {height: 19px; margin-top: 7px;}
+  #share-buttons > div.pinterest > svg {height: 20px; margin-top: 9px;}
+  #share-buttons > div.gplus > svg {height: 17px; margin-top: 9px; position: relative; left: 1px;}
+  #share-buttons > div.mail > svg {height: 14px; margin-top: 11px;}
+</style>
+
+
+
+
+
+<span style="color: silver;">Share on: </span><div id="share-buttons">
+  <div class="facebook" title="Share this on Facebook"    onclick="window.open('http://www.facebook.com/share.php?u=%2Fwhat-is-acid-in-database','popup','width=600,height=600'); return false;">
+    <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+  <div class="twitter"  title="Share this on Twitter"     onclick="window.open('https://twitter.com/intent/tweet?url=%2Fwhat-is-acid-in-database&text=What+is+ACID+in+database&via=nvkhuy','popup','width=600,height=600'); return false;">
+    <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+  <div class="linkedin" title="Share this on Linkedin"    onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url=%2Fwhat-is-acid-in-database','popup','width=600,height=600'); return false;">
+    <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+  <div class="gplus"    title="Share this on Google Plus" onclick="window.open('https://plus.google.com/share?url=%2Fwhat-is-acid-in-database','popup','width=600,height=600'); return false;">
+    <svg viewBox="0 0 2304 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1437 913q0 208-87 370.5t-248 254-369 91.5q-149 0-285-58t-234-156-156-234-58-285 58-285 156-234 234-156 285-58q286 0 491 192l-199 191q-117-113-292-113-123 0-227.5 62t-165.5 168.5-61 232.5 61 232.5 165.5 168.5 227.5 62q83 0 152.5-23t114.5-57.5 78.5-78.5 49-83 21.5-74h-416v-252h692q12 63 12 122zm867-122v210h-209v209h-210v-209h-209v-210h209v-209h210v209h209z"/></svg></div>
+  <div class="mail"     title="Share this through Email"  onclick="window.open('mailto:?&body=%2Fwhat-is-acid-in-database&subject=%5BBlog%5D++-+What+is+ACID+in+database','popup','width=600,height=600'); return false;">
+    <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+</div>
+    </div>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+
+<ol>
+  <li><strong>Atomicity (A):</strong>
+    <ul>
+      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
+      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
+    </ul>
+  </li>
+  <li><strong>Consistency (C):</strong>
+    <ul>
+      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
+      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
+    </ul>
+  </li>
+  <li><strong>Isolation (I):</strong>
+    <ul>
+      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
+      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
+    </ul>
+  </li>
+  <li><strong>Durability (D):</strong>
+    <ul>
+      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
+      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
+
+<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
+
+<p><strong>Advantages of ACID:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
+  </li>
+  <li>
+    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
+  </li>
+  <li>
+    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
+  </li>
+  <li>
+    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
+  </li>
+  <li>
+    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
+  </li>
+</ol>
+
+<p><strong>Disadvantages of ACID:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
+  </li>
+  <li>
+    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
+  </li>
+  <li>
+    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
+  </li>
+  <li>
+    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
+  </li>
+  <li>
+    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
+  </li>
+</ol>
+
+<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>
+
+        <hr>
+<div class="post_navi"><a class="post_navi-item nav_prev" href="/what-is-solid-principle" title="What is SOLID Principle">
+    <div class="post_navi-arrow">&lt;</div><div class="post_navi-label">Previous Post</div><div><span>What is SOLID Principle</span></div>
+  </a><a class="post_navi-item nav_next" href="/what-is-cap-theorem" title="What is CAP Theorem">
+    <div class="post_navi-arrow">&gt;</div><div class="post_navi-label">Next Post</div><div><span>What is CAP Theorem</span></div>
+  </a></div>
+    </div>
+
+    <a class="u-url" href="/what-is-acid-in-database" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">nvkhuy</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">nvkhuy</li><li><a class="u-email" href="mailto:khanhhuynguyenvu@gmail.com">khanhhuynguyenvu@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/nvkhuy"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">nvkhuy</span></a></li><li><a href="https://www.linkedin.com/in/nvkhuy"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">nvkhuy</span></a></li><li><a href="https://www.twitter.com/nvkhuy"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">nvkhuy</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
