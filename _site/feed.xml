@@ -1,394 +1,217 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-09-22T13:44:23+07:00</updated><id>/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">What is CAP Theorem</title><link href="/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-cap</id><content type="html" xml:base="/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-09-24T21:56:47+07:00</updated><id>/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Go Design Patterns</title><link href="/go-design-patterns" rel="alternate" type="text/html" title="Go Design Patterns" /><published>2023-09-24T00:00:00+07:00</published><updated>2023-09-24T00:00:00+07:00</updated><id>/go-design-patterns</id><content type="html" xml:base="/go-design-patterns"><![CDATA[<h1 id="iterator-pattern"><strong>Iterator Pattern</strong></h1>
 
-<ol>
-  <li><strong>Consistency (C):</strong>
-    <ul>
-      <li>Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.</li>
-      <li>Strong consistency ensures that every read operation will return the most recent write’s result.</li>
-      <li>Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.</li>
-    </ul>
-  </li>
-  <li><strong>Availability (A):</strong>
-    <ul>
-      <li>Availability refers to the system’s ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.</li>
-      <li>High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.</li>
-      <li>Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.</li>
-    </ul>
-  </li>
-  <li><strong>Partition Tolerance (P):</strong>
-    <ul>
-      <li>Partition tolerance deals with the ability of a distributed system to continue functioning correctly, even when network partitions (communication failures) occur between nodes in the system.</li>
-      <li>Network partitions can lead to scenarios where some nodes in the system cannot communicate with others, causing data inconsistencies and challenges in achieving both consistency and availability.</li>
-      <li>Achieving partition tolerance is essential for robust distributed systems, especially in cloud-based and wide-area network environments.</li>
-    </ul>
-  </li>
-</ol>
+<p>The iterator pattern is a behavioral design pattern that provides a way to access the elements of a collection sequentially without exposing its underlying representation. In Go, you can implement the iterator pattern using a combination of interfaces and custom types. Here’s an example of how to implement the iterator pattern in Go:</p>
 
-<p>Now, the CAP theorem states that you can’t have all three of these properties simultaneously in a distributed system. You have to make trade-offs:</p>
-
-<ol>
-  <li>
-    <p><strong>CA:</strong> You can prioritize both Consistency and Availability but may need to sacrifice Partition Tolerance. In this case, the system ensures strong consistency and high availability but may not be able to function correctly in the presence of network partitions.</p>
-  </li>
-  <li>
-    <p><strong>CP:</strong> You can prioritize both Consistency and Partition Tolerance but may need to sacrifice Availability. In this case, the system ensures strong consistency and can tolerate network partitions, but it might experience downtime or reduced availability during network disruptions.</p>
-  </li>
-  <li>
-    <p><strong>AP:</strong> You can prioritize both Availability and Partition Tolerance but may need to sacrifice Strong Consistency. In this case, the system ensures high availability and can tolerate network partitions, but it might provide eventually consistent data.</p>
-  </li>
-</ol>
-
-<p>It’s important to note that the CAP theorem is a theoretical framework that helps in understanding the trade-offs in distributed systems design. In practice, various databases and distributed systems may offer different configurations and trade-offs to meet specific use cases and requirements. Your choice of system depends on your application’s needs and the specific balance you wish to strike between consistency, availability, and partition tolerance.</p>
-
-<p>Let’s delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:</p>
-
-<ol>
-  <li><strong>Firestore (part of Google Cloud Firestore):</strong>
-    <ul>
-      <li><strong>Consistency and Partition Tolerance:</strong> Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).</li>
-      <li><strong>Example:</strong> Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.</li>
-    </ul>
-  </li>
-  <li><strong>DynamoDB (Amazon DynamoDB):</strong>
-    <ul>
-      <li><strong>Availability and Partition Tolerance:</strong> DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.</li>
-      <li><strong>Example:</strong> Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.</li>
-    </ul>
-  </li>
-  <li><strong>MongoDB (MongoDB Atlas - managed MongoDB service):</strong>
-    <ul>
-      <li><strong>Consistency and Partition Tolerance or Availability and Partition Tolerance:</strong> MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.</li>
-      <li><strong>Example for Consistency and Partition Tolerance:</strong> In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.</li>
-      <li><strong>Example for Availability and Partition Tolerance:</strong> In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.</li>
-    </ul>
-  </li>
-  <li><strong>Redis (in-memory data store):</strong>
-    <ul>
-      <li><strong>Availability and Partition Tolerance:</strong> Redis primarily focuses on high availability and partition tolerance while sacrificing strong consistency. It excels at providing low-latency, high-throughput access to data.</li>
-      <li><strong>Example:</strong> In a caching layer for a web application, Redis can be used to store frequently accessed data. During network disruptions or high traffic, Redis continues to serve cached data, ensuring availability. However, it may not guarantee strong consistency if updates are made to the data source.</li>
-    </ul>
-  </li>
-</ol>
-
-<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-acid</id><content type="html" xml:base="/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
-
-<ol>
-  <li><strong>Atomicity (A):</strong>
-    <ul>
-      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
-      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
-    </ul>
-  </li>
-  <li><strong>Consistency (C):</strong>
-    <ul>
-      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
-      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
-    </ul>
-  </li>
-  <li><strong>Isolation (I):</strong>
-    <ul>
-      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
-      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
-    </ul>
-  </li>
-  <li><strong>Durability (D):</strong>
-    <ul>
-      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
-      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
-    </ul>
-  </li>
-</ol>
-
-<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
-
-<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
-
-<p><strong>Advantages of ACID:</strong></p>
-
-<ol>
-  <li>
-    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
-  </li>
-  <li>
-    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
-  </li>
-  <li>
-    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
-  </li>
-  <li>
-    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
-  </li>
-  <li>
-    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
-  </li>
-</ol>
-
-<p><strong>Disadvantages of ACID:</strong></p>
-
-<ol>
-  <li>
-    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
-  </li>
-  <li>
-    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
-  </li>
-  <li>
-    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
-  </li>
-  <li>
-    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
-  </li>
-  <li>
-    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
-  </li>
-</ol>
-
-<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/solid-principle</id><content type="html" xml:base="/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
-
-<p><strong>1. Single Responsibility Principle (SRP):</strong></p>
-<ul>
-  <li>A class should have only one reason to change, meaning it should have only one responsibility.</li>
-  <li>This principle encourages separation of concerns.</li>
-</ul>
-
-<p>Example in Go:</p>
 <pre><code class="language-go">package main
 
 import "fmt"
 
-type Order struct {
-    ID     int
-    Status string
+type Iterator interface {
+	HasNext() bool
+	Next() interface{}
 }
 
-// OrderRepository handles database operations for orders
-type OrderRepository struct{}
-
-func (o *OrderRepository) SaveOrder(order *Order) {
-    // Save the order to the database
-    fmt.Printf("Order %d saved with status %s\n", order.ID, order.Status)
+type Aggregate interface {
+	CreateIterator() Iterator
 }
 
-// OrderService handles business logic related to orders
-type OrderService struct {
-    repo *OrderRepository
+type ConcreteAggregate struct {
+	data []interface{}
 }
 
-func (os *OrderService) ProcessOrder(order *Order) {
-    // Business logic for processing orders
-    order.Status = "Processed"
-    os.repo.SaveOrder(order)
+func (ca *ConcreteAggregate) CreateIterator() Iterator {
+	return &amp;ConcreteIterator{aggregate: ca}
+}
+
+type ConcreteIterator struct {
+	aggregate *ConcreteAggregate
+	index     int
+}
+
+func (ci *ConcreteIterator) HasNext() bool {
+	return ci.index &lt; len(ci.aggregate.data)
+}
+
+func (ci *ConcreteIterator) Next() interface{} {
+	if ci.HasNext() {
+		item := ci.aggregate.data[ci.index]
+		ci.index++
+		return item
+	}
+	return nil
 }
 
 func main() {
-    orderRepo := &amp;OrderRepository{}
-    orderService := &amp;OrderService{repo: orderRepo}
+	aggregate := &amp;ConcreteAggregate{
+		data: []interface{}{"Item 1", "Item 2", "Item 3", "Item 4"},
+	}
 
-    order := &amp;Order{ID: 1, Status: "Pending"}
-    orderService.ProcessOrder(order)
+	iterator := aggregate.CreateIterator()
+
+	for iterator.HasNext() {
+		item := iterator.Next()
+		fmt.Println(item)
+	}
 }
 </code></pre>
 
-<p>In this example, we have separate components (<code>OrderRepository</code> and <code>OrderService</code>) responsible for handling database operations and business logic, respectively, adhering to the Single Responsibility Principle.</p>
+<p>In this example:</p>
 
-<p><strong>2. Open-Closed Principle (OCP):</strong></p>
 <ul>
-  <li>Software entities (classes, modules, functions) should be open for extension but closed for modification.</li>
-  <li>This principle encourages adding new functionality by extending existing code, rather than changing it.</li>
+  <li>
+    <p>We define an <code>Iterator</code> interface with two methods: <code>HasNext</code> to check if there are more elements to iterate and <code>Next</code> to retrieve the next element.</p>
+  </li>
+  <li>
+    <p>We define an <code>Aggregate</code> interface with one method: <code>CreateIterator</code>, which creates and returns an iterator.</p>
+  </li>
+  <li>
+    <p>We create a <code>ConcreteAggregate</code> struct that holds the actual collection data and implements the <code>Aggregate</code> interface by providing a method to create an iterator.</p>
+  </li>
+  <li>
+    <p>We create a <code>ConcreteIterator</code> struct that implements the <code>Iterator</code> interface and keeps track of the current position within the collection.</p>
+  </li>
+  <li>
+    <p>In the <code>main</code> function, we create a <code>ConcreteAggregate</code> instance, add some elements to it, and then create an iterator for it. We iterate through the elements using the iterator, demonstrating how the iterator pattern allows you to access elements sequentially without exposing the underlying representation of the collection.</p>
+  </li>
 </ul>
 
-<p>Example in Go:</p>
+<h1 id="strategy-pattern"><strong>Strategy Pattern</strong></h1>
+
+<p>The strategy pattern is a behavioral design pattern that defines a family of algorithms, encapsulates each one, and makes them interchangeable. It allows you to select an algorithm from a family of algorithms at runtime. In Go, you can implement the strategy pattern using interfaces and different concrete implementations. Here’s an example of the strategy pattern in Go:</p>
+
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type PaymentStrategy interface {
+	Pay(amount float64)
+}
+
+type CreditCardPayment struct{}
+
+func (c *CreditCardPayment) Pay(amount float64) {
+	fmt.Printf("Paid %.2f via credit card\n", amount)
+}
+
+type PayPalPayment struct{}
+
+func (p *PayPalPayment) Pay(amount float64) {
+	fmt.Printf("Paid %.2f via PayPal\n", amount)
+}
+
+type ShoppingCart struct {
+	paymentStrategy PaymentStrategy
+}
+
+func NewShoppingCart(paymentStrategy PaymentStrategy) *ShoppingCart {
+	return &amp;ShoppingCart{
+		paymentStrategy: paymentStrategy,
+	}
+}
+
+func (cart *ShoppingCart) Checkout(amount float64) {
+	cart.paymentStrategy.Pay(amount)
+}
+
+func main() {
+	creditCardCart := NewShoppingCart(&amp;CreditCardPayment{})
+	creditCardCart.Checkout(100.00)
+
+	payPalCart := NewShoppingCart(&amp;PayPalPayment{})
+	payPalCart.Checkout(50.00)
+}
+</code></pre>
+
+<p>In this example:</p>
+
+<ul>
+  <li>
+    <p>We define a <code>PaymentStrategy</code> interface with a <code>Pay</code> method that represents the common method for all payment strategies.</p>
+  </li>
+  <li>
+    <p>We create two concrete payment strategy implementations: <code>CreditCardPayment</code> and <code>PayPalPayment</code>, each implementing the <code>Pay</code> method differently.</p>
+  </li>
+  <li>
+    <p>The <code>ShoppingCart</code> struct represents a shopping cart that uses a payment strategy. It has a <code>Checkout</code> method that takes an amount and processes the payment using the selected payment strategy.</p>
+  </li>
+  <li>
+    <p>In the <code>main</code> function, we create two shopping carts, one with a credit card payment strategy and another with a PayPal payment strategy. We then call the <code>Checkout</code> method on each shopping cart, demonstrating how you can switch between different payment strategies at runtime.</p>
+  </li>
+</ul>
+
+<p>This example shows how to implement the strategy pattern in Go to encapsulate payment algorithms and make them interchangeable without changing the client code.</p>
+
+<h2 id="factory-pattern"><strong>Factory Pattern</strong></h2>
+
+<p>The factory pattern is a creational design pattern that provides an interface for creating objects in a super class, but allows subclasses to alter the type of objects that will be created. In Go, you can implement the factory pattern using functions and interfaces. Here’s an example of the factory pattern in Go:</p>
+
 <pre><code class="language-go">package main
 
 import "fmt"
 
 type Shape interface {
-    Area() float64
-}
-
-type Rectangle struct {
-    Width  float64
-    Height float64
-}
-
-func (r Rectangle) Area() float64 {
-    return r.Width * r.Height
+	Area() float64
 }
 
 type Circle struct {
-    Radius float64
+	Radius float64
 }
 
-func (c Circle) Area() float64 {
-    return 3.14 * c.Radius * c.Radius
+func (c *Circle) Area() float64 {
+	return 3.14 * c.Radius * c.Radius
 }
 
-func CalculateArea(shape Shape) {
-    fmt.Printf("Area of shape is: %.2f\n", shape.Area())
+type Rectangle struct {
+	Width  float64
+	Height float64
+}
+
+func (r *Rectangle) Area() float64 {
+	return r.Width * r.Height
+}
+
+type ShapeFactory interface {
+	CreateShape() Shape
+}
+
+type CircleFactory struct{}
+
+func (cf *CircleFactory) CreateShape() Shape {
+	return &amp;Circle{Radius: 1.0}
+}
+
+type RectangleFactory struct{}
+
+func (rf *RectangleFactory) CreateShape() Shape {
+	return &amp;Rectangle{Width: 2.0, Height: 3.0}
 }
 
 func main() {
-    rect := Rectangle{Width: 5, Height: 3}
-    circle := Circle{Radius: 2}
+	circleFactory := &amp;CircleFactory{}
+	circle := circleFactory.CreateShape()
+	fmt.Printf("Circle Area: %.2f\n", circle.Area())
 
-    CalculateArea(rect)
-    CalculateArea(circle)
+	rectangleFactory := &amp;RectangleFactory{}
+	rectangle := rectangleFactory.CreateShape()
+	fmt.Printf("Rectangle Area: %.2f\n", rectangle.Area())
 }
 </code></pre>
 
-<p>The Open-Closed Principle is demonstrated here by defining a <code>Shape</code> interface that can be extended with new shapes (e.g., adding a <code>Triangle</code>) without modifying the existing code that calculates the area.</p>
+<p>In this example:</p>
 
-<p><strong>3. Liskov Substitution Principle (LSP):</strong></p>
 <ul>
-  <li>Objects of a derived class must be able to replace objects of the base class without affecting the correctness of the program.</li>
-  <li>This principle ensures that derived classes adhere to the contract established by their base classes.</li>
+  <li>
+    <p>We define a <code>Shape</code> interface that represents common methods for all shapes, and two concrete shapes, <code>Circle</code> and <code>Rectangle</code>, each implementing the <code>Area</code> method differently.</p>
+  </li>
+  <li>
+    <p>We define a <code>ShapeFactory</code> interface that declares a method for creating shapes, and two concrete factories, <code>CircleFactory</code> and <code>RectangleFactory</code>, each implementing the <code>CreateShape</code> method to create specific shapes.</p>
+  </li>
+  <li>
+    <p>In the <code>main</code> function, we create instances of <code>Circle</code> and <code>Rectangle</code> using their respective factories. This demonstrates how the factory pattern allows you to create objects without specifying their concrete types, making it easier to change or extend the types of objects created by the factory without modifying the client code.</p>
+  </li>
 </ul>
 
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Bird interface {
-    Fly() string
-}
-
-type Sparrow struct{}
-
-func (s Sparrow) Fly() string {
-    return "Sparrow flies"
-}
-
-type Ostrich struct{}
-
-func (o Ostrich) Fly() string {
-    return "Ostrich cannot fly"
-}
-
-func MakeBirdFly(bird Bird) {
-    fmt.Println(bird.Fly())
-}
-
-func main() {
-    sparrow := Sparrow{}
-    ostrich := Ostrich{}
-
-    MakeBirdFly(sparrow)
-    MakeBirdFly(ostrich)
-}
-</code></pre>
-
-<p>Here, both <code>Sparrow</code> and <code>Ostrich</code> implement the <code>Bird</code> interface, but while <code>Sparrow</code> can fly, <code>Ostrich</code> cannot. Still, both can be used interchangeably with the <code>MakeBirdFly</code> function, adhering to the Liskov Substitution Principle.</p>
-
-<p><strong>4. Interface Segregation Principle (ISP):</strong></p>
-<ul>
-  <li>Clients should not be forced to depend on interfaces they do not use.</li>
-  <li>This principle encourages creating smaller, more focused interfaces.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Worker interface {
-    Work()
-}
-
-type Eater interface {
-    Eat()
-}
-
-type Robot struct{}
-
-func (r Robot) Work() {
-    fmt.Println("Robot is working")
-}
-
-func (r Robot) Eat() {
-    fmt.Println("Robot does not eat")
-}
-
-type Human struct{}
-
-func (h Human) Work() {
-    fmt.Println("Human is working")
-}
-
-func (h Human) Eat() {
-    fmt.Println("Human is eating")
-}
-
-func main() {
-    robot := Robot{}
-    human := Human{}
-
-    var worker Worker
-    var eater Eater
-
-    worker = robot
-    eater = human
-
-    worker.Work()
-    eater.Eat()
-}
-</code></pre>
-
-<p>In this example, we have two interfaces, <code>Worker</code> and <code>Eater</code>, and two types, <code>Robot</code> and <code>Human</code>. Each type only implements the methods it needs, adhering to the Interface Segregation Principle.</p>
-
-<p><strong>5. Dependency Inversion Principle (DIP):</strong></p>
-<ul>
-  <li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
-  <li>Abstractions should not depend on details. Details should depend on abstractions.</li>
-  <li>This principle encourages the use of interfaces and abstractions to decouple high-level and low-level modules.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Switchable interface {
-    TurnOn()
-    TurnOff()
-}
-
-type LightBulb struct {
-    IsOn bool
-}
-
-func (lb *LightBulb) TurnOn() {
-    lb.IsOn = true
-    fmt.Println("Light bulb is on")
-}
-
-func (lb *LightBulb) TurnOff() {
-    lb.IsOn = false
-    fmt.Println("Light bulb is off")
-}
-
-type RemoteControl struct {
-    Device Switchable
-}
-
-func (rc *RemoteControl) PressOnButton() {
-    rc.Device.TurnOn()
-}
-
-func (rc *RemoteControl) PressOffButton() {
-    rc.Device.TurnOff()
-}
-
-func main() {
-    bulb := &amp;LightBulb{}
-    remote := &amp;RemoteControl{Device: bulb}
-
-    remote.PressOnButton()
-    remote.PressOffButton()
-}
-</code></pre>
-
-<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">Why Go</title><link href="/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/why-golang</id><content type="html" xml:base="/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
+<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">Why Go</title><link href="/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/why-golang</id><content type="html" xml:base="/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
 
 <p>A “Cloud Native” application is a software application that is designed and built from the ground up to fully leverage the capabilities of cloud computing platforms. Unlike traditional monolithic applications, cloud-native applications are tailored to take advantage of cloud resources, scalability, and flexibility. They are developed with a specific set of principles and practices that align with the dynamic nature of cloud environments. Here are the key characteristics that define a cloud-native application:</p>
 
@@ -808,7 +631,397 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
   <li><strong>Container Compatibility:</strong> Go’s compatibility with containers and orchestration platforms allows applications to be seamlessly packaged and deployed in dynamic cloud environments.</li>
 </ul>
 
-<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>/leetcode-most-asked-questions</id><content type="html" xml:base="/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
+<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-cap</id><content type="html" xml:base="/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
+
+<ol>
+  <li><strong>Consistency (C):</strong>
+    <ul>
+      <li>Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.</li>
+      <li>Strong consistency ensures that every read operation will return the most recent write’s result.</li>
+      <li>Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.</li>
+    </ul>
+  </li>
+  <li><strong>Availability (A):</strong>
+    <ul>
+      <li>Availability refers to the system’s ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.</li>
+      <li>High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.</li>
+      <li>Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.</li>
+    </ul>
+  </li>
+  <li><strong>Partition Tolerance (P):</strong>
+    <ul>
+      <li>Partition tolerance deals with the ability of a distributed system to continue functioning correctly, even when network partitions (communication failures) occur between nodes in the system.</li>
+      <li>Network partitions can lead to scenarios where some nodes in the system cannot communicate with others, causing data inconsistencies and challenges in achieving both consistency and availability.</li>
+      <li>Achieving partition tolerance is essential for robust distributed systems, especially in cloud-based and wide-area network environments.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Now, the CAP theorem states that you can’t have all three of these properties simultaneously in a distributed system. You have to make trade-offs:</p>
+
+<ol>
+  <li>
+    <p><strong>CA:</strong> You can prioritize both Consistency and Availability but may need to sacrifice Partition Tolerance. In this case, the system ensures strong consistency and high availability but may not be able to function correctly in the presence of network partitions.</p>
+  </li>
+  <li>
+    <p><strong>CP:</strong> You can prioritize both Consistency and Partition Tolerance but may need to sacrifice Availability. In this case, the system ensures strong consistency and can tolerate network partitions, but it might experience downtime or reduced availability during network disruptions.</p>
+  </li>
+  <li>
+    <p><strong>AP:</strong> You can prioritize both Availability and Partition Tolerance but may need to sacrifice Strong Consistency. In this case, the system ensures high availability and can tolerate network partitions, but it might provide eventually consistent data.</p>
+  </li>
+</ol>
+
+<p>It’s important to note that the CAP theorem is a theoretical framework that helps in understanding the trade-offs in distributed systems design. In practice, various databases and distributed systems may offer different configurations and trade-offs to meet specific use cases and requirements. Your choice of system depends on your application’s needs and the specific balance you wish to strike between consistency, availability, and partition tolerance.</p>
+
+<p>Let’s delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:</p>
+
+<ol>
+  <li><strong>Firestore (part of Google Cloud Firestore):</strong>
+    <ul>
+      <li><strong>Consistency and Partition Tolerance:</strong> Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).</li>
+      <li><strong>Example:</strong> Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.</li>
+    </ul>
+  </li>
+  <li><strong>DynamoDB (Amazon DynamoDB):</strong>
+    <ul>
+      <li><strong>Availability and Partition Tolerance:</strong> DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.</li>
+      <li><strong>Example:</strong> Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.</li>
+    </ul>
+  </li>
+  <li><strong>MongoDB (MongoDB Atlas - managed MongoDB service):</strong>
+    <ul>
+      <li><strong>Consistency and Partition Tolerance or Availability and Partition Tolerance:</strong> MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.</li>
+      <li><strong>Example for Consistency and Partition Tolerance:</strong> In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.</li>
+      <li><strong>Example for Availability and Partition Tolerance:</strong> In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.</li>
+    </ul>
+  </li>
+  <li><strong>Redis (in-memory data store):</strong>
+    <ul>
+      <li><strong>Availability and Partition Tolerance:</strong> Redis primarily focuses on high availability and partition tolerance while sacrificing strong consistency. It excels at providing low-latency, high-throughput access to data.</li>
+      <li><strong>Example:</strong> In a caching layer for a web application, Redis can be used to store frequently accessed data. During network disruptions or high traffic, Redis continues to serve cached data, ensuring availability. However, it may not guarantee strong consistency if updates are made to the data source.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-acid</id><content type="html" xml:base="/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+
+<ol>
+  <li><strong>Atomicity (A):</strong>
+    <ul>
+      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
+      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
+    </ul>
+  </li>
+  <li><strong>Consistency (C):</strong>
+    <ul>
+      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
+      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
+    </ul>
+  </li>
+  <li><strong>Isolation (I):</strong>
+    <ul>
+      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
+      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
+    </ul>
+  </li>
+  <li><strong>Durability (D):</strong>
+    <ul>
+      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
+      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
+
+<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
+
+<p><strong>Advantages of ACID:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
+  </li>
+  <li>
+    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
+  </li>
+  <li>
+    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
+  </li>
+  <li>
+    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
+  </li>
+  <li>
+    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
+  </li>
+</ol>
+
+<p><strong>Disadvantages of ACID:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
+  </li>
+  <li>
+    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
+  </li>
+  <li>
+    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
+  </li>
+  <li>
+    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
+  </li>
+  <li>
+    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
+  </li>
+</ol>
+
+<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/solid-principle</id><content type="html" xml:base="/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
+
+<p><strong>1. Single Responsibility Principle (SRP):</strong></p>
+<ul>
+  <li>A class should have only one reason to change, meaning it should have only one responsibility.</li>
+  <li>This principle encourages separation of concerns.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Order struct {
+    ID     int
+    Status string
+}
+
+// OrderRepository handles database operations for orders
+type OrderRepository struct{}
+
+func (o *OrderRepository) SaveOrder(order *Order) {
+    // Save the order to the database
+    fmt.Printf("Order %d saved with status %s\n", order.ID, order.Status)
+}
+
+// OrderService handles business logic related to orders
+type OrderService struct {
+    repo *OrderRepository
+}
+
+func (os *OrderService) ProcessOrder(order *Order) {
+    // Business logic for processing orders
+    order.Status = "Processed"
+    os.repo.SaveOrder(order)
+}
+
+func main() {
+    orderRepo := &amp;OrderRepository{}
+    orderService := &amp;OrderService{repo: orderRepo}
+
+    order := &amp;Order{ID: 1, Status: "Pending"}
+    orderService.ProcessOrder(order)
+}
+</code></pre>
+
+<p>In this example, we have separate components (<code>OrderRepository</code> and <code>OrderService</code>) responsible for handling database operations and business logic, respectively, adhering to the Single Responsibility Principle.</p>
+
+<p><strong>2. Open-Closed Principle (OCP):</strong></p>
+<ul>
+  <li>Software entities (classes, modules, functions) should be open for extension but closed for modification.</li>
+  <li>This principle encourages adding new functionality by extending existing code, rather than changing it.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Shape interface {
+    Area() float64
+}
+
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+
+type Circle struct {
+    Radius float64
+}
+
+func (c Circle) Area() float64 {
+    return 3.14 * c.Radius * c.Radius
+}
+
+func CalculateArea(shape Shape) {
+    fmt.Printf("Area of shape is: %.2f\n", shape.Area())
+}
+
+func main() {
+    rect := Rectangle{Width: 5, Height: 3}
+    circle := Circle{Radius: 2}
+
+    CalculateArea(rect)
+    CalculateArea(circle)
+}
+</code></pre>
+
+<p>The Open-Closed Principle is demonstrated here by defining a <code>Shape</code> interface that can be extended with new shapes (e.g., adding a <code>Triangle</code>) without modifying the existing code that calculates the area.</p>
+
+<p><strong>3. Liskov Substitution Principle (LSP):</strong></p>
+<ul>
+  <li>Objects of a derived class must be able to replace objects of the base class without affecting the correctness of the program.</li>
+  <li>This principle ensures that derived classes adhere to the contract established by their base classes.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Bird interface {
+    Fly() string
+}
+
+type Sparrow struct{}
+
+func (s Sparrow) Fly() string {
+    return "Sparrow flies"
+}
+
+type Ostrich struct{}
+
+func (o Ostrich) Fly() string {
+    return "Ostrich cannot fly"
+}
+
+func MakeBirdFly(bird Bird) {
+    fmt.Println(bird.Fly())
+}
+
+func main() {
+    sparrow := Sparrow{}
+    ostrich := Ostrich{}
+
+    MakeBirdFly(sparrow)
+    MakeBirdFly(ostrich)
+}
+</code></pre>
+
+<p>Here, both <code>Sparrow</code> and <code>Ostrich</code> implement the <code>Bird</code> interface, but while <code>Sparrow</code> can fly, <code>Ostrich</code> cannot. Still, both can be used interchangeably with the <code>MakeBirdFly</code> function, adhering to the Liskov Substitution Principle.</p>
+
+<p><strong>4. Interface Segregation Principle (ISP):</strong></p>
+<ul>
+  <li>Clients should not be forced to depend on interfaces they do not use.</li>
+  <li>This principle encourages creating smaller, more focused interfaces.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Worker interface {
+    Work()
+}
+
+type Eater interface {
+    Eat()
+}
+
+type Robot struct{}
+
+func (r Robot) Work() {
+    fmt.Println("Robot is working")
+}
+
+func (r Robot) Eat() {
+    fmt.Println("Robot does not eat")
+}
+
+type Human struct{}
+
+func (h Human) Work() {
+    fmt.Println("Human is working")
+}
+
+func (h Human) Eat() {
+    fmt.Println("Human is eating")
+}
+
+func main() {
+    robot := Robot{}
+    human := Human{}
+
+    var worker Worker
+    var eater Eater
+
+    worker = robot
+    eater = human
+
+    worker.Work()
+    eater.Eat()
+}
+</code></pre>
+
+<p>In this example, we have two interfaces, <code>Worker</code> and <code>Eater</code>, and two types, <code>Robot</code> and <code>Human</code>. Each type only implements the methods it needs, adhering to the Interface Segregation Principle.</p>
+
+<p><strong>5. Dependency Inversion Principle (DIP):</strong></p>
+<ul>
+  <li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
+  <li>Abstractions should not depend on details. Details should depend on abstractions.</li>
+  <li>This principle encourages the use of interfaces and abstractions to decouple high-level and low-level modules.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Switchable interface {
+    TurnOn()
+    TurnOff()
+}
+
+type LightBulb struct {
+    IsOn bool
+}
+
+func (lb *LightBulb) TurnOn() {
+    lb.IsOn = true
+    fmt.Println("Light bulb is on")
+}
+
+func (lb *LightBulb) TurnOff() {
+    lb.IsOn = false
+    fmt.Println("Light bulb is off")
+}
+
+type RemoteControl struct {
+    Device Switchable
+}
+
+func (rc *RemoteControl) PressOnButton() {
+    rc.Device.TurnOn()
+}
+
+func (rc *RemoteControl) PressOffButton() {
+    rc.Device.TurnOff()
+}
+
+func main() {
+    bulb := &amp;LightBulb{}
+    remote := &amp;RemoteControl{Device: bulb}
+
+    remote.PressOnButton()
+    remote.PressOffButton()
+}
+</code></pre>
+
+<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>/leetcode-most-asked-questions</id><content type="html" xml:base="/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
 <div class="container">
     <div class="select-box">
         <label for="tags">Tag</label>
@@ -825,6 +1038,8 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
 <div id="random-result"></div>
 
 <script type="application/json" id="leetfeed">[
+    
+        
     
         
     
