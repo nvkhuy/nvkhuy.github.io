@@ -135,7 +135,7 @@ In this example:
 
 This example shows how to implement the strategy pattern in Go to encapsulate payment algorithms and make them interchangeable without changing the client code.
 
-## **Factory Pattern**
+# **Factory Pattern**
 
 The factory pattern is a creational design pattern that provides an interface for creating objects in a super class, but allows subclasses to alter the type of objects that will be created. In Go, you can implement the factory pattern using functions and interfaces. Here's an example of the factory pattern in Go:
 
