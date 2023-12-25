@@ -1,4 +1,385 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-09-25T23:03:43+07:00</updated><id>/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Dependency Injection vs Dependency Inversion</title><link href="/dependency-injection-vs-dependency-inversion" rel="alternate" type="text/html" title="Dependency Injection vs Dependency Inversion" /><published>2023-09-25T00:00:00+07:00</published><updated>2023-09-25T00:00:00+07:00</updated><id>/dependency-injection-vs-dependency-inversion</id><content type="html" xml:base="/dependency-injection-vs-dependency-inversion"><![CDATA[<p>Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-25T18:14:41+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">JWT-based User Authentication in Golang</title><link href="http://localhost:4000/jwt-based-user-authentication-in-golang" rel="alternate" type="text/html" title="JWT-based User Authentication in Golang" /><published>2023-12-25T00:00:00+07:00</published><updated>2023-12-25T00:00:00+07:00</updated><id>http://localhost:4000/go-authentication-implement</id><content type="html" xml:base="http://localhost:4000/jwt-based-user-authentication-in-golang"><![CDATA[<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
+	"time"
+)
+
+// User struct represents a user in the system
+type User struct {
+	ID       int
+	Username string
+	Password string
+}
+
+var users = make(map[string]User) // Simulate a simple in-memory database
+
+// Secret key for signing JWTs (should be kept secret)
+var jwtSecret = []byte("your_jwt_secret")
+
+// JWT claims structure
+type Claims struct {
+	UserID int `json:"user_id"`
+	jwt.StandardClaims
+}
+
+func signup(username, password string) error {
+	// Check if the username already exists
+	if _, exists := users[username]; exists {
+		return fmt.Errorf("username already exists")
+	}
+
+	// Hash the password before saving it
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	// Create a new user
+	userID := len(users) + 1
+	newUser := User{
+		ID:       userID,
+		Username: username,
+		Password: string(hashedPassword),
+	}
+
+	// Save the user in the database
+	users[username] = newUser
+	return nil
+}
+
+func login(username, password string) (string, string, error) {
+	// Retrieve the user from the database
+	user, exists := users[username]
+	if !exists {
+		return "", "", fmt.Errorf("user not found")
+	}
+
+	// Compare the hashed password with the provided password
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return "", "", fmt.Errorf("invalid password")
+	}
+
+	// Generate JWTs
+	accessToken, err := generateAccessToken(user.ID)
+	if err != nil {
+		return "", "", err
+	}
+
+	refreshToken, err := generateRefreshToken(user.ID)
+	if err != nil {
+		return "", "", err
+	}
+
+	return accessToken, refreshToken, nil
+}
+
+func resetPassword(username, newPassword string) error {
+	// Retrieve the user from the database
+	user, exists := users[username]
+	if !exists {
+		return fmt.Errorf("user not found")
+	}
+
+	// Hash the new password before updating
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	// Update the user's password
+	user.Password = string(hashedPassword)
+	users[username] = user
+
+	return nil
+}
+
+func changePassword(userID int, currentPassword, newPassword string) error {
+	// Retrieve the user from the database
+	user, exists := getUserByID(userID)
+	if !exists {
+		return fmt.Errorf("user not found")
+	}
+
+	// Compare the current hashed password with the provided current password
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(currentPassword))
+	if err != nil {
+		return fmt.Errorf("invalid current password")
+	}
+
+	// Hash the new password before updating
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	// Update the user's password
+	user.Password = string(hashedPassword)
+	users[user.Username] = user
+
+	return nil
+}
+
+func getUserByID(userID int) (User, bool) {
+	for _, user := range users {
+		if user.ID == userID {
+			return user, true
+		}
+	}
+	return User{}, false
+}
+
+func generateAccessToken(userID int) (string, error) {
+	// Create the JWT claims
+	claims := Claims{
+		UserID: userID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(), // Access token expires in 1 hour
+			IssuedAt:  time.Now().Unix(),
+		},
+	}
+
+	// Create the access token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	accessToken, err := token.SignedString(jwtSecret)
+	if err != nil {
+		return "", err
+	}
+
+	return accessToken, nil
+}
+
+func generateRefreshToken(userID int) (string, error) {
+	// Create the JWT claims
+	claims := Claims{
+		UserID: userID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 7).Unix(), // Refresh token expires in 7 days
+			IssuedAt:  time.Now().Unix(),
+		},
+	}
+
+	// Create the refresh token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	refreshToken, err := token.SignedString(jwtSecret)
+	if err != nil {
+		return "", err
+	}
+
+	return refreshToken, nil
+}
+
+func validateAccessToken(accessToken string) (int, error) {
+	// Parse the token
+	token, err := jwt.ParseWithClaims(accessToken, &amp;Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return jwtSecret, nil
+	})
+
+	if err != nil {
+		return 0, err
+	}
+
+	// Verify the token
+	claims, ok := token.Claims.(*Claims)
+	if !ok || !token.Valid {
+		return 0, fmt.Errorf("invalid access token")
+	}
+
+	return claims.UserID, nil
+}
+
+func refreshAccessToken(refreshToken string) (string, error) {
+	// Parse the refresh token
+	token, err := jwt.ParseWithClaims(refreshToken, &amp;Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return jwtSecret, nil
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	// Verify the refresh token
+	claims, ok := token.Claims.(*Claims)
+	if !ok || !token.Valid {
+		return "", fmt.Errorf("invalid refresh token")
+	}
+
+	// Generate a new access token
+	newAccessToken, err := generateAccessToken(claims.UserID)
+	if err != nil {
+		return "", err
+	}
+
+	return newAccessToken, nil
+}
+
+func main() {
+	// Sign up a new user
+	err := signup("john_doe", "password123")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Login and get tokens
+	accessToken, refreshToken, err := login("john_doe", "password123")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Simulate token validation (for demonstration purposes)
+	userID, err := validateAccessToken(accessToken)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Printf("User ID: %d\n", userID)
+
+	// Refresh access token
+	newAccessToken, err := refreshAccessToken(refreshToken)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Simulate token validation for the new access token (for demonstration purposes)
+	userIDWithNewToken, err := validateAccessToken(newAccessToken)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Printf("User ID with new access token: %d\n", userIDWithNewToken)
+
+	// Reset password
+	err = resetPassword("john_doe", "newpassword456")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Change password
+	err = changePassword(userID, "newpassword456", "updatedpassword789")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Validate access token again after changing password
+	userIDAfterChange, err := validateAccessToken(accessToken)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Printf("User ID after password change: %d\n", userIDAfterChange)
+}
+
+</code></pre>
+<p>This Go code provides a simplified implementation of user authentication and authorization using JSON Web Tokens (JWT) in Golang. Let’s break down the code step by step:</p>
+
+<p>User Struct and Database Setup:</p>
+<pre><code class="language-go">type User struct {
+	ID       int
+	Username string
+	Password string
+}
+</code></pre>
+
+<p>Defines a User struct to represent a user in the system with attributes such as ID, username, and password.</p>
+<pre><code class="language-go">var users = make(map[string]User)
+</code></pre>
+
+<p>Creates an in-memory map (users) to simulate a simple database where user data is stored.</p>
+<pre><code class="language-go">var jwtSecret = []byte("your_jwt_secret")
+</code></pre>
+
+<p>Defines a secret key used for signing and verifying JWTs. In a real-world scenario, this should be kept secure and not hardcoded in the code.
+JWT Claims Structure:</p>
+<pre><code class="language-go">type Claims struct {
+	UserID int `json:"user_id"`
+	jwt.StandardClaims
+}
+</code></pre>
+
+<p>Defines a Claims struct to represent the claims included in JWTs. In this case, it includes a UserID field and inherits from jwt.StandardClaims for standard JWT claims.
+Signup Function:</p>
+<pre><code class="language-go">func signup(username, password string) error {
+    // ...
+}
+</code></pre>
+
+<p>Implements user signup by checking if the username already exists, hashing the password, creating a new user, and saving it in the simulated database.
+Login Function:</p>
+<pre><code class="language-go">func login(username, password string) (string, string, error) {
+    // ...
+}
+</code></pre>
+
+<p>Handles user login by retrieving the user from the database, comparing the hashed password, and generating JWTs (access token and refresh token) if login is successful.
+Reset Password Function:</p>
+<pre><code class="language-go">func resetPassword(username, newPassword string) error {
+    // ...
+}
+</code></pre>
+
+<p>Allows users to reset their password by retrieving the user from the database and updating the hashed password.
+Change Password Function:</p>
+
+<pre><code class="language-go">func changePassword(userID int, currentPassword, newPassword string) error {
+    // ...
+}
+</code></pre>
+
+<p>Enables users to change their password by validating the current password, hashing the new password, and updating the user’s password in the database.
+GetUserByID Function:</p>
+
+<pre><code class="language-go">func getUserByID(userID int) (User, bool) {
+    // ...
+}
+</code></pre>
+
+<p>Retrieves a user from the database based on their ID.
+Generate Access Token Function:</p>
+<pre><code class="language-go">func generateAccessToken(userID int) (string, error) {
+    // ...
+}
+</code></pre>
+
+<p>Creates a new access token with user-specific claims and an expiration time.
+Generate Refresh Token Function:</p>
+<pre><code class="language-go">func generateRefreshToken(userID int) (string, error) {
+    // ...
+}
+</code></pre>
+
+<p>Generates a refresh token with user-specific claims and a longer expiration time.
+Validate Access Token Function:</p>
+<pre><code class="language-go">func validateAccessToken(accessToken string) (int, error) {
+    // ...
+}
+</code></pre>
+
+<p>Parses and validates an access token, returning the user ID if successful.
+Refresh Access Token Function:</p>
+<pre><code class="language-go">func refreshAccessToken(refreshToken string) (string, error) {
+    // ...
+}
+</code></pre>
+
+<p>Parses and validates a refresh token, then generates a new access token if successful.
+Main Function:</p>
+<pre><code class="language-go">func main() {
+    // ...
+}
+</code></pre>
+
+<p>Demonstrates the usage of the implemented functions, including user signup, login, password reset, password change, and access token refresh.
+This code provides a foundation for implementing user authentication and authorization using JWTs in a Go application. It’s important to note that in a production environment, additional security measures, error handling, and database integration would be necessary. The secret key should be securely managed, and user passwords should be handled with care, potentially using more advanced hashing techniques.</p>]]></content><author><name></name></author><category term="jwt" /><summary type="html"><![CDATA[```go package main]]></summary></entry><entry><title type="html">Dependency Injection vs Dependency Inversion</title><link href="http://localhost:4000/dependency-injection-vs-dependency-inversion" rel="alternate" type="text/html" title="Dependency Injection vs Dependency Inversion" /><published>2023-09-25T00:00:00+07:00</published><updated>2023-09-25T00:00:00+07:00</updated><id>http://localhost:4000/dependency-injection-vs-dependency-inversion</id><content type="html" xml:base="http://localhost:4000/dependency-injection-vs-dependency-inversion"><![CDATA[<p>Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:</p>
 
 <ol>
   <li>Dependency Injection (DI):
@@ -134,7 +515,7 @@ func main() {
   <li>In the <code>main</code> function, we create instances of the concrete implementations (<code>FileStorage</code> and <code>DatabaseStorage</code>) and inject them into <code>DataProcessor</code> instances. This is where Dependency Inversion is demonstrated: high-level <code>DataProcessor</code> depends on the abstract <code>DataStore</code> interface, not on concrete implementations.</li>
 </ol>
 
-<p>This structure allows you to easily switch between different storage implementations (e.g., file storage or database storage) without modifying the <code>DataProcessor</code> code, adhering to the Dependency Inversion Principle.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:]]></summary></entry><entry><title type="html">Go Design Patterns</title><link href="/go-design-patterns" rel="alternate" type="text/html" title="Go Design Patterns" /><published>2023-09-24T00:00:00+07:00</published><updated>2023-09-24T00:00:00+07:00</updated><id>/go-design-patterns</id><content type="html" xml:base="/go-design-patterns"><![CDATA[<h1 id="iterator-pattern"><strong>Iterator Pattern</strong></h1>
+<p>This structure allows you to easily switch between different storage implementations (e.g., file storage or database storage) without modifying the <code>DataProcessor</code> code, adhering to the Dependency Inversion Principle.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:]]></summary></entry><entry><title type="html">Go Design Patterns</title><link href="http://localhost:4000/go-design-patterns" rel="alternate" type="text/html" title="Go Design Patterns" /><published>2023-09-24T00:00:00+07:00</published><updated>2023-09-24T00:00:00+07:00</updated><id>http://localhost:4000/go-design-patterns</id><content type="html" xml:base="http://localhost:4000/go-design-patterns"><![CDATA[<h1 id="iterator-pattern"><strong>Iterator Pattern</strong></h1>
 
 <p>The iterator pattern is a behavioral design pattern that provides a way to access the elements of a collection sequentially without exposing its underlying representation. In Go, you can implement the iterator pattern using a combination of interfaces and custom types. Here’s an example of how to implement the iterator pattern in Go:</p>
 
@@ -347,7 +728,7 @@ func main() {
   </li>
 </ul>
 
-<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-acid</id><content type="html" xml:base="/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="http://localhost:4000/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-acid</id><content type="html" xml:base="http://localhost:4000/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
 
 <ol>
   <li><strong>Atomicity (A):</strong>
@@ -420,7 +801,7 @@ func main() {
   </li>
 </ol>
 
-<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-cap</id><content type="html" xml:base="/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
+<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="http://localhost:4000/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-cap</id><content type="html" xml:base="http://localhost:4000/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
 
 <ol>
   <li><strong>Consistency (C):</strong>
@@ -492,7 +873,7 @@ func main() {
   </li>
 </ol>
 
-<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry><entry><title type="html">Why Go</title><link href="/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/why-golang</id><content type="html" xml:base="/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
+<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry><entry><title type="html">Why Go</title><link href="http://localhost:4000/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/why-golang</id><content type="html" xml:base="http://localhost:4000/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
 
 <p>A “Cloud Native” application is a software application that is designed and built from the ground up to fully leverage the capabilities of cloud computing platforms. Unlike traditional monolithic applications, cloud-native applications are tailored to take advantage of cloud resources, scalability, and flexibility. They are developed with a specific set of principles and practices that align with the dynamic nature of cloud environments. Here are the key characteristics that define a cloud-native application:</p>
 
@@ -912,7 +1293,7 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
   <li><strong>Container Compatibility:</strong> Go’s compatibility with containers and orchestration platforms allows applications to be seamlessly packaged and deployed in dynamic cloud environments.</li>
 </ul>
 
-<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/solid-principle</id><content type="html" xml:base="/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
+<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="http://localhost:4000/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/solid-principle</id><content type="html" xml:base="http://localhost:4000/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
 
 <p><strong>1. Single Responsibility Principle (SRP):</strong></p>
 <ul>
@@ -1157,7 +1538,7 @@ func main() {
 }
 </code></pre>
 
-<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>/leetcode-most-asked-questions</id><content type="html" xml:base="/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
+<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="http://localhost:4000/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>http://localhost:4000/leetcode-most-asked-questions</id><content type="html" xml:base="http://localhost:4000/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
 <div class="container">
     <div class="select-box">
         <label for="tags">Tag</label>
@@ -1174,6 +1555,8 @@ func main() {
 <div id="random-result"></div>
 
 <script type="application/json" id="leetfeed">[
+    
+        
     
         
     
@@ -1538,7 +1921,7 @@ func main() {
   <li><a href="https://leetcode.com/problems/all-oone-data-structure/description/">All O`one Data Structure</a></li>
   <li><a href="https://leetcode.com/problems/largest-color-value-in-a-directed-graph/description/">Largest Color Value in a Directed Graph</a></li>
   <li><a href="https://leetcode.com/problems/sudoku-solver/description/">Sudoku Solver</a></li>
-</ul>]]></content><author><name></name></author><category term="leetcode" /><summary type="html"><![CDATA[Random Tag Difficulty 🎲 ❌ List Order By Frequency]]></summary></entry><entry><title type="html">What Is Http</title><link href="/what-is-http" rel="alternate" type="text/html" title="What Is Http" /><published>2023-02-18T00:00:00+07:00</published><updated>2023-02-18T00:00:00+07:00</updated><id>/what-is-http</id><content type="html" xml:base="/what-is-http"><![CDATA[<p>HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:</p>
+</ul>]]></content><author><name></name></author><category term="leetcode" /><summary type="html"><![CDATA[Random Tag Difficulty 🎲 ❌ List Order By Frequency]]></summary></entry><entry><title type="html">What Is Http</title><link href="http://localhost:4000/what-is-http" rel="alternate" type="text/html" title="What Is Http" /><published>2023-02-18T00:00:00+07:00</published><updated>2023-02-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-http</id><content type="html" xml:base="http://localhost:4000/what-is-http"><![CDATA[<p>HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:</p>
 
 <p><strong>HTTP Methods (HTTP Verbs):</strong>
 HTTP defines several methods or verbs, which are used to specify the desired action to be performed on a resource identified by a URL (Uniform Resource Locator). Each method has a specific purpose:</p>
@@ -1751,7 +2134,7 @@ HTTP defines several methods or verbs, which are used to specify the desired act
   </li>
 </ol>
 
-<p>HTTPS ensures end-to-end encryption for data sent via POST requests. This encryption is a fundamental aspect of HTTPS, making it a secure way to transmit sensitive information such as login credentials, credit card details, or any other private data over the internet. It provides confidentiality, integrity, and authenticity for the data in transit, helping to protect users’ privacy and security.</p>]]></content><author><name></name></author><category term="computer-network" /><summary type="html"><![CDATA[HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:]]></summary></entry><entry><title type="html">Go Heap Tree</title><link href="/go-heap-tree" rel="alternate" type="text/html" title="Go Heap Tree" /><published>2022-07-16T00:00:00+07:00</published><updated>2022-07-16T00:00:00+07:00</updated><id>/go-heap-tree</id><content type="html" xml:base="/go-heap-tree"><![CDATA[<p>Implement golang heap tree interface</p>
+<p>HTTPS ensures end-to-end encryption for data sent via POST requests. This encryption is a fundamental aspect of HTTPS, making it a secure way to transmit sensitive information such as login credentials, credit card details, or any other private data over the internet. It provides confidentiality, integrity, and authenticity for the data in transit, helping to protect users’ privacy and security.</p>]]></content><author><name></name></author><category term="computer-network" /><summary type="html"><![CDATA[HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:]]></summary></entry><entry><title type="html">Go Heap Tree</title><link href="http://localhost:4000/go-heap-tree" rel="alternate" type="text/html" title="Go Heap Tree" /><published>2022-07-16T00:00:00+07:00</published><updated>2022-07-16T00:00:00+07:00</updated><id>http://localhost:4000/go-heap-tree</id><content type="html" xml:base="http://localhost:4000/go-heap-tree"><![CDATA[<p>Implement golang heap tree interface</p>
 
 <hr />
 
@@ -1799,103 +2182,4 @@ func main() {
 2022/07/15 09:47:10 [1 5 3]
 2022/07/15 09:47:10 1
 
-</code></pre>]]></content><author><name></name></author><category term="go" /><category term="data-structure" /><summary type="html"><![CDATA[Implement golang heap tree interface]]></summary></entry><entry><title type="html">Go Worker Pools</title><link href="/go-worker-pools" rel="alternate" type="text/html" title="Go Worker Pools" /><published>2022-06-03T00:00:00+07:00</published><updated>2022-06-03T00:00:00+07:00</updated><id>/go-worker-pools</id><content type="html" xml:base="/go-worker-pools"><![CDATA[<p>Implement golang worker pools</p>
-
-<p>Init worker pools with 3 workers then assign 3, 5, 6, 7 tasks to see runtime difference, each task takes 100ms processing</p>
-
-<p>Round 1 - 3 tasks - runtime 101ms</p>
-
-<p>Round 2 - 5 tasks - runtime 202ms</p>
-
-<p>Round 3 - 6 tasks - runtime 202ms</p>
-
-<p>Round 4 - 7 tasks - runtime 302ms</p>
-
-<hr />
-
-<h3 id="code">Code</h3>
-<pre><code class="language-go">package main
-
-import (
-	"log"
-	"time"
-)
-
-type Worker struct {
-	MaxNumJob     int
-	Jobs, Results chan int
-}
-
-func (w *Worker) work(jobs &lt;-chan int, results chan&lt;- int) {
-	for j := range jobs {
-		time.Sleep(100 * time.Millisecond)
-		results &lt;- j
-	}
-}
-func (w *Worker) Init(num int) {
-	w.MaxNumJob = num
-	w.Jobs = make(chan int, w.MaxNumJob)
-	w.Results = make(chan int, w.MaxNumJob)
-	for i := 1; i &lt;= w.MaxNumJob; i++ {
-		go w.work(w.Jobs, w.Results)
-	}
-	return
-}
-func (w *Worker) assign(round int, num int) {
-	log.Println("[Round]", round)
-	start := time.Now()
-	for i := 1; i &lt;= num; i++ {
-		w.Jobs &lt;- i
-	}
-	for i := 1; i &lt;= num; i++ {
-		res := &lt;-w.Results
-		log.Println(res)
-	}
-	end := time.Now()
-	log.Println("Runtime:", end.Sub(start).Milliseconds(), "ms")
-}
-
-func main() {
-	worker := &amp;Worker{}
-	worker.Init(3)
-	worker.assign(1, 3)
-	worker.assign(2, 5)
-	worker.assign(3, 6)
-	worker.assign(4, 7)
-}
-
-</code></pre>
-
-<h3 id="output">Output</h3>
-<pre><code>$go run main.go
-2022/06/03 22:20:01 [Round] 1
-2022/06/03 22:20:01 2
-2022/06/03 22:20:01 1
-2022/06/03 22:20:01 3
-2022/06/03 22:20:01 Runtime: 101 ms
-2022/06/03 22:20:01 [Round] 2
-2022/06/03 22:20:01 1
-2022/06/03 22:20:01 2
-2022/06/03 22:20:01 3
-2022/06/03 22:20:01 4
-2022/06/03 22:20:01 5
-2022/06/03 22:20:01 Runtime: 202 ms
-2022/06/03 22:20:01 [Round] 3
-2022/06/03 22:20:01 2
-2022/06/03 22:20:01 3
-2022/06/03 22:20:01 1
-2022/06/03 22:20:02 4
-2022/06/03 22:20:02 6
-2022/06/03 22:20:02 5
-2022/06/03 22:20:02 Runtime: 202 ms
-2022/06/03 22:20:02 [Round] 4
-2022/06/03 22:20:02 2
-2022/06/03 22:20:02 3
-2022/06/03 22:20:02 1
-2022/06/03 22:20:02 4
-2022/06/03 22:20:02 6
-2022/06/03 22:20:02 5
-2022/06/03 22:20:02 7
-2022/06/03 22:20:02 Runtime: 302 ms
-
-</code></pre>]]></content><author><name></name></author><category term="go" /><category term="goroutine" /><category term="concurrency" /><summary type="html"><![CDATA[Implement golang worker pools]]></summary></entry></feed>
+</code></pre>]]></content><author><name></name></author><category term="go" /><category term="data-structure" /><summary type="html"><![CDATA[Implement golang heap tree interface]]></summary></entry></feed>
