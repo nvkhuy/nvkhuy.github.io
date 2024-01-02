@@ -1,4 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-25T18:14:41+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">JWT-based User Authentication in Golang</title><link href="http://localhost:4000/jwt-based-user-authentication-in-golang" rel="alternate" type="text/html" title="JWT-based User Authentication in Golang" /><published>2023-12-25T00:00:00+07:00</published><updated>2023-12-25T00:00:00+07:00</updated><id>http://localhost:4000/go-authentication-implement</id><content type="html" xml:base="http://localhost:4000/jwt-based-user-authentication-in-golang"><![CDATA[<pre><code class="language-go">package main
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-02T11:39:02+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Timeout In Postgres</title><link href="http://localhost:4000/timeout-in-postgres" rel="alternate" type="text/html" title="Timeout In Postgres" /><published>2024-01-02T00:00:00+07:00</published><updated>2024-01-02T00:00:00+07:00</updated><id>http://localhost:4000/timeout-in-postgres</id><content type="html" xml:base="http://localhost:4000/timeout-in-postgres"><![CDATA[<p><strong>1.idle_in_transaction_session_timeout</strong></p>
+
+<p>Determines the maximum time a session can remain idle inside a transaction before it is automatically terminated.
+Helps prevent long-running transactions from tying up resources.</p>
+
+<pre><code class="language-sql">SET idle_in_transaction_session_timeout = 60000; -- 60 seconds
+</code></pre>
+
+<p>Concerned with the overall duration of inactivity within a transaction.</p>
+
+<p><strong>2. statement_timeout</strong></p>
+
+<p>Sets the maximum allowed time for the execution of individual SQL statements.
+If a statement takes longer than the specified timeout, it is automatically canceled.</p>
+
+<pre><code class="language-sql">SET statement_timeout = 5000; -- 5 seconds
+</code></pre>
+
+<p>Focuses on limiting the execution time of individual SQL statements.</p>
+
+<p><strong>3. lock_timeout</strong></p>
+
+<p>Sets the maximum allowed time to wait for a lock to be acquired.
+If a lock cannot be acquired within the specified timeout, the statement is canceled.</p>
+
+<pre><code class="language-sql">SET lock_timeout = '10s'; -- 10 seconds
+</code></pre>
+
+<p>Determines the time a statement can wait for a lock to be acquired.</p>
+
+<p><strong>4. tcp_keepalives_idle, tcp_keepalives_interval, tcp_keepalives_count</strong></p>
+
+<p>Configures TCP keepalive settings to detect and terminate idle connections at the TCP level.</p>
+
+<pre><code class="language-sql">SET tcp_keepalives_idle = 600;      -- 10 minutes
+SET tcp_keepalives_interval = 60;   -- 1 minute
+SET tcp_keepalives_count = 5;
+</code></pre>
+
+<p>Operates at the TCP level, detecting and terminating idle connections.</p>
+
+<p><strong>Testing the Variables:</strong></p>
+
+<p>To test these variables, you can perform the following steps:</p>
+
+<p><strong>idle_in_transaction_session_timeout:</strong></p>
+
+<p>Open a transaction and remain idle for longer than the specified timeout.
+Observe that the session is terminated due to inactivity within the transaction.</p>
+
+<p><strong>statement_timeout:</strong></p>
+
+<p>Execute a query that takes longer than the specified timeout.
+Observe that the query is automatically canceled.</p>
+
+<p><strong>lock_timeout:</strong></p>
+
+<p>Attempt to acquire a lock that is held by another transaction for longer than the specified timeout.
+Observe that the statement attempting to acquire the lock is canceled.</p>
+
+<p><strong>tcp_keepalives_idle</strong></p>
+
+<p><strong>tcp_keepalives_interval</strong></p>
+
+<p><strong>tcp_keepalives_count:</strong></p>
+
+<p>Adjust these settings to configure TCP keepalives.
+Monitor network connections and observe how idle connections are handled.
+Review the impact of these settings in a controlled environment before applying them in a production setting. 
+Testing should involve various scenarios to ensure that the configured timeouts meet the requirements of your application without causing disruptions.</p>]]></content><author><name></name></author><category term="postgres" /><category term="optimization" /><summary type="html"><![CDATA[1.idle_in_transaction_session_timeout]]></summary></entry><entry><title type="html">JWT-based User Authentication in Golang</title><link href="http://localhost:4000/jwt-based-user-authentication-in-golang" rel="alternate" type="text/html" title="JWT-based User Authentication in Golang" /><published>2023-12-25T00:00:00+07:00</published><updated>2023-12-25T00:00:00+07:00</updated><id>http://localhost:4000/go-authentication-implement</id><content type="html" xml:base="http://localhost:4000/jwt-based-user-authentication-in-golang"><![CDATA[<pre><code class="language-go">package main
 
 import (
 	"fmt"
@@ -728,80 +797,252 @@ func main() {
   </li>
 </ul>
 
-<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="http://localhost:4000/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-acid</id><content type="html" xml:base="http://localhost:4000/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="http://localhost:4000/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/solid-principle</id><content type="html" xml:base="http://localhost:4000/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
 
-<ol>
-  <li><strong>Atomicity (A):</strong>
-    <ul>
-      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
-      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
-    </ul>
-  </li>
-  <li><strong>Consistency (C):</strong>
-    <ul>
-      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
-      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
-    </ul>
-  </li>
-  <li><strong>Isolation (I):</strong>
-    <ul>
-      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
-      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
-    </ul>
-  </li>
-  <li><strong>Durability (D):</strong>
-    <ul>
-      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
-      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
-    </ul>
-  </li>
-</ol>
+<p><strong>1. Single Responsibility Principle (SRP):</strong></p>
+<ul>
+  <li>A class should have only one reason to change, meaning it should have only one responsibility.</li>
+  <li>This principle encourages separation of concerns.</li>
+</ul>
 
-<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
 
-<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
+import "fmt"
 
-<p><strong>Advantages of ACID:</strong></p>
+type Order struct {
+    ID     int
+    Status string
+}
 
-<ol>
-  <li>
-    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
-  </li>
-  <li>
-    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
-  </li>
-  <li>
-    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
-  </li>
-  <li>
-    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
-  </li>
-  <li>
-    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
-  </li>
-</ol>
+// OrderRepository handles database operations for orders
+type OrderRepository struct{}
 
-<p><strong>Disadvantages of ACID:</strong></p>
+func (o *OrderRepository) SaveOrder(order *Order) {
+    // Save the order to the database
+    fmt.Printf("Order %d saved with status %s\n", order.ID, order.Status)
+}
 
-<ol>
-  <li>
-    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
-  </li>
-  <li>
-    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
-  </li>
-  <li>
-    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
-  </li>
-  <li>
-    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
-  </li>
-  <li>
-    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
-  </li>
-</ol>
+// OrderService handles business logic related to orders
+type OrderService struct {
+    repo *OrderRepository
+}
 
-<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="http://localhost:4000/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-cap</id><content type="html" xml:base="http://localhost:4000/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
+func (os *OrderService) ProcessOrder(order *Order) {
+    // Business logic for processing orders
+    order.Status = "Processed"
+    os.repo.SaveOrder(order)
+}
+
+func main() {
+    orderRepo := &amp;OrderRepository{}
+    orderService := &amp;OrderService{repo: orderRepo}
+
+    order := &amp;Order{ID: 1, Status: "Pending"}
+    orderService.ProcessOrder(order)
+}
+</code></pre>
+
+<p>In this example, we have separate components (<code>OrderRepository</code> and <code>OrderService</code>) responsible for handling database operations and business logic, respectively, adhering to the Single Responsibility Principle.</p>
+
+<p><strong>2. Open-Closed Principle (OCP):</strong></p>
+<ul>
+  <li>Software entities (classes, modules, functions) should be open for extension but closed for modification.</li>
+  <li>This principle encourages adding new functionality by extending existing code, rather than changing it.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Shape interface {
+    Area() float64
+}
+
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+
+type Circle struct {
+    Radius float64
+}
+
+func (c Circle) Area() float64 {
+    return 3.14 * c.Radius * c.Radius
+}
+
+func CalculateArea(shape Shape) {
+    fmt.Printf("Area of shape is: %.2f\n", shape.Area())
+}
+
+func main() {
+    rect := Rectangle{Width: 5, Height: 3}
+    circle := Circle{Radius: 2}
+
+    CalculateArea(rect)
+    CalculateArea(circle)
+}
+</code></pre>
+
+<p>The Open-Closed Principle is demonstrated here by defining a <code>Shape</code> interface that can be extended with new shapes (e.g., adding a <code>Triangle</code>) without modifying the existing code that calculates the area.</p>
+
+<p><strong>3. Liskov Substitution Principle (LSP):</strong></p>
+<ul>
+  <li>Objects of a derived class must be able to replace objects of the base class without affecting the correctness of the program.</li>
+  <li>This principle ensures that derived classes adhere to the contract established by their base classes.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Bird interface {
+    Fly() string
+}
+
+type Sparrow struct{}
+
+func (s Sparrow) Fly() string {
+    return "Sparrow flies"
+}
+
+type Ostrich struct{}
+
+func (o Ostrich) Fly() string {
+    return "Ostrich cannot fly"
+}
+
+func MakeBirdFly(bird Bird) {
+    fmt.Println(bird.Fly())
+}
+
+func main() {
+    sparrow := Sparrow{}
+    ostrich := Ostrich{}
+
+    MakeBirdFly(sparrow)
+    MakeBirdFly(ostrich)
+}
+</code></pre>
+
+<p>Here, both <code>Sparrow</code> and <code>Ostrich</code> implement the <code>Bird</code> interface, but while <code>Sparrow</code> can fly, <code>Ostrich</code> cannot. Still, both can be used interchangeably with the <code>MakeBirdFly</code> function, adhering to the Liskov Substitution Principle.</p>
+
+<p><strong>4. Interface Segregation Principle (ISP):</strong></p>
+<ul>
+  <li>Clients should not be forced to depend on interfaces they do not use.</li>
+  <li>This principle encourages creating smaller, more focused interfaces.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Worker interface {
+    Work()
+}
+
+type Eater interface {
+    Eat()
+}
+
+type Robot struct{}
+
+func (r Robot) Work() {
+    fmt.Println("Robot is working")
+}
+
+func (r Robot) Eat() {
+    fmt.Println("Robot does not eat")
+}
+
+type Human struct{}
+
+func (h Human) Work() {
+    fmt.Println("Human is working")
+}
+
+func (h Human) Eat() {
+    fmt.Println("Human is eating")
+}
+
+func main() {
+    robot := Robot{}
+    human := Human{}
+
+    var worker Worker
+    var eater Eater
+
+    worker = robot
+    eater = human
+
+    worker.Work()
+    eater.Eat()
+}
+</code></pre>
+
+<p>In this example, we have two interfaces, <code>Worker</code> and <code>Eater</code>, and two types, <code>Robot</code> and <code>Human</code>. Each type only implements the methods it needs, adhering to the Interface Segregation Principle.</p>
+
+<p><strong>5. Dependency Inversion Principle (DIP):</strong></p>
+<ul>
+  <li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
+  <li>Abstractions should not depend on details. Details should depend on abstractions.</li>
+  <li>This principle encourages the use of interfaces and abstractions to decouple high-level and low-level modules.</li>
+</ul>
+
+<p>Example in Go:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type Switchable interface {
+    TurnOn()
+    TurnOff()
+}
+
+type LightBulb struct {
+    IsOn bool
+}
+
+func (lb *LightBulb) TurnOn() {
+    lb.IsOn = true
+    fmt.Println("Light bulb is on")
+}
+
+func (lb *LightBulb) TurnOff() {
+    lb.IsOn = false
+    fmt.Println("Light bulb is off")
+}
+
+type RemoteControl struct {
+    Device Switchable
+}
+
+func (rc *RemoteControl) PressOnButton() {
+    rc.Device.TurnOn()
+}
+
+func (rc *RemoteControl) PressOffButton() {
+    rc.Device.TurnOff()
+}
+
+func main() {
+    bulb := &amp;LightBulb{}
+    remote := &amp;RemoteControl{Device: bulb}
+
+    remote.PressOnButton()
+    remote.PressOffButton()
+}
+</code></pre>
+
+<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="http://localhost:4000/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-cap</id><content type="html" xml:base="http://localhost:4000/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
 
 <ol>
   <li><strong>Consistency (C):</strong>
@@ -1293,252 +1534,80 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
   <li><strong>Container Compatibility:</strong> Go’s compatibility with containers and orchestration platforms allows applications to be seamlessly packaged and deployed in dynamic cloud environments.</li>
 </ul>
 
-<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="http://localhost:4000/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/solid-principle</id><content type="html" xml:base="http://localhost:4000/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
-
-<p><strong>1. Single Responsibility Principle (SRP):</strong></p>
-<ul>
-  <li>A class should have only one reason to change, meaning it should have only one responsibility.</li>
-  <li>This principle encourages separation of concerns.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Order struct {
-    ID     int
-    Status string
-}
-
-// OrderRepository handles database operations for orders
-type OrderRepository struct{}
-
-func (o *OrderRepository) SaveOrder(order *Order) {
-    // Save the order to the database
-    fmt.Printf("Order %d saved with status %s\n", order.ID, order.Status)
-}
-
-// OrderService handles business logic related to orders
-type OrderService struct {
-    repo *OrderRepository
-}
-
-func (os *OrderService) ProcessOrder(order *Order) {
-    // Business logic for processing orders
-    order.Status = "Processed"
-    os.repo.SaveOrder(order)
-}
-
-func main() {
-    orderRepo := &amp;OrderRepository{}
-    orderService := &amp;OrderService{repo: orderRepo}
-
-    order := &amp;Order{ID: 1, Status: "Pending"}
-    orderService.ProcessOrder(order)
-}
-</code></pre>
-
-<p>In this example, we have separate components (<code>OrderRepository</code> and <code>OrderService</code>) responsible for handling database operations and business logic, respectively, adhering to the Single Responsibility Principle.</p>
-
-<p><strong>2. Open-Closed Principle (OCP):</strong></p>
-<ul>
-  <li>Software entities (classes, modules, functions) should be open for extension but closed for modification.</li>
-  <li>This principle encourages adding new functionality by extending existing code, rather than changing it.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Shape interface {
-    Area() float64
-}
-
-type Rectangle struct {
-    Width  float64
-    Height float64
-}
-
-func (r Rectangle) Area() float64 {
-    return r.Width * r.Height
-}
-
-type Circle struct {
-    Radius float64
-}
-
-func (c Circle) Area() float64 {
-    return 3.14 * c.Radius * c.Radius
-}
-
-func CalculateArea(shape Shape) {
-    fmt.Printf("Area of shape is: %.2f\n", shape.Area())
-}
-
-func main() {
-    rect := Rectangle{Width: 5, Height: 3}
-    circle := Circle{Radius: 2}
-
-    CalculateArea(rect)
-    CalculateArea(circle)
-}
-</code></pre>
-
-<p>The Open-Closed Principle is demonstrated here by defining a <code>Shape</code> interface that can be extended with new shapes (e.g., adding a <code>Triangle</code>) without modifying the existing code that calculates the area.</p>
-
-<p><strong>3. Liskov Substitution Principle (LSP):</strong></p>
-<ul>
-  <li>Objects of a derived class must be able to replace objects of the base class without affecting the correctness of the program.</li>
-  <li>This principle ensures that derived classes adhere to the contract established by their base classes.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Bird interface {
-    Fly() string
-}
-
-type Sparrow struct{}
-
-func (s Sparrow) Fly() string {
-    return "Sparrow flies"
-}
-
-type Ostrich struct{}
-
-func (o Ostrich) Fly() string {
-    return "Ostrich cannot fly"
-}
-
-func MakeBirdFly(bird Bird) {
-    fmt.Println(bird.Fly())
-}
-
-func main() {
-    sparrow := Sparrow{}
-    ostrich := Ostrich{}
-
-    MakeBirdFly(sparrow)
-    MakeBirdFly(ostrich)
-}
-</code></pre>
-
-<p>Here, both <code>Sparrow</code> and <code>Ostrich</code> implement the <code>Bird</code> interface, but while <code>Sparrow</code> can fly, <code>Ostrich</code> cannot. Still, both can be used interchangeably with the <code>MakeBirdFly</code> function, adhering to the Liskov Substitution Principle.</p>
-
-<p><strong>4. Interface Segregation Principle (ISP):</strong></p>
-<ul>
-  <li>Clients should not be forced to depend on interfaces they do not use.</li>
-  <li>This principle encourages creating smaller, more focused interfaces.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Worker interface {
-    Work()
-}
-
-type Eater interface {
-    Eat()
-}
-
-type Robot struct{}
-
-func (r Robot) Work() {
-    fmt.Println("Robot is working")
-}
-
-func (r Robot) Eat() {
-    fmt.Println("Robot does not eat")
-}
-
-type Human struct{}
-
-func (h Human) Work() {
-    fmt.Println("Human is working")
-}
-
-func (h Human) Eat() {
-    fmt.Println("Human is eating")
-}
-
-func main() {
-    robot := Robot{}
-    human := Human{}
-
-    var worker Worker
-    var eater Eater
-
-    worker = robot
-    eater = human
-
-    worker.Work()
-    eater.Eat()
-}
-</code></pre>
-
-<p>In this example, we have two interfaces, <code>Worker</code> and <code>Eater</code>, and two types, <code>Robot</code> and <code>Human</code>. Each type only implements the methods it needs, adhering to the Interface Segregation Principle.</p>
-
-<p><strong>5. Dependency Inversion Principle (DIP):</strong></p>
-<ul>
-  <li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
-  <li>Abstractions should not depend on details. Details should depend on abstractions.</li>
-  <li>This principle encourages the use of interfaces and abstractions to decouple high-level and low-level modules.</li>
-</ul>
-
-<p>Example in Go:</p>
-<pre><code class="language-go">package main
-
-import "fmt"
-
-type Switchable interface {
-    TurnOn()
-    TurnOff()
-}
-
-type LightBulb struct {
-    IsOn bool
-}
-
-func (lb *LightBulb) TurnOn() {
-    lb.IsOn = true
-    fmt.Println("Light bulb is on")
-}
-
-func (lb *LightBulb) TurnOff() {
-    lb.IsOn = false
-    fmt.Println("Light bulb is off")
-}
-
-type RemoteControl struct {
-    Device Switchable
-}
-
-func (rc *RemoteControl) PressOnButton() {
-    rc.Device.TurnOn()
-}
-
-func (rc *RemoteControl) PressOffButton() {
-    rc.Device.TurnOff()
-}
-
-func main() {
-    bulb := &amp;LightBulb{}
-    remote := &amp;RemoteControl{Device: bulb}
-
-    remote.PressOnButton()
-    remote.PressOffButton()
-}
-</code></pre>
-
-<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="http://localhost:4000/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>http://localhost:4000/leetcode-most-asked-questions</id><content type="html" xml:base="http://localhost:4000/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
+<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="http://localhost:4000/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-acid</id><content type="html" xml:base="http://localhost:4000/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+
+<ol>
+  <li><strong>Atomicity (A):</strong>
+    <ul>
+      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
+      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
+    </ul>
+  </li>
+  <li><strong>Consistency (C):</strong>
+    <ul>
+      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
+      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
+    </ul>
+  </li>
+  <li><strong>Isolation (I):</strong>
+    <ul>
+      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
+      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
+    </ul>
+  </li>
+  <li><strong>Durability (D):</strong>
+    <ul>
+      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
+      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
+
+<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
+
+<p><strong>Advantages of ACID:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
+  </li>
+  <li>
+    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
+  </li>
+  <li>
+    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
+  </li>
+  <li>
+    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
+  </li>
+  <li>
+    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
+  </li>
+</ol>
+
+<p><strong>Disadvantages of ACID:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
+  </li>
+  <li>
+    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
+  </li>
+  <li>
+    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
+  </li>
+  <li>
+    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
+  </li>
+  <li>
+    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
+  </li>
+</ol>
+
+<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="http://localhost:4000/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>http://localhost:4000/leetcode-most-asked-questions</id><content type="html" xml:base="http://localhost:4000/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
 <div class="container">
     <div class="select-box">
         <label for="tags">Tag</label>
@@ -1555,6 +1624,8 @@ func main() {
 <div id="random-result"></div>
 
 <script type="application/json" id="leetfeed">[
+    
+        
     
         
     
@@ -2134,52 +2205,4 @@ HTTP defines several methods or verbs, which are used to specify the desired act
   </li>
 </ol>
 
-<p>HTTPS ensures end-to-end encryption for data sent via POST requests. This encryption is a fundamental aspect of HTTPS, making it a secure way to transmit sensitive information such as login credentials, credit card details, or any other private data over the internet. It provides confidentiality, integrity, and authenticity for the data in transit, helping to protect users’ privacy and security.</p>]]></content><author><name></name></author><category term="computer-network" /><summary type="html"><![CDATA[HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:]]></summary></entry><entry><title type="html">Go Heap Tree</title><link href="http://localhost:4000/go-heap-tree" rel="alternate" type="text/html" title="Go Heap Tree" /><published>2022-07-16T00:00:00+07:00</published><updated>2022-07-16T00:00:00+07:00</updated><id>http://localhost:4000/go-heap-tree</id><content type="html" xml:base="http://localhost:4000/go-heap-tree"><![CDATA[<p>Implement golang heap tree interface</p>
-
-<hr />
-
-<h3 id="code">Code</h3>
-<pre><code class="language-go">package main
-
-import (
-	"container/heap"
-	"log"
-)
-type IntHeap []int
-
-func (h IntHeap) Len() int { 
-    return len(h) 
-}
-func (h IntHeap) Less(i, j int) bool { 
-    return h[i] &lt; h[j] 
-}
-func (h IntHeap) Swap(i, j int) { 
-    h[i], h[j] = h[j], h[i] 
-}
-func (h *IntHeap) Push(x interface{}) {
-	*h = append(*h, x.(int))
-}
-func (h *IntHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[0 : n-1]
-	return x
-}
-func main() {
-	h := IntHeap{}
-	heap.Push(&amp;h,5)
-	heap.Push(&amp;h,1)
-	heap.Push(&amp;h,3)
-	log.Println(h)
-	log.Println(heap.Pop(&amp;h))
-}
-
-</code></pre>
-
-<h3 id="output">Output</h3>
-<pre><code>$go run main.go
-2022/07/15 09:47:10 [1 5 3]
-2022/07/15 09:47:10 1
-
-</code></pre>]]></content><author><name></name></author><category term="go" /><category term="data-structure" /><summary type="html"><![CDATA[Implement golang heap tree interface]]></summary></entry></feed>
+<p>HTTPS ensures end-to-end encryption for data sent via POST requests. This encryption is a fundamental aspect of HTTPS, making it a secure way to transmit sensitive information such as login credentials, credit card details, or any other private data over the internet. It provides confidentiality, integrity, and authenticity for the data in transit, helping to protect users’ privacy and security.</p>]]></content><author><name></name></author><category term="computer-network" /><summary type="html"><![CDATA[HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:]]></summary></entry></feed>
