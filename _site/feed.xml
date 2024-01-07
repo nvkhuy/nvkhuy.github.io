@@ -1,4 +1,974 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-02T11:39:02+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Timeout In Postgres</title><link href="http://localhost:4000/timeout-in-postgres" rel="alternate" type="text/html" title="Timeout In Postgres" /><published>2024-01-02T00:00:00+07:00</published><updated>2024-01-02T00:00:00+07:00</updated><id>http://localhost:4000/timeout-in-postgres</id><content type="html" xml:base="http://localhost:4000/timeout-in-postgres"><![CDATA[<p><strong>1.idle_in_transaction_session_timeout</strong></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-07T18:35:24+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Microservice Interview Questions</title><link href="http://localhost:4000/microservice-interview-questions" rel="alternate" type="text/html" title="Microservice Interview Questions" /><published>2024-01-06T00:00:00+07:00</published><updated>2024-01-06T00:00:00+07:00</updated><id>http://localhost:4000/microservices-interview-questions</id><content type="html" xml:base="http://localhost:4000/microservice-interview-questions"><![CDATA[<h1 id="interview-questions"><strong>Interview Questions</strong></h1>
+<ol>
+  <li>What are microservices?</li>
+  <li>What issues do microservices aim to solve?</li>
+  <li>What new challenges do microservices introduce?</li>
+  <li>What are some popular microservices solutions?</li>
+  <li>How does monitoring and alerting work with microservices?</li>
+  <li>How are logs collected and analyzed?</li>
+  <li>What is a Service Registry?</li>
+  <li>What is an API Gateway?</li>
+  <li>What are the differences between REST and RPC?</li>
+  <li>What is a configuration manager?</li>
+  <li>What are common microservices fault tolerance approaches?</li>
+  <li>How do we manage distributed transactions?</li>
+  <li>How do we choose between monolithic and microservices architectures?</li>
+</ol>
+
+<h1 id="answers"><strong>Answers</strong></h1>
+
+<h3 id="1-what-are-microservices">1. What are microservices?</h3>
+
+<p>Microservices are a software architectural approach in which a complex application is divided into a set of smaller, independent services that communicate with each other over a network. Each microservice is a self-contained unit that performs a specific business function and can be developed, deployed, and scaled independently. This architectural style is often contrasted with monolithic architecture, where the entire application is built as a single, tightly integrated unit.</p>
+
+<p>Key characteristics of microservices include:</p>
+
+<p><strong>Independence</strong>: Each microservice is developed, deployed, and scaled independently. This allows for flexibility in terms of technology choices, development timelines, and deployment strategies.</p>
+
+<p><strong>Modularity</strong>: Microservices are modular and focused on a specific business capability. This modularity makes it easier to understand, develop, test, and maintain each service.</p>
+
+<p><strong>Decentralized Data Management</strong>: Each microservice manages its own data, and communication between services is typically through well-defined APIs. This avoids a centralized data store, reducing dependencies and potential bottlenecks.</p>
+
+<p><strong>Resilience</strong>: Microservices are designed to be resilient in the face of failures. If one microservice goes down, the overall application can still function as long as other services are operational.</p>
+
+<p><strong>Scalability</strong>: Since each microservice is independent, it can be scaled independently based on its specific requirements. This enables more efficient resource utilization.</p>
+
+<p><strong>Continuous Deployment</strong>: Microservices facilitate continuous integration and continuous deployment (CI/CD) practices. Updates and new features can be deployed to individual services without affecting the entire application.</p>
+
+<p><strong>Technology Diversity</strong>: Different microservices within an application can be implemented using different technologies and programming languages, as long as they communicate through well-defined APIs.</p>
+
+<p><em>Microservices architecture is chosen for large, complex applications where flexibility, scalability, and agility are crucial. However, it also introduces challenges, such as increased complexity in managing the interactions between services, potential for increased network latency, and the need for effective service discovery and communication mechanisms.</em></p>
+
+<p><strong>Compare With Other Architecture</strong></p>
+
+<p><code>Microservices</code> architecture is one of several architectural approaches used in software development. Here’s a comparison with some other common architectures:</p>
+
+<p><em>Monolithic Architecture</em>:</p>
+
+<ul>
+  <li><code>Microservices</code>: Decomposes the application into small, independent services. Each service has its own database and communicates through APIs.</li>
+  <li><code>Monolithic</code>: The entire application is developed and deployed as a single, tightly integrated unit. All components share the same codebase and database.</li>
+</ul>
+
+<p><em>Service-Oriented Architecture (SOA):</em></p>
+
+<ul>
+  <li><code>Microservices</code>: Similar to SOA in the sense of distributing functionality across services. However, microservices are typically more fine-grained and emphasize independence and modularity.</li>
+  <li><code>SOA</code>: Focuses on loosely coupled services that communicate using standardized protocols. Services in SOA can be larger in scope compared to microservices.</li>
+</ul>
+
+<p><em>Serverless Architecture:</em></p>
+
+<ul>
+  <li><code>Microservices</code>: Involves the development of small, independent services, but they are typically deployed on servers or containers.</li>
+  <li><code>Serverless</code>: Focuses on executing code in response to events without the need to manage servers. It abstracts away infrastructure concerns, and developers only pay for the actual compute resources used during execution.</li>
+</ul>
+
+<p><em>Event-Driven Architecture (EDA):</em></p>
+
+<ul>
+  <li><code>Microservices</code>: Can be designed with an event-driven approach where services communicate asynchronously through events.</li>
+  <li><code>EDA</code>: Focuses on the flow of events and messages between components, with an emphasis on reacting to events rather than direct communication between components.</li>
+</ul>
+
+<p><em>Three-Tier Architecture:</em></p>
+
+<ul>
+  <li><code>Microservices</code>: The application is divided into small, independent services, each handling specific functions. Communication between services often involves APIs.</li>
+  <li><code>Three-Tier</code>: Separates an application into three main components: presentation (UI), application logic (business logic), and data storage. Microservices can be implemented within each tier.</li>
+</ul>
+
+<p><em>Microservices, with their emphasis on independence and modularity, are particularly suitable for large and complex applications where scalability and rapid development are essential.</em></p>
+
+<h3 id="2-what-issues-do-microservices-aim-to-solve">2. What issues do microservices aim to solve?</h3>
+
+<p>Key problems that microservices aim to solve include:</p>
+
+<p><strong>Scalability</strong>: Microservices enable independent scaling of individual services based on their specific needs. This allows for more efficient resource utilization and ensures that only the necessary components are scaled, reducing the need to scale the entire application.</p>
+
+<p><strong>Flexibility</strong> and Agility: Microservices promote a modular and independent development approach. This modularity allows teams to work on different services concurrently, using diverse technologies and release cycles. It facilitates faster development and deployment of features, promoting agility in the development process.</p>
+
+<p><strong>Fault Isolation</strong>: Microservices are designed to be independent units with their own databases. This isolation ensures that a failure in one microservice does not necessarily impact the entire application, contributing to increased fault tolerance and resilience.</p>
+
+<p><strong>Technology Diversity</strong>: Microservices allow teams to choose the most suitable technologies for each service, based on specific requirements. This flexibility is particularly beneficial when dealing with different business capabilities or when incorporating new technologies into an existing system.</p>
+
+<p><strong>Ease of Maintenance</strong>: The modular nature of microservices makes it easier to understand, maintain, and update individual services without affecting the entire application. Teams can deploy changes to specific services without disrupting the overall system.</p>
+
+<p><strong>Continuous Deployment and DevOps</strong>: Microservices align well with continuous integration and continuous deployment (CI/CD) practices. Teams can independently develop, test, and deploy services, promoting a DevOps culture and enabling faster release cycles.</p>
+
+<p><strong>Improved Fault Tolerance</strong>: Due to their distributed nature, microservices can provide improved fault tolerance. Even if one microservice fails, the overall system can continue to function as long as other services remain operational.</p>
+
+<p><strong>Easier Scaling</strong>: Microservices can be scaled independently, allowing organizations to allocate resources efficiently based on the demand for specific services. This is particularly advantageous for applications with varying workloads across different components.</p>
+
+<p><strong>Enhanced Development Team Productivity</strong>: Microservices enable smaller, focused development teams to work on specific services. This specialization can lead to increased productivity and faster development cycles.</p>
+
+<p><strong>Decentralized Data Management</strong>: Each microservice manages its own data, reducing dependencies on a centralized data store. This can enhance performance, reduce contention for shared resources, and simplify data management.</p>
+
+<p>They also introduce new challenges, such as increased complexity in managing interactions between services, the need for effective service discovery mechanisms, and potential network latency issues. Organizations need to carefully evaluate whether microservices are the right fit for their specific use case and be prepared to address the challenges associated with this architectural approach.</p>
+
+<h3 id="3-what-new-challenges-do-microservices-introduce">3. What new challenges do microservices introduce?</h3>
+
+<p>Here are some of the key challenges associated with the adoption of microservices:</p>
+
+<p><strong>Increased Complexity:</strong></p>
+<ul>
+  <li><code>Challenge</code>: Managing a large number of microservices introduces complexity in terms of development, deployment, and overall system understanding.</li>
+  <li><code>Impact</code>: The intricacy can lead to challenges in monitoring, debugging, and maintaining the entire system.</li>
+</ul>
+
+<p><strong>Distributed Data Management:</strong></p>
+<ul>
+  <li><code>Challenge</code>: Each microservice often has its own database, requiring effective strategies for data consistency, transactions, and inter-service communication.</li>
+  <li><code>Impact</code>: Ensuring data integrity and managing distributed transactions can be challenging.</li>
+</ul>
+
+<p><strong>Service Discovery:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: In a microservices environment, services need to discover and communicate with each other dynamically, which requires effective service discovery mechanisms.</li>
+  <li><code>Impact</code>: Without proper service discovery, the system may face issues in locating and interacting with the required services.</li>
+</ul>
+
+<p><strong>Inter-Service Communication:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Microservices need to communicate with each other over the network, and selecting the appropriate communication patterns and protocols can be challenging.</li>
+  <li><code>Impact</code>: Inefficient communication can lead to increased latency and potential bottlenecks.
+Deployment and Orchestration:</li>
+</ul>
+
+<p><code>Challenge</code>: Coordinating the deployment of multiple independent microservices, managing versioning, and ensuring backward compatibility can be complex.
+Impact: Inadequate deployment strategies can result in downtime, inconsistencies, or failures during updates.</p>
+
+<p><strong>Monitoring and Observability:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Monitoring the health, performance, and behavior of numerous microservices requires advanced tools and techniques.</li>
+  <li><code>Impact</code>: Inadequate monitoring can lead to difficulties in identifying and resolving issues promptly.</li>
+</ul>
+
+<p><strong>Security:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Securing microservices involves addressing issues such as authentication, authorization, and ensuring the integrity of communication between services.</li>
+  <li><code>Impact</code>: A lack of robust security measures can expose vulnerabilities and compromise the overall system.</li>
+</ul>
+
+<p><strong>Testing Challenges:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Testing microservices involves addressing issues related to integration testing, contract testing, and ensuring the overall system’s reliability.</li>
+  <li><code>Impact</code>: Incomplete or inadequate testing can lead to integration issues, affecting the overall system’s stability.</li>
+</ul>
+
+<p><strong>Dependency Management:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Microservices often rely on external services, libraries, or third-party APIs, requiring effective dependency management.</li>
+  <li><code>Impact</code>: Changes in dependencies or external services may impact the overall system’s functionality and performance.</li>
+</ul>
+
+<p><strong>Operational Overhead:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Managing a large number of independent microservices requires effective operational practices, including logging, monitoring, and handling failures.</li>
+  <li><code>Impact</code>: Inadequate operational practices can result in increased overhead and operational challenges.</li>
+</ul>
+
+<p><strong>Cultural Shift:</strong></p>
+
+<ul>
+  <li><code>Challenge</code>: Adopting microservices often requires a cultural shift in terms of how development teams collaborate, communicate, and take ownership of their services.</li>
+  <li><code>Impact</code>: Resistance to change or misalignment in organizational culture can hinder the successful adoption of microservices.</li>
+</ul>
+
+<p><em>While microservices can offer significant advantages, organizations need to weigh the benefits against the challenges and carefully plan their implementation strategy.</em></p>
+
+<h3 id="4-what-are-some-popular-microservices-solutions">4. What are some popular microservices solutions?</h3>
+
+<p><strong>Docker and Kubernetes:</strong>
+containerization and orchestration for packaging, deploying, and scaling microservices.</p>
+
+<p><strong>NGINX:</strong>
+high-performance web server and reverse proxy providing load balancing and API gateway functionality.</p>
+
+<p><strong>Service Fabric (Microsoft Azure):</strong>
+distributed systems platform for simplified development, deployment, and management of microservices.</p>
+
+<p><strong>Quarkus:</strong>
+kubernetes-native Java framework with fast startup, low memory footprint, and support for reactive programming.</p>
+
+<p><strong>Istio:</strong>
+open-source service mesh platform for traffic management, observability, and security in microservices.</p>
+
+<p><strong>Consul (HashiCorp):</strong>
+distributed service mesh solution offering service discovery, health checking, and key-value store.</p>
+
+<p><strong>OpenTelemetry:</strong>
+open-source observability framework providing tracing and metrics for monitoring microservices.</p>
+
+<p><strong>Prometheus:</strong>
+open-source monitoring toolkit with multi-dimensional data model, powerful query language, and alerting.</p>
+
+<p><strong>Grafana:</strong>
+open-source analytics and monitoring platform with rich visualizations, dashboards, and alerting.</p>
+
+<p><strong>Jaeger:</strong>
+open-source distributed tracing system for monitoring and troubleshooting microservices.</p>
+
+<p><strong>Zipkin:</strong>
+open-source distributed tracing system providing insights into service interactions and latency analysis.</p>
+
+<p><strong>Elastic Stack (ELK Stack):</strong>
+open-source log aggregation, search, and visualization stack for monitoring and troubleshooting.</p>
+
+<h3 id="5-how-does-monitoring-and-alerting-work-with-microservices">5. How does monitoring and alerting work with microservices?</h3>
+
+<p>In a microservices architecture, monitoring and alerting work as follows:</p>
+
+<p><strong>Instrumentation:</strong>
+Developers add code to collect metrics, logs, and traces from microservices.</p>
+
+<p><strong>Metrics:</strong>
+Quantitative measurements, like response times and error rates, are collected and stored in a monitoring system.</p>
+
+<p><strong>Logging:</strong>
+Important events are logged, and logs are aggregated in a centralized system like ELK Stack.</p>
+
+<p><strong>Tracing:</strong>
+Distributed tracing frameworks visualize the flow of requests through microservices.</p>
+
+<p><strong>Monitoring Systems:</strong>
+Systems like Prometheus and Grafana analyze data to provide insights into microservices’ health and performance.</p>
+
+<p><strong>Alerting Rules:</strong>
+Alerts are triggered based on predefined conditions, notifying stakeholders of abnormal behavior.</p>
+
+<p><strong>Incident Response:</strong>
+Teams follow incident response procedures to identify, mitigate, and resolve issues efficiently.</p>
+
+<p><strong>Continuous Improvement:</strong>
+Monitoring data is analyzed over time for trends, enabling continuous refinement and optimization.</p>
+
+<h3 id="6-how-are-logs-collected-and-analyzed">6. How are logs collected and analyzed?</h3>
+
+<p><strong>Log Collection:</strong></p>
+<ul>
+  <li>Developers instrument microservices with logging statements.</li>
+  <li>Logging libraries (e.g., log4j) generate and format logs.</li>
+  <li>Log shippers (e.g., Filebeat) collect and forward logs to a centralized system.</li>
+  <li>Centralized logging systems (e.g., ELK Stack) aggregate and store logs.</li>
+</ul>
+
+<p><strong>Log Analysis:</strong></p>
+
+<ul>
+  <li>Logs are indexed and stored for efficient retrieval.</li>
+  <li>Analysts and developers search, query, and visualize logs for insights.</li>
+  <li>Alerts are set up based on predefined conditions in logs.</li>
+  <li>Logs can be correlated with metrics and traces for a comprehensive view.</li>
+</ul>
+
+<p><strong>Considerations:</strong></p>
+
+<ul>
+  <li>Challenges: Address volume, scalability, security, and compliance challenges.</li>
+  <li>Policies: Establish log retention policies for storage and compliance.</li>
+  <li>Standardization: Standardize log formats for consistency.</li>
+</ul>
+
+<p><strong>Tools:</strong></p>
+
+<p><strong>Elastic Stack (ELK Stack):</strong>
+Elasticsearch, Logstash, and Kibana for log indexing, processing, and visualization.</p>
+
+<p><strong>Fluentd:</strong>
+Open-source log collector supporting various outputs, including Elasticsearch.</p>
+
+<p><strong>Splunk:</strong>
+A platform for searching, monitoring, and analyzing machine-generated data, including logs.</p>
+
+<h3 id="6-how-are-logs-collected-and-analyzed-1">6. How are logs collected and analyzed?</h3>
+
+<h4 id="log-collection">Log Collection</h4>
+
+<ol>
+  <li>
+    <p><strong>Instrumentation:</strong>
+ Developers instrument microservices with logging statements to capture relevant events, errors, and information during runtime.</p>
+  </li>
+  <li>
+    <p><strong>Logging Libraries:</strong>
+ Logging frameworks or libraries (e.g., log4j, logback, Winston) are used to facilitate the generation, formatting, and capturing of logs within each microservice.</p>
+  </li>
+  <li>
+    <p><strong>Centralized Logging:</strong>
+ Logs are aggregated and sent to a centralized logging system, often part of an observability stack. Common systems include the Elastic Stack (ELK Stack), Splunk, or Graylog.</p>
+  </li>
+  <li>
+    <p><strong>Log Shippers:</strong>
+ Log shippers, such as Filebeat, Fluentd, or Logstash, collect logs from various sources, format them, and forward them to the centralized logging system.</p>
+  </li>
+</ol>
+
+<h4 id="log-analysis">Log Analysis</h4>
+
+<ol>
+  <li>
+    <p><strong>Indexing and Storage:</strong>
+ In the centralized logging system, logs are indexed and stored for efficient retrieval. They are typically organized based on timestamps, services, or other relevant metadata.</p>
+  </li>
+  <li>
+    <p><strong>Search and Query:</strong>
+ Analysts or developers can search and query logs using specific criteria, time ranges, or keywords to identify patterns, errors, or anomalies.</p>
+  </li>
+  <li>
+    <p><strong>Visualization:</strong>
+ Log analysis tools often provide visualization capabilities. Dashboards and charts help in understanding log patterns, trends, and correlations across microservices.</p>
+  </li>
+  <li>
+    <p><strong>Alerting:</strong>
+ Alerts can be set up based on predefined conditions or patterns identified in logs. This allows for proactive notification of issues or abnormalities.</p>
+  </li>
+  <li>
+    <p><strong>Correlation with Metrics and Traces:</strong>
+ Logs can be correlated with metrics and traces obtained from monitoring systems to provide a comprehensive view of the microservices architecture. This correlation aids in troubleshooting and root cause analysis.</p>
+  </li>
+</ol>
+
+<h4 id="challenges-and-considerations">Challenges and Considerations</h4>
+
+<ul>
+  <li>
+    <p><strong>Volume and Scalability:</strong>
+Handling the large volume of logs generated by microservices can be challenging. Log storage and analysis systems need to scale efficiently.</p>
+  </li>
+  <li>
+    <p><strong>Security and Compliance:</strong>
+Logging sensitive information raises security and compliance concerns. Proper precautions and policies must be in place to handle logs containing sensitive data.</p>
+  </li>
+  <li>
+    <p><strong>Log Retention Policies:</strong>
+Establishing log retention policies is crucial to manage storage costs and comply with data governance requirements.</p>
+  </li>
+  <li>
+    <p><strong>Log Format Standardization:</strong>
+Standardizing log formats across microservices makes it easier to aggregate, search, and analyze logs consistently.</p>
+  </li>
+</ul>
+
+<h4 id="example-tools">Example Tools</h4>
+
+<ul>
+  <li>
+    <p><strong>Elastic Stack (ELK Stack):</strong>
+Elasticsearch for indexing and searching logs, Logstash for log processing, and Kibana for visualization.</p>
+  </li>
+  <li>
+    <p><strong>Fluentd:</strong>
+Open-source log collector that unifies data collection and consumption, supporting various outputs, including Elasticsearch.</p>
+  </li>
+  <li>
+    <p><strong>Splunk:</strong>
+A platform for searching, monitoring, and analyzing machine-generated data, including logs.</p>
+  </li>
+</ul>
+
+<h3 id="7-what-is-a-service-registry">7. What is a Service Registry?</h3>
+
+<p>A <strong>Service Registry</strong> is a crucial component in a microservices architecture that plays a key role in facilitating service discovery and enabling communication between distributed services.</p>
+
+<h4 id="purpose">Purpose</h4>
+<ul>
+  <li><strong>Service Discovery:</strong> In a microservices environment, services are often distributed across multiple nodes or instances.
+<code>Service discovery</code> allows services to dynamically and automatically find the location (<code>IP address</code> and <code>port</code>) of other services they need to communicate with.</li>
+  <li><strong>Dynamic Updates:</strong> Provides a mechanism for services to register and deregister themselves as they come online or go offline.</li>
+</ul>
+
+<h4 id="key-features">Key Features</h4>
+<ul>
+  <li><strong>Service Registration:</strong> Microservices register their network location (e.g., IP address and port) with the registry.</li>
+  <li><strong>Service Discovery:</strong> Other microservices query the registry to discover and obtain information about available services.</li>
+  <li><strong>Health Checking:</strong> Often includes health checks to ensure registered services are operational.</li>
+</ul>
+
+<h4 id="implementation">Implementation</h4>
+<ul>
+  <li><strong>Examples:</strong> Tools like <a href="https://github.com/etcd-io/etcd">etcd</a>, Netflix Eureka, Consul, or Apache ZooKeeper can be used as service registries.</li>
+  <li><strong>Protocols:</strong> Typically use protocols like HTTP, DNS, or custom protocols for service registration and discovery.</li>
+</ul>
+
+<h4 id="benefits">Benefits</h4>
+<ul>
+  <li><strong>Dynamic Scaling:</strong> Enables dynamic scaling of services as instances can register and deregister automatically.</li>
+  <li><strong>Load Balancing:</strong> Supports load balancing by providing up-to-date information about available instances.</li>
+  <li><strong>Resilience:</strong> Enhances system resilience by adapting to changes in the microservices landscape.</li>
+</ul>
+
+<h3 id="8-what-is-an-api-gateway">8. What is an API Gateway?</h3>
+
+<h4 id="definition">Definition</h4>
+<p>An <strong>API Gateway</strong> is a centralized entry point that manages, secures, and optimizes the interactions between microservices or applications and their corresponding APIs (Application Programming Interfaces). It acts as a front-facing interface that handles various tasks related to API communication.</p>
+
+<h4 id="key-functions">Key Functions</h4>
+
+<ol>
+  <li>
+    <p><strong>Request Routing:</strong>
+  Directs incoming API requests to the appropriate microservices or backend services based on predefined rules and configurations.</p>
+  </li>
+  <li>
+    <p><strong>API Composition:</strong>
+  Aggregates multiple microservices or backend services into a single API endpoint, reducing the number of client-server interactions.</p>
+  </li>
+  <li>
+    <p><strong>Protocol Translation:</strong>
+  Translates communication protocols, allowing clients and services to communicate using different protocols (e.g., translating HTTP to WebSocket).</p>
+  </li>
+  <li>
+    <p><strong>Request and Response Transformation:</strong>
+  Modifies and transforms API requests and responses to meet the specific needs of clients or services, including format conversion and data enrichment.</p>
+  </li>
+  <li>
+    <p><strong>Security and Authentication:</strong>
+  Enforces security measures, such as authentication and authorization, to protect APIs and ensure that only authorized users or systems can access specific functionalities.</p>
+  </li>
+  <li><strong>Rate Limiting:</strong>
+    <ul>
+      <li>Controls and limits the rate at which clients can make requests to APIs, preventing abuse and ensuring fair usage.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Caching:</strong>
+  Implements caching mechanisms to store and retrieve frequently requested data, reducing the load on backend services and improving response times.</p>
+  </li>
+  <li>
+    <p><strong>Logging and Monitoring:</strong>
+  Records API usage metrics, logs, and performance data for monitoring, analytics, and troubleshooting purposes.</p>
+  </li>
+  <li>
+    <p><strong>Load Balancing:</strong>
+  Distributes incoming API traffic across multiple instances or servers to ensure optimal resource utilization and high availability.</p>
+  </li>
+  <li><strong>Fault Tolerance:</strong>
+  Handles errors gracefully, provides fallback mechanisms, and ensures continuous API availability even in the presence of failures.</li>
+</ol>
+
+<h2 id="benefits-1">Benefits</h2>
+
+<ol>
+  <li>
+    <p><strong>Simplified Client Interaction:</strong>
+  Clients interact with a single entry point, abstracting the complexity of the underlying microservices architecture.</p>
+  </li>
+  <li>
+    <p><strong>Security and Compliance:</strong>
+  Centralized security enforcement ensures consistent application of security measures across all APIs.</p>
+  </li>
+  <li>
+    <p><strong>Scalability:</strong>
+ Facilitates horizontal scaling of microservices by distributing incoming traffic efficiently.</p>
+  </li>
+  <li>
+    <p><strong>Analytics and Monitoring:</strong>
+  Centralized logging and monitoring provide insights into API usage, performance, and potential issues.</p>
+  </li>
+  <li>
+    <p><strong>Agility and Flexibility:</strong>
+  Enables the addition or modification of APIs without affecting clients, promoting flexibility in the microservices ecosystem.</p>
+  </li>
+</ol>
+
+<h2 id="api-gateway-vs-load-balancer">API Gateway vs Load Balancer</h2>
+
+<p>API Gateway as operating at the application layer, while the Load Balancer operates at the network layer. Here’s a bit more detail:</p>
+
+<p><strong>API Gateway (Application Layer):</strong></p>
+<ul>
+  <li>Operates at a higher level of abstraction, dealing with the management, security, and optimization of APIs and their interactions.</li>
+  <li>Handles tasks related to API composition, security, authentication, rate limiting, and protocol translation.</li>
+  <li>Often serves as a unified entry point for managing and securing API traffic between clients and microservices.</li>
+</ul>
+
+<p><strong>Load Balancer (Network Layer):</strong></p>
+<ul>
+  <li>Operates at the lower network layer, dealing with the distribution and balancing of network traffic across multiple servers or server instances.</li>
+  <li>Primarily focuses on optimizing resource utilization, preventing overloads on specific servers, and enhancing high availability.</li>
+  <li>Distributes incoming traffic based on factors like server load, response time, or other configurable parameters.</li>
+</ul>
+
+<h3 id="9-what-are-the-differences-between-rest-and-rpc">9. What are the differences between REST and RPC?</h3>
+
+<h4 id="rest-vs-rpc">REST vs RPC</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>REST</th>
+      <th>RPC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Communication Style</strong></td>
+      <td>Resource-Centric</td>
+      <td>Invocation-Based</td>
+    </tr>
+    <tr>
+      <td><strong>Architecture Style</strong></td>
+      <td>Stateless, Client-Server Model</td>
+      <td>Remote Procedure Invocation</td>
+    </tr>
+    <tr>
+      <td><strong>Data Format</strong></td>
+      <td>JSON, XML</td>
+      <td>JSON-RPC, XML-RPC, Protobuf</td>
+    </tr>
+    <tr>
+      <td><strong>Protocol</strong></td>
+      <td>HTTP, HTTPS</td>
+      <td>HTTP, JSON-RPC, gRPC (HTTP/2)</td>
+    </tr>
+    <tr>
+      <td><strong>Endpoint Naming</strong></td>
+      <td>Uniform Resource Identifier (URI)</td>
+      <td>Procedure Names on Remote Server</td>
+    </tr>
+    <tr>
+      <td><strong>State Management</strong></td>
+      <td>Stateless</td>
+      <td>Can be Stateful</td>
+    </tr>
+    <tr>
+      <td><strong>Use Cases</strong></td>
+      <td>Web Services, APIs</td>
+      <td>Middleware, Remote Method Calls</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="summary">Summary</h4>
+
+<p><strong>Communication Style:</strong></p>
+
+<ul>
+  <li>REST is resource-centric, emphasizing interactions with resources.</li>
+  <li>RPC is invocation-based, involving remote procedure calls.</li>
+</ul>
+
+<p><strong>Architecture Style:</strong></p>
+
+<ul>
+  <li>REST follows a stateless, client-server model.</li>
+  <li>RPC involves remote procedure invocation and can be stateful.</li>
+</ul>
+
+<p><strong>Data Format:</strong></p>
+
+<ul>
+  <li>REST commonly uses JSON or XML for data transfer.</li>
+  <li>RPC supports various serialization formats like JSON-RPC, XML-RPC, or Protobuf.</li>
+</ul>
+
+<p><strong>Protocol:</strong></p>
+
+<ul>
+  <li>REST typically uses HTTP/HTTPS.</li>
+  <li>RPC can use HTTP, JSON-RPC, or gRPC (HTTP/2).</li>
+</ul>
+
+<p><strong>Endpoint Naming:</strong></p>
+
+<ul>
+  <li>REST relies on Uniform Resource Identifiers (URIs).</li>
+  <li>RPC involves calling specific procedure names on a remote server.</li>
+</ul>
+
+<p><strong>State Management:</strong></p>
+
+<ul>
+  <li>REST is designed to be stateless.</li>
+  <li>RPC can be stateful, retaining information about the client’s state.</li>
+</ul>
+
+<p><strong>Use Cases:</strong></p>
+
+<ul>
+  <li>REST is well-suited for web services and APIs.</li>
+  <li>RPC has historical use in middleware and remote method call scenarios.</li>
+</ul>
+
+<h3 id="10-what-is-a-configuration-manager">10. What is a configuration manager?</h3>
+
+<ul>
+  <li>
+    <p><strong>Centralized Storage:</strong> Maintain a centralized repository for configuration settings to simplify management and updates.</p>
+  </li>
+  <li>
+    <p><strong>Dynamic Updates:</strong> Enable microservices to dynamically update their configurations without requiring a full restart.</p>
+  </li>
+  <li>
+    <p><strong>Versioning:</strong> Support versioning and history tracking to understand and manage changes over time.</p>
+  </li>
+  <li>
+    <p><strong>Security:</strong> Implement access control mechanisms to secure sensitive configuration settings.</p>
+  </li>
+  <li>
+    <p><strong>Hierarchical Models:</strong> Accommodate hierarchical structures and inheritance for configurations.</p>
+  </li>
+  <li>
+    <p><strong>Environment-Specific Configurations:</strong> Manage configurations tailored to different deployment environments (development, testing, production).</p>
+  </li>
+  <li>
+    <p><strong>Integration with CI/CD:</strong> Seamlessly integrate configuration changes into the CI/CD pipeline for automated deployments.</p>
+  </li>
+  <li>
+    <p><strong>Health Checks and Monitoring:</strong> Provide health checks and monitoring capabilities to ensure the consistency and health of configurations.</p>
+  </li>
+  <li>
+    <p><strong>Various Configuration Formats:</strong> Support multiple configuration formats to accommodate the diversity of technologies and frameworks used in microservices.</p>
+  </li>
+</ul>
+
+<p><strong>Open Source Tools for Configuration Management in Microservices:</strong></p>
+
+<ol>
+  <li><strong>Spring Cloud Config:</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Centralized configuration server for Spring Boot applications with support for versioning.</li>
+      <li><strong>Link:</strong> <a href="https://spring.io/projects/spring-cloud-config">Spring Cloud Config</a></li>
+    </ul>
+  </li>
+  <li><strong>Consul (HashiCorp):</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Service discovery and configuration management with a distributed key-value store.</li>
+      <li><strong>Link:</strong> <a href="https://www.consul.io/">HashiCorp Consul</a></li>
+    </ul>
+  </li>
+  <li><strong>etcd:</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Distributed key-value store used for configuration management in distributed systems.</li>
+      <li><strong>Link:</strong> <a href="https://etcd.io/">etcd</a></li>
+    </ul>
+  </li>
+  <li><strong>Zookeeper:</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Distributed coordination service that can be used for configuration management.</li>
+      <li><strong>Link:</strong> <a href="https://zookeeper.apache.org/">Apache ZooKeeper</a></li>
+    </ul>
+  </li>
+  <li><strong>Apollo (CTrip):</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Configurable and centralized management system supporting various configuration formats.</li>
+      <li><strong>Link:</strong> <a href="https://github.com/ctripcorp/apollo">Apollo</a></li>
+    </ul>
+  </li>
+  <li><strong>Spring Cloud Consul:</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Integration of Consul with Spring Cloud for service discovery and configuration.</li>
+      <li><strong>Link:</strong> <a href="https://spring.io/projects/spring-cloud-consul">Spring Cloud Consul</a></li>
+    </ul>
+  </li>
+  <li><strong>Config Server (Quarkus):</strong>
+    <ul>
+      <li><strong>Key Features:</strong> Part of Quarkus, it provides centralized configuration management for Quarkus applications.</li>
+      <li><strong>Link:</strong> <a href="https://quarkus.io/">Quarkus Config Server</a></li>
+    </ul>
+  </li>
+</ol>
+
+<p>These open-source tools and platforms offer various features to address the complexities of configuration management in microservices architectures. The choice of a specific tool may depend on factors such as the technology stack used, scalability requirements, and integration capabilities with existing systems.</p>
+
+<h3 id="11-what-are-common-microservices-fault-tolerance-approaches">11. What are common microservices fault tolerance approaches?</h3>
+
+<ol>
+  <li><strong>Circuit Breaker Pattern:</strong>
+    <ul>
+      <li><em>Description:</em> The Circuit Breaker pattern prevents a microservice from repeatedly trying to execute an operation that is likely to fail. It monitors the number of failures and, when a threshold is reached, opens the circuit, preventing further attempts. This allows the system to handle failures gracefully and avoids cascading failures.</li>
+      <li><em>Example:</em> Netflix’s Hystrix is a popular library for implementing the Circuit Breaker pattern.</li>
+    </ul>
+  </li>
+  <li><strong>Retry Mechanisms:</strong>
+    <ul>
+      <li><em>Description:</em> Implementing retry mechanisms involves automatically reattempting a failed operation for a predefined number of times. This can be effective for transient failures where a subsequent attempt might succeed.</li>
+      <li><em>Example:</em> Spring Retry provides a framework for implementing retry logic in Java applications.</li>
+    </ul>
+  </li>
+  <li><strong>Timeouts:</strong>
+    <ul>
+      <li><em>Description:</em> Setting timeouts for microservices interactions helps prevent long delays caused by unresponsive services. If a service doesn’t respond within the specified time, the calling service can take appropriate action, such as trying an alternative service or handling the failure gracefully.</li>
+      <li><em>Example:</em> Circuit Breaker libraries often include timeout functionalities.</li>
+    </ul>
+  </li>
+  <li><strong>Fallback Mechanisms:</strong>
+    <ul>
+      <li><em>Description:</em> Fallback mechanisms involve providing an alternative response or behavior when a microservice is experiencing issues or is unavailable. This can be a predefined default response or a response from a cache.</li>
+      <li><em>Example:</em> Hystrix, in addition to Circuit Breaker, supports fallback methods.</li>
+    </ul>
+  </li>
+  <li><strong>Bulkhead Pattern:</strong>
+    <ul>
+      <li><em>Description:</em> The Bulkhead pattern isolates components or services to prevent a failure in one part of the system from affecting others. This involves partitioning resources, such as thread pools, for different services to ensure that resource exhaustion in one service does not impact others.</li>
+      <li><em>Example:</em> Netflix’s Hystrix incorporates bulkhead patterns for thread pool isolation.</li>
+    </ul>
+  </li>
+  <li><strong>Graceful Degradation:</strong>
+    <ul>
+      <li><em>Description:</em> Graceful degradation involves providing a reduced level of service or functionality during degraded conditions. It allows the system to continue functioning with limited features even when certain services are unavailable.</li>
+      <li><em>Example:</em> A video streaming service might degrade to lower video quality during high load or service issues.</li>
+    </ul>
+  </li>
+  <li><strong>Replication and Redundancy:</strong>
+    <ul>
+      <li><em>Description:</em> Duplicating critical microservices or components across multiple instances or regions ensures redundancy. If one instance fails, traffic can be redirected to another, minimizing downtime.</li>
+      <li><em>Example:</em> Kubernetes and container orchestration platforms support automatic scaling and replication.</li>
+    </ul>
+  </li>
+  <li><strong>Health Checks:</strong>
+    <ul>
+      <li><em>Description:</em> Regularly checking the health of microservices helps identify issues early. Services can report their health status, and the system can take action based on the reported health.</li>
+      <li><em>Example:</em> Many orchestration tools provide health checking mechanisms for monitoring the state of services.</li>
+    </ul>
+  </li>
+  <li><strong>Failover Strategies:</strong>
+    <ul>
+      <li><em>Description:</em> Implementing failover strategies involves having backup systems or alternative services that can take over in case of a primary service failure. This ensures continuous operation in the event of a service outage.</li>
+      <li><em>Example:</em> Database clusters often use failover mechanisms for high availability.</li>
+    </ul>
+  </li>
+  <li><strong>Microservices Resilience Testing:</strong>
+    <ul>
+      <li><em>Description:</em> Actively testing the resilience of microservices by simulating failures and observing how the system responds helps identify weaknesses and improve fault tolerance.</li>
+      <li><em>Example:</em> Chaos Engineering practices involve injecting controlled failures into a system to test its resilience.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Applying a combination of these approaches helps create a robust fault-tolerant microservices architecture that can withstand various types of failures and adverse conditions. The specific approach or combination depends on the nature of the application, its requirements, and the potential failure scenarios.</p>
+
+<h3 id="12-how-do-we-manage-distributed-transactions">12. How do we manage distributed transactions?</h3>
+
+<p>Managing distributed transactions in a microservices architecture can be challenging due to the distributed nature of the services involved. Traditional transaction management systems, like two-phase commit (2PC), may face scalability and reliability issues in such environments. Here are several approaches to manage distributed transactions in microservices:</p>
+
+<h4 id="saga-pattern">Saga Pattern:</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Sagas are a sequence of local transactions where each local transaction updates a single service and publishes events to trigger the next transaction. The overall business transaction is divided into a series of smaller, independent transactions.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Decentralized, supports eventual consistency, easier to implement in distributed environments.</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Requires careful design to handle failures and compensating transactions.</p>
+  </li>
+</ul>
+
+<h4 id="compensating-transaction-compensation-pattern">Compensating Transaction (Compensation Pattern):</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Each transaction is accompanied by a compensating transaction that undoes the changes made by the original transaction in case of a failure.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Decentralized, supports eventual consistency, simpler to implement than 2PC.</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Complexity in designing compensating transactions, may not cover all failure scenarios.</p>
+  </li>
+</ul>
+
+<h4 id="message-based-communication">Message-Based Communication:</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Services communicate asynchronously using messages. The transactional logic is embedded within the messages, and services react to messages accordingly.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Loose coupling, asynchronous communication, can use message queues for reliability.</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Eventual consistency, may require additional effort for error handling.</p>
+  </li>
+</ul>
+
+<h4 id="event-sourcing">Event Sourcing:</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Stores the state changes of an application as a sequence of events. Each service records events related to its transactions, and other services subscribe to these events to update their own state.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Decentralized, supports eventual consistency, provides an audit trail.</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Complexity in implementing event sourcing, may require careful handling of concurrency.</p>
+  </li>
+</ul>
+
+<h4 id="transactional-outbox">Transactional Outbox:</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Each service publishes events to an outbox table in its database as part of a local transaction. An external process (e.g., message broker) picks up these events and delivers them to other services.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Simplicity, supports eventual consistency, asynchronous communication.</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Requires reliable delivery of events, may introduce latency.</p>
+  </li>
+</ul>
+
+<h4 id="global-transaction-manager-with-compensation">Global Transaction Manager with Compensation:</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> A central component (Global Transaction Manager) coordinates distributed transactions across services. Compensation transactions are used to revert changes in case of failures.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Centralized coordination, supports strong consistency.</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Complexity, potential for single points of failure, may impact scalability.</p>
+  </li>
+</ul>
+
+<h4 id="using-distributed-transaction-protocols">Using Distributed Transaction Protocols:</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Traditional two-phase commit (2PC) or three-phase commit (3PC) protocols can be used to coordinate transactions across distributed services.</p>
+  </li>
+  <li>
+    <p><strong>Pros:</strong> Ensures atomicity, consistency, and isolation (ACID properties).</p>
+  </li>
+  <li>
+    <p><strong>Cons:</strong> Can lead to blocking and scalability issues, increased complexity, not well-suited for highly distributed systems.</p>
+  </li>
+</ul>
+
+<h4 id="event-driven-architecture-eda">Event-Driven Architecture (EDA)</h4>
+
+<ul>
+  <li>
+    <p><strong>Description:</strong> Event-driven architecture is an architectural style where the production, detection, consumption, and reaction to events play a central role in the design and operation of systems. It emphasizes the use of events as the primary means of communication between decoupled services or components.</p>
+  </li>
+  <li><strong>Pros:</strong>
+    <ul>
+      <li>Services communicate asynchronously through events.</li>
+      <li>Enables loose coupling between services.</li>
+      <li>Supports scalability and responsiveness.</li>
+    </ul>
+  </li>
+  <li><strong>Cons:</strong>
+    <ul>
+      <li>Eventual consistency may require additional effort for error handling.</li>
+      <li>Increased complexity in designing systems that react to events.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The choice of the approach depends on factors such as the nature of the application, the specific use case, and the trade-offs between consistency, availability, and partition tolerance (CAP theorem). In many cases, a combination of these approaches is used to address different aspects of distributed transaction management.</p>
+
+<h3 id="13-how-do-we-choose-between-monolithic-and-microservices-architectures">13. How do we choose between monolithic and microservices architectures?</h3>
+
+<h4 id="monolithic-architecture">Monolithic Architecture</h4>
+
+<ul>
+  <li><strong>Simplicity:</strong>
+    <ul>
+      <li><em>Pros:</em> Monoliths are typically simpler to develop, test, deploy, and scale initially. A single codebase is easier to manage.</li>
+      <li><em>Cons:</em> As the project grows, the simplicity may turn into complexity, making it harder to maintain and scale.</li>
+    </ul>
+  </li>
+  <li><strong>Development Speed:</strong>
+    <ul>
+      <li><em>Pros:</em> Faster development cycles as there’s a single codebase.</li>
+      <li><em>Cons:</em> Scaling development may become challenging, and large teams might face collaboration issues.</li>
+    </ul>
+  </li>
+  <li><strong>Testing and Deployment:</strong>
+    <ul>
+      <li><em>Pros:</em> Easier testing and deployment since everything is packaged together.</li>
+      <li><em>Cons:</em> Larger codebase, longer build times, and more complex testing.</li>
+    </ul>
+  </li>
+  <li><strong>Resource Utilization:</strong>
+    <ul>
+      <li><em>Pros:</em> Efficient resource utilization in small to medium-sized applications.</li>
+      <li><em>Cons:</em> Can lead to inefficient resource use as the application grows.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="microservices-architecture">Microservices Architecture</h4>
+
+<ul>
+  <li><strong>Scalability:</strong>
+    <ul>
+      <li><em>Pros:</em> Easier to scale individual services independently based on demand.</li>
+      <li><em>Cons:</em> Increased complexity in managing the interactions between microservices.</li>
+    </ul>
+  </li>
+  <li><strong>Technology Diversity:</strong>
+    <ul>
+      <li><em>Pros:</em> Allows for using different technologies for different services based on specific needs.</li>
+      <li><em>Cons:</em> Requires expertise in a variety of technologies, potentially leading to a steeper learning curve.</li>
+    </ul>
+  </li>
+  <li><strong>Fault Isolation:</strong>
+    <ul>
+      <li><em>Pros:</em> Faults in one microservice don’t necessarily affect others, providing better fault isolation.</li>
+      <li><em>Cons:</em> Requires robust error handling and resilience strategies.</li>
+    </ul>
+  </li>
+  <li><strong>Team Autonomy:</strong>
+    <ul>
+      <li><em>Pros:</em> Different teams can work independently on separate microservices, enhancing autonomy.</li>
+      <li><em>Cons:</em> Requires effective communication and coordination to ensure overall system cohesion.</li>
+    </ul>
+  </li>
+  <li><strong>Continuous Delivery:</strong>
+    <ul>
+      <li><em>Pros:</em> Easier to implement continuous delivery and deployment practices.</li>
+      <li><em>Cons:</em> Requires a mature DevOps culture and infrastructure.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="factors-to-consider">Factors to Consider</h4>
+
+<ul>
+  <li><strong>Project Size and Complexity:</strong>
+    <ul>
+      <li>Monoliths may be suitable for smaller projects, while microservices may be better for complex, large-scale applications.</li>
+    </ul>
+  </li>
+  <li><strong>Team Structure and Skillset:</strong>
+    <ul>
+      <li>The expertise of your development team in managing distributed systems and microservices architecture is crucial.</li>
+    </ul>
+  </li>
+  <li><strong>Deployment and Scaling Requirements:</strong>
+    <ul>
+      <li>If your application requires frequent updates, scalability, and flexibility, microservices might be a better fit.</li>
+    </ul>
+  </li>
+  <li><strong>Organizational Culture:</strong>
+    <ul>
+      <li>Microservices align well with agile methodologies and DevOps practices but may not be suitable for all organizational cultures.</li>
+    </ul>
+  </li>
+  <li><strong>Cost:</strong>
+    <ul>
+      <li>Consider the cost implications, as microservices may introduce additional complexity and infrastructure costs.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>In many cases, a hybrid approach or starting with a monolith and transitioning to microservices as the application grows might be a pragmatic choice. Evaluate the specific needs and constraints of your project before making a decision.</p>]]></content><author><name></name></author><category term="microservices" /><category term="interview" /><summary type="html"><![CDATA[Interview Questions What are microservices? What issues do microservices aim to solve? What new challenges do microservices introduce? What are some popular microservices solutions? How does monitoring and alerting work with microservices? How are logs collected and analyzed? What is a Service Registry? What is an API Gateway? What are the differences between REST and RPC? What is a configuration manager? What are common microservices fault tolerance approaches? How do we manage distributed transactions? How do we choose between monolithic and microservices architectures?]]></summary></entry><entry><title type="html">Timeout In Postgres</title><link href="http://localhost:4000/timeout-in-postgres" rel="alternate" type="text/html" title="Timeout In Postgres" /><published>2024-01-02T00:00:00+07:00</published><updated>2024-01-02T00:00:00+07:00</updated><id>http://localhost:4000/timeout-in-postgres</id><content type="html" xml:base="http://localhost:4000/timeout-in-postgres"><![CDATA[<p><strong>1.idle_in_transaction_session_timeout</strong></p>
 
 <p>Determines the maximum time a session can remain idle inside a transaction before it is automatically terminated.
 Helps prevent long-running transactions from tying up resources.</p>
@@ -1642,6 +2612,8 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
         
     
         
+    
+        
             {
                 "content": "# Random{% include random-leetcode-bar.html %}# List Order By Frequency## **Array**### Easy- [Two Sum](https://leetcode.com/problems/two-sum/)- [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)- [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)- [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/description/)- [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)- [Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/description/)- [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/)- [Move Zeroes](https://leetcode.com/problems/move-zeroes/description/)- [Check If It Is a Straight Line](https://leetcode.com/problems/check-if-it-is-a-straight-line/description/)- [Binary Search](https://leetcode.com/problems/binary-search/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Richest Customer Wealth](https://leetcode.com/problems/richest-customer-wealth/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Flood Fill](https://leetcode.com/problems/flood-fill/description/)### Medium- [Predict the Winner](https://leetcode.com/problems/predict-the-winner/description/)- [Spiral Matrix](https://leetcode.com/problems/spiral-matrix/description/)- [3Sum](https://leetcode.com/problems/3sum/description/)- [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)- [Number of Islands](https://leetcode.com/problems/number-of-islands/description/)- [Next Permutation](https://leetcode.com/problems/next-permutation/description/)- [Container With Most Water](https://leetcode.com/problems/container-with-most-water/description/)- [Maximum Subarray](https://leetcode.com/problems/maximum-subarray/description/)- [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/description/)- [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)- [Rotate Image](https://leetcode.com/problems/rotate-image/description/)- [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/)- [Shortest Bridge](https://leetcode.com/problems/shortest-bridge/description/)- [Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/)- [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)- [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)### Hard- [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/)- [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)- [Minimum Number of Taps to Open to Water a Garden](https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/)- [Frog Jump](https://leetcode.com/problems/frog-jump/description/)- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)## **Sorting**### Easy- [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)- [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Can Make Arithmetic Progression From Sequence](https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/description/)- [Average Salary Excluding the Minimum and Maximum Salary](https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary/description/)- [Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/description/)- [Sort Array by Increasing Frequency](https://leetcode.com/problems/sort-array-by-increasing-frequency/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [The K Weakest Rows in a Matrix](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/)- [Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap/description/)- [Maximum Product of Three Numbers](https://leetcode.com/problems/maximum-product-of-three-numbers/description/)- [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/description/)- [Minimum Absolute Difference](https://leetcode.com/problems/minimum-absolute-difference/description/)### Medium- [3Sum](https://leetcode.com/problems/3sum/description/)- [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Reorganize String](https://leetcode.com/problems/reorganize-string/description/)- [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)- [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)- [Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/)- [4Sum](https://leetcode.com/problems/4sum/description/)- [Meeting Rooms II ~ Premium](https://leetcode.com/problems/meeting-rooms-ii/description/)- [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/)- [Largest Number](https://leetcode.com/problems/largest-number/description/)- [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/)- [Maximum Length of Pair Chain](https://leetcode.com/problems/maximum-length-of-pair-chain/description/)- [Design a Todo List ~ Premium](https://leetcode.com/problems/design-a-todo-list/description/)- [Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes/description/)### Hard- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)- [Maximum Number of Events That Can Be Attended II](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/)- [Put Marbles in Bags](https://leetcode.com/problems/put-marbles-in-bags/description/)- [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)## **Binary Search**### Easy- [Binary Search](https://leetcode.com/problems/binary-search/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)- [First Bad Version](https://leetcode.com/problems/first-bad-version/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [Search Insert Position](https://leetcode.com/problems/search-insert-position/description/)- [Count Negative Numbers in a Sorted Matrix](https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/description/)- [The K Weakest Rows in a Matrix](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/)- [Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap/description/)- [Kth Missing Positive Number](https://leetcode.com/problems/kth-missing-positive-number/description/)- [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/description/)- [Find Smallest Letter Greater Than Target](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)- [Arranging Coins](https://leetcode.com/problems/arranging-coins/description/)- [Special Array With X Elements Greater Than or Equal X](https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/description/)### Medium- [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/description/)- [Maximum Value at a Given Index in a Bounded Array](https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/description/)- [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)- [Longest Arithmetic Subsequence](https://leetcode.com/problems/longest-arithmetic-subsequence/description/)- [Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/description/)- [Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/description/)- [Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)- [Maximize the Confusion of an Exam](https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/)- [Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/)- [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)- [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/)- [Design Hit Counter ~ Premium](https://leetcode.com/problems/design-hit-counter/description/)- [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/description/)- [Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)  ### Hard- [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)- [Maximum Running Time of N Computers](https://leetcode.com/problems/maximum-running-time-of-n-computers/description/)- [Maximum Number of Events That Can Be Attended II](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/)- [Partition Array Into Two Arrays to Minimize Sum Difference](https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/)- [Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/)## **Hash Table**### Easy- [Two Sum](https://leetcode.com/problems/two-sum/description/)- [Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/)- [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)- [Happy Number](https://leetcode.com/problems/happy-number/description/)- [Logger Rate Limiter ~ Premium](https://leetcode.com/problems/logger-rate-limiter/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Degree of an Array](https://leetcode.com/problems/degree-of-an-array/description/)- [Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/description/)- [Check Whether Two Strings are Almost Equivalent](https://leetcode.com/problems/check-whether-two-strings-are-almost-equivalent/description/)- [Sort Array by Increasing Frequency](https://leetcode.com/problems/sort-array-by-increasing-frequency/description/)- [Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/description/)- [First Unique Character in a String](https://leetcode.com/problems/first-unique-character-in-a-string/description/)- [Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/)- [Buddy Strings](https://leetcode.com/problems/buddy-strings/description/)### Medium- [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)- [LRU Cache](https://leetcode.com/problems/lru-cache/description/)- [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)- [Line Reflection ~ Premium](https://leetcode.com/problems/line-reflection/description/)- [Reorganize String](https://leetcode.com/problems/reorganize-string/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/)- [Longest Arithmetic Subsequence](https://leetcode.com/problems/longest-arithmetic-subsequence/description/)- [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/description/)- [Longest Arithmetic Subsequence of Given Difference](https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/description/)- [Set Matrix Zeroes](https://leetcode.com/problems/set-matrix-zeroes/description/)- [Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/)- [Design Authentication Manager](https://leetcode.com/problems/design-authentication-manager/description/)### Hard- [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)- [Bus Routes](https://leetcode.com/problems/bus-routes/description/)- [First Missing Positive](https://leetcode.com/problems/first-missing-positive/description/)- [All O`one Data Structure](https://leetcode.com/problems/all-oone-data-structure/description/)- [Largest Color Value in a Directed Graph](https://leetcode.com/problems/largest-color-value-in-a-directed-graph/description/)- [Sudoku Solver](https://leetcode.com/problems/sudoku-solver/description/)"
             }
@@ -1992,217 +2964,4 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
   <li><a href="https://leetcode.com/problems/all-oone-data-structure/description/">All O`one Data Structure</a></li>
   <li><a href="https://leetcode.com/problems/largest-color-value-in-a-directed-graph/description/">Largest Color Value in a Directed Graph</a></li>
   <li><a href="https://leetcode.com/problems/sudoku-solver/description/">Sudoku Solver</a></li>
-</ul>]]></content><author><name></name></author><category term="leetcode" /><summary type="html"><![CDATA[Random Tag Difficulty 🎲 ❌ List Order By Frequency]]></summary></entry><entry><title type="html">What Is Http</title><link href="http://localhost:4000/what-is-http" rel="alternate" type="text/html" title="What Is Http" /><published>2023-02-18T00:00:00+07:00</published><updated>2023-02-18T00:00:00+07:00</updated><id>http://localhost:4000/what-is-http</id><content type="html" xml:base="http://localhost:4000/what-is-http"><![CDATA[<p>HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:</p>
-
-<p><strong>HTTP Methods (HTTP Verbs):</strong>
-HTTP defines several methods or verbs, which are used to specify the desired action to be performed on a resource identified by a URL (Uniform Resource Locator). Each method has a specific purpose:</p>
-
-<ol>
-  <li>
-    <p><strong>GET:</strong> The GET method is used to request data from a specified resource. It retrieves data without causing any change in the server’s state. It’s used for fetching web pages, images, and other resources.</p>
-  </li>
-  <li>
-    <p><strong>POST:</strong> The POST method is used to submit data to be processed to a specified resource. It can be used for form submissions, file uploads, and other actions that may modify server data.</p>
-  </li>
-  <li>
-    <p><strong>PUT:</strong> The PUT method is used to update a resource or create a new resource if it doesn’t exist. It replaces the entire resource with the data provided in the request.</p>
-  </li>
-  <li>
-    <p><strong>PATCH:</strong> The PATCH method is used to apply partial modifications to a resource. It’s typically used when you want to update only specific parts of a resource, rather than replacing the entire resource as in PUT.</p>
-  </li>
-  <li>
-    <p><strong>DELETE:</strong> The DELETE method is used to request the removal of a resource from the server. It deletes the specified resource.</p>
-  </li>
-  <li>
-    <p><strong>HEAD:</strong> The HEAD method is similar to GET but requests only the headers of the response, not the actual content. It’s often used to check if a resource has been modified since a certain date or to gather metadata about the resource.</p>
-  </li>
-  <li>
-    <p><strong>OPTIONS:</strong> The OPTIONS method is used to retrieve information about the communication options for the target resource. It can be used to inquire which HTTP methods are supported by the server for a particular resource.</p>
-  </li>
-  <li>
-    <p><strong>CONNECT:</strong> The CONNECT method is used to establish a network connection to a resource, usually for use with a proxy server. It’s primarily used in the context of HTTPS tunneling.</p>
-  </li>
-  <li>
-    <p><strong>TRACE:</strong> The TRACE method is used to retrieve diagnostic information from the server. It’s primarily used for debugging and testing purposes.</p>
-  </li>
-</ol>
-
-<p><strong>Differences Between HTTP Methods:</strong></p>
-
-<p>The primary differences between these methods lie in their purpose and the effect they have on the server and its resources:</p>
-
-<ul>
-  <li><strong>GET:</strong> Retrieves data from a resource without altering it.</li>
-  <li><strong>POST:</strong> Submits data to the server, potentially leading to changes in server data.</li>
-  <li><strong>PUT:</strong> Replaces an entire resource or creates a new one if it doesn’t exist.</li>
-  <li><strong>PATCH:</strong> Applies partial modifications to a resource.</li>
-  <li><strong>DELETE:</strong> Removes a resource from the server.</li>
-  <li><strong>HEAD:</strong> Retrieves only the headers of a response, not the content.</li>
-  <li><strong>OPTIONS:</strong> Retrieves information about the communication options for a resource.</li>
-  <li><strong>CONNECT:</strong> Establishes a network connection to a resource.</li>
-  <li><strong>TRACE:</strong> Retrieves diagnostic information from the server.</li>
-</ul>
-
-<p>Here’s a comparison of common HTTP methods in a table format:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>HTTP Method</th>
-      <th>Purpose</th>
-      <th>Idempotent</th>
-      <th>Request Body</th>
-      <th>Safe</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>GET</td>
-      <td>Retrieve data from a resource</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <td>POST</td>
-      <td>Submit data to a resource</td>
-      <td>No</td>
-      <td>Yes</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td>PUT</td>
-      <td>Replace a resource</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td>DELETE</td>
-      <td>Remove a resource</td>
-      <td>Yes</td>
-      <td>Optional</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td>HEAD</td>
-      <td>Retrieve headers only</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <td>OPTIONS</td>
-      <td>Retrieve communication options</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <td>PATCH</td>
-      <td>Apply partial modifications</td>
-      <td>No</td>
-      <td>Yes</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td>CONNECT</td>
-      <td>Establish network connection</td>
-      <td>No</td>
-      <td>Yes</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td>TRACE</td>
-      <td>Retrieve diagnostic info</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>Yes</td>
-    </tr>
-  </tbody>
-</table>
-
-<ul>
-  <li>
-    <p><strong>Idempotent:</strong> An idempotent method means that making the same request multiple times has the same effect as making it once. For example, multiple GET or DELETE requests with the same parameters should have the same outcome each time. PUT and HEAD are also idempotent if the request body is the same.</p>
-  </li>
-  <li>
-    <p><strong>Request Body:</strong> Indicates whether the HTTP method can include data in the request body. Methods like POST, PUT, DELETE, and PATCH can include a request body, while methods like GET, HEAD, OPTIONS, and TRACE typically do not.</p>
-  </li>
-  <li>
-    <p><strong>Safe:</strong> A safe method is one that should not have any side effects on the server or its resources. Safe methods are generally cacheable, and they don’t change the server state. GET, HEAD, and OPTIONS are considered safe methods.</p>
-  </li>
-</ul>
-
-<p>Please note that while these are general characteristics of these HTTP methods, the specific behavior can vary depending on how they are implemented by a server and the application’s design. Additionally, the use of these methods should adhere to the HTTP specification and best practices for web development.</p>
-
-<p><strong>Why Sending Login Request Using POST:</strong></p>
-
-<p>Sending login requests using the HTTP POST method, as opposed to the GET method, is a common practice for several important reasons:</p>
-
-<ol>
-  <li>
-    <p><strong>Security:</strong> When you submit login credentials (such as a username and password), you want to keep this information confidential. Using a POST request sends the data in the request body, which is not visible in the URL or browser history. In contrast, GET requests append data to the URL as query parameters, making it visible in the browser’s address bar and potentially exposing sensitive information.</p>
-  </li>
-  <li>
-    <p><strong>Data Length:</strong> POST requests can handle larger amounts of data in the request body compared to GET requests, which are limited in the amount of data they can carry in the URL. Login credentials are usually sensitive and may include lengthy encrypted or hashed data, making them unsuitable for inclusion in a URL.</p>
-  </li>
-  <li>
-    <p><strong>Caching:</strong> GET requests are often cached by web browsers, proxies, and other intermediaries. This means that if login credentials were sent via a GET request, they might be stored in browser history, cached on the user’s device, or logged on intermediary servers, posing a security risk.</p>
-  </li>
-  <li>
-    <p><strong>Idempotence:</strong> HTTP GET requests are considered idempotent, meaning they have no side effects on the server and can be safely repeated multiple times without changing the server’s state. Login operations are not idempotent; they typically involve creating a new session or changing the user’s state on the server. Using POST, which is not idempotent, reflects the non-idempotent nature of login requests more accurately.</p>
-  </li>
-  <li>
-    <p><strong>CSRF Protection:</strong> POST requests can include anti-CSRF (Cross-Site Request Forgery) tokens in the request body to protect against CSRF attacks, which involve unauthorized actions being performed on behalf of an authenticated user.</p>
-  </li>
-</ol>
-
-<p>Using the POST method for login requests is a security best practice because it helps protect sensitive data, prevents data from being exposed in URLs, accommodates larger data payloads, and aligns with the non-idempotent and state-changing nature of login operations. It’s essential to follow secure coding practices when implementing authentication mechanisms to ensure the protection of user credentials and sensitive data.</p>
-
-<p><strong>HTTP Methods Categorized Into Two Groups Regarding Caching:</strong></p>
-
-<ol>
-  <li>
-    <p><strong>Safe Methods:</strong> Safe methods are HTTP methods that are considered to be safe, meaning they should not have any side effects on the server or its resources. These methods are generally cacheable by intermediaries like web browsers and proxies. Safe methods include:</p>
-
-    <ul>
-      <li>GET: Retrieves data from a resource.</li>
-      <li>HEAD: Retrieves only the headers of a response (similar to GET but without the body).</li>
-      <li>OPTIONS: Retrieves information about the communication options for a resource.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Unsafe Methods:</strong> Unsafe methods are HTTP methods that can have side effects on the server or its resources, and they are generally not cacheable. Unsafe methods include:</p>
-
-    <ul>
-      <li>POST: Submits data to the server to create or modify a resource.</li>
-      <li>PUT: Replaces a resource at a specific URL with new data.</li>
-      <li>DELETE: Requests the removal of a resource from the server.</li>
-      <li>PATCH: Applies partial modifications to a resource.</li>
-    </ul>
-  </li>
-</ol>
-
-<p>The HTTP specification defines that safe methods are generally cacheable because they don’t change server state. Therefore, GET, HEAD, and OPTIONS requests are often cached by intermediaries to improve performance and reduce server load. However, caching behavior can be influenced by various factors, including HTTP headers such as “Cache-Control” and “Expires.”</p>
-
-<p><strong>Does Body Data Encrypted When Send POST Request?</strong></p>
-
-<p>When you send data over HTTPS using a POST request, the data in the request body is encrypted. HTTPS (Hypertext Transfer Protocol Secure) is designed to provide a secure and encrypted communication channel between your web browser (or any other client) and the web server. Here’s how the encryption process works:</p>
-
-<ol>
-  <li>
-    <p><strong>SSL/TLS Encryption:</strong> HTTPS uses SSL (Secure Sockets Layer) or its successor, TLS (Transport Layer Security), to encrypt the data transmitted between the client (your computer) and the server. This encryption ensures that the data is protected from eavesdropping and tampering while in transit over the internet.</p>
-  </li>
-  <li>
-    <p><strong>Secure Handshake:</strong> When you establish a connection to a website over HTTPS, your browser and the server go through a handshake process. During this process, they exchange encryption keys and negotiate the encryption parameters to establish a secure session.</p>
-  </li>
-  <li>
-    <p><strong>Request and Response Encryption:</strong> Once the secure session is established, all data exchanged between your client and the server, including the contents of the POST request body, is encrypted before transmission. This means that the data is protected from interception by third parties during its journey from your device to the server.</p>
-  </li>
-  <li>
-    <p><strong>Decryption on the Server:</strong> When the server receives the encrypted data, it has the decryption key to decode the data and process it. This happens on the server side, ensuring that the server can access and understand the contents of the POST request.</p>
-  </li>
-</ol>
-
-<p>HTTPS ensures end-to-end encryption for data sent via POST requests. This encryption is a fundamental aspect of HTTPS, making it a secure way to transmit sensitive information such as login credentials, credit card details, or any other private data over the internet. It provides confidentiality, integrity, and authenticity for the data in transit, helping to protect users’ privacy and security.</p>]]></content><author><name></name></author><category term="computer-network" /><summary type="html"><![CDATA[HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It’s the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="leetcode" /><summary type="html"><![CDATA[Random Tag Difficulty 🎲 ❌ List Order By Frequency]]></summary></entry></feed>
