@@ -1,4 +1,416 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-01-08T11:44:08+07:00</updated><id>/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Microservice Interview Questions</title><link href="/microservice-interview-questions" rel="alternate" type="text/html" title="Microservice Interview Questions" /><published>2024-01-06T00:00:00+07:00</published><updated>2024-01-06T00:00:00+07:00</updated><id>/microservices-interview-questions</id><content type="html" xml:base="/microservice-interview-questions"><![CDATA[<h1 id="interview-questions"><strong>Interview Questions</strong></h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-01-08T17:56:15+07:00</updated><id>/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Jekyll With MermaidJS</title><link href="/jekyll-with-mermaidjs" rel="alternate" type="text/html" title="Jekyll With MermaidJS" /><published>2024-01-08T00:00:00+07:00</published><updated>2024-01-08T00:00:00+07:00</updated><id>/jekyll-with-mermaidjs</id><content type="html" xml:base="/jekyll-with-mermaidjs"><![CDATA[<h2 id="1-import-template">1. Import Template</h2>
+
+<p>Create a file named with <code>mermaid.html</code> in <code>_include</code> directory as follows:</p>
+
+<pre><code class="language-html">&lt;script type="text/javascript"
+    src="https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+    $(document).ready(function() {
+        mermaid.initialize({
+            theme: 'forest'
+        });
+    });
+&lt;/script&gt;
+</code></pre>
+<p>Check <a href="https://cdnjs.com/libraries/mermaid">here</a> to use latest mermaid js version</p>
+
+<h2 id="2-usage">2. Usage</h2>
+
+<p>In order to use Mermaid in markdown page, variable <code>mermaid</code> and set its value to <code>true</code>.</p>
+
+<pre><code>layout: post
+tags: test
+title: Using Mermaid JS With Jekyll
+permalink: /using-mermaid-js-with-jekyll
+mermaid: true
+</code></pre>
+<h2 id="3-samples">3. Samples</h2>
+
+<h3 id="1-gantt-diagrams">1. Gantt diagrams</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    gantt
+        title A Gantt Diagram
+        dateFormat YYYY-MM-DD
+        section Section
+            A task          :a1, 2014-01-01, 30d
+            Another task    :after a1, 20d
+        section Another
+            Task in Another :2014-01-12, 12d
+            another task    :24d
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    gantt
+        title A Gantt Diagram
+        dateFormat YYYY-MM-DD
+        section Section
+            A task          :a1, 2014-01-01, 30d
+            Another task    :after a1, 20d
+        section Another
+            Task in Another :2014-01-12, 12d
+            another task    :24d
+</div>
+
+<h3 id="2-pie-chart-diagrams">2. Pie chart diagrams</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    %%{init: {"pie": {"textPosition": 0.5}, "themeVariables": {"pieOuterStrokeWidth": "5px"}} }%%
+    pie showData
+        title Key elements in Product X
+        "Calcium" : 42.96
+        "Potassium" : 50.05
+        "Magnesium" : 10.01
+        "Iron" :  5
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    %%{init: {"pie": {"textPosition": 0.5}, "themeVariables": {"pieOuterStrokeWidth": "5px"}} }%%
+    pie showData
+        title Key elements in Product X
+        "Calcium" : 42.96
+        "Potassium" : 50.05
+        "Magnesium" : 10.01
+        "Iron" :  5
+</div>
+
+<h3 id="3-quadrant-chart">3. Quadrant Chart</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    quadrantChart
+    title Reach and engagement of campaigns
+    x-axis Low Reach --&gt; High Reach
+    y-axis Low Engagement --&gt; High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]
+    Campaign E: [0.40, 0.34]
+    Campaign F: [0.35, 0.78]
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    quadrantChart
+    title Reach and engagement of campaigns
+    x-axis Low Reach --&gt; High Reach
+    y-axis Low Engagement --&gt; High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]
+    Campaign E: [0.40, 0.34]
+    Campaign F: [0.35, 0.78]
+</div>
+
+<h3 id="4-xy-chart">4. XY Chart</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    xychart-beta
+        title "Sales Revenue"
+        x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+        y-axis "Revenue (in $)" 4000 --&gt; 11000
+        bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+        line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    xychart-beta
+        title "Sales Revenue"
+        x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+        y-axis "Revenue (in $)" 4000 --&gt; 11000
+        bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+        line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+</div>
+
+<h3 id="5-git-diagrams">5. Git diagrams</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    %%{init: { 'logLevel': 'debug', 'theme': 'forest' } }%%
+      gitGraph
+        commit
+        branch hotfix
+        checkout hotfix
+        commit
+        branch develop
+        checkout develop
+        commit id:"ash" tag:"abc"
+        branch featureB
+        checkout featureB
+        commit type:HIGHLIGHT
+        checkout main
+        checkout hotfix
+        commit type:NORMAL
+        checkout develop
+        commit type:REVERSE
+        checkout featureB
+        commit
+        checkout main
+        merge hotfix
+        checkout featureB
+        commit
+        checkout develop
+        branch featureA
+        commit
+        checkout develop
+        merge hotfix
+        checkout featureA
+        commit
+        checkout featureB
+        commit
+        checkout develop
+        merge featureA
+        branch release
+        checkout release
+        commit
+        checkout main
+        commit
+        checkout release
+        merge main
+        checkout develop
+        merge release
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    %%{init: { 'logLevel': 'debug', 'theme': 'forest' } }%%
+      gitGraph
+        commit
+        branch hotfix
+        checkout hotfix
+        commit
+        branch develop
+        checkout develop
+        commit id:"ash" tag:"abc"
+        branch featureB
+        checkout featureB
+        commit type:HIGHLIGHT
+        checkout main
+        checkout hotfix
+        commit type:NORMAL
+        checkout develop
+        commit type:REVERSE
+        checkout featureB
+        commit
+        checkout main
+        merge hotfix
+        checkout featureB
+        commit
+        checkout develop
+        branch featureA
+        commit
+        checkout develop
+        merge hotfix
+        checkout featureA
+        commit
+        checkout featureB
+        commit
+        checkout develop
+        merge featureA
+        branch release
+        checkout release
+        commit
+        checkout main
+        commit
+        checkout release
+        merge main
+        checkout develop
+        merge release
+</div>
+
+<h3 id="6-c4-diagrams">6. C4 Diagrams</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    C4Container
+    title Container diagram for Internet Banking System
+
+    System_Ext(email_system, "E-Mail System", "The internal Microsoft Exchange system", $tags="v1.0")
+    Person(customer, Customer, "A customer of the bank, with personal bank accounts", $tags="v1.0")
+
+    Container_Boundary(c1, "Internet Banking") {
+        Container(spa, "Single-Page App", "JavaScript, Angular", "Provides all the Internet banking functionality to cutomers via their web browser")
+        Container_Ext(mobile_app, "Mobile App", "C#, Xamarin", "Provides a limited subset of the Internet banking functionality to customers via their mobile device")
+        Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")
+        ContainerDb(database, "Database", "SQL Database", "Stores user registration information, hashed auth credentials, access logs, etc.")
+        ContainerDb_Ext(backend_api, "API Application", "Java, Docker Container", "Provides Internet banking functionality via API")
+
+    }
+
+    System_Ext(banking_system, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+    Rel(customer, web_app, "Uses", "HTTPS")
+    UpdateRelStyle(customer, web_app, $offsetY="60", $offsetX="90")
+    Rel(customer, spa, "Uses", "HTTPS")
+    UpdateRelStyle(customer, spa, $offsetY="-40")
+    Rel(customer, mobile_app, "Uses")
+    UpdateRelStyle(customer, mobile_app, $offsetY="-30")
+
+    Rel(web_app, spa, "Delivers")
+    UpdateRelStyle(web_app, spa, $offsetX="130")
+    Rel(spa, backend_api, "Uses", "async, JSON/HTTPS")
+    Rel(mobile_app, backend_api, "Uses", "async, JSON/HTTPS")
+    Rel_Back(database, backend_api, "Reads from and writes to", "sync, JDBC")
+
+    Rel(email_system, customer, "Sends e-mails to")
+    UpdateRelStyle(email_system, customer, $offsetX="-45")
+    Rel(backend_api, email_system, "Sends e-mails using", "sync, SMTP")
+    UpdateRelStyle(backend_api, email_system, $offsetY="-60")
+    Rel(backend_api, banking_system, "Uses", "sync/async, XML/HTTPS")
+    UpdateRelStyle(backend_api, banking_system, $offsetY="-50", $offsetX="-140")
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    C4Container
+    title Container diagram for Internet Banking System
+
+    System_Ext(email_system, "E-Mail System", "The internal Microsoft Exchange system", $tags="v1.0")
+    Person(customer, Customer, "A customer of the bank, with personal bank accounts", $tags="v1.0")
+
+    Container_Boundary(c1, "Internet Banking") {
+        Container(spa, "Single-Page App", "JavaScript, Angular", "Provides all the Internet banking functionality to cutomers via their web browser")
+        Container_Ext(mobile_app, "Mobile App", "C#, Xamarin", "Provides a limited subset of the Internet banking functionality to customers via their mobile device")
+        Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")
+        ContainerDb(database, "Database", "SQL Database", "Stores user registration information, hashed auth credentials, access logs, etc.")
+        ContainerDb_Ext(backend_api, "API Application", "Java, Docker Container", "Provides Internet banking functionality via API")
+
+    }
+
+    System_Ext(banking_system, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+    Rel(customer, web_app, "Uses", "HTTPS")
+    UpdateRelStyle(customer, web_app, $offsetY="60", $offsetX="90")
+    Rel(customer, spa, "Uses", "HTTPS")
+    UpdateRelStyle(customer, spa, $offsetY="-40")
+    Rel(customer, mobile_app, "Uses")
+    UpdateRelStyle(customer, mobile_app, $offsetY="-30")
+
+    Rel(web_app, spa, "Delivers")
+    UpdateRelStyle(web_app, spa, $offsetX="130")
+    Rel(spa, backend_api, "Uses", "async, JSON/HTTPS")
+    Rel(mobile_app, backend_api, "Uses", "async, JSON/HTTPS")
+    Rel_Back(database, backend_api, "Reads from and writes to", "sync, JDBC")
+
+    Rel(email_system, customer, "Sends e-mails to")
+    UpdateRelStyle(email_system, customer, $offsetX="-45")
+    Rel(backend_api, email_system, "Sends e-mails using", "sync, SMTP")
+    UpdateRelStyle(backend_api, email_system, $offsetY="-60")
+    Rel(backend_api, banking_system, "Uses", "sync/async, XML/HTTPS")
+    UpdateRelStyle(backend_api, banking_system, $offsetY="-50", $offsetX="-140")
+</div>
+
+<h3 id="7-state-diagrams">7. State diagrams</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    ---
+    title: Simple sample
+    ---
+    stateDiagram-v2
+        [*] --&gt; Still
+        Still --&gt; [*]
+
+        Still --&gt; Moving
+        Moving --&gt; Still
+        Moving --&gt; Crash
+        Crash --&gt; [*]
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    ---
+    title: Simple sample
+    ---
+    stateDiagram-v2
+        [*] --&gt; Still
+        Still --&gt; [*]
+
+        Still --&gt; Moving
+        Moving --&gt; Still
+        Moving --&gt; Crash
+        Crash --&gt; [*]
+</div>
+
+<h3 id="8-class-diagrams">8. Class diagrams</h3>
+
+<p>Code:</p>
+<pre><code class="language-html">&lt;div class="mermaid"&gt;
+    ---
+    title: Animal example
+    ---
+    classDiagram
+        note "From Duck till Zebra"
+        Animal &lt;|-- Duck
+        note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
+        Animal &lt;|-- Fish
+        Animal &lt;|-- Zebra
+        Animal : +int age
+        Animal : +String gender
+        Animal: +isMammal()
+        Animal: +mate()
+        class Duck{
+            +String beakColor
+            +swim()
+            +quack()
+        }
+        class Fish{
+            -int sizeInFeet
+            -canEat()
+        }
+        class Zebra{
+            +bool is_wild
+            +run()
+        }
+&lt;/div&gt;
+</code></pre>
+
+<div class="mermaid">
+    ---
+    title: Animal example
+    ---
+    classDiagram
+        note "From Duck till Zebra"
+        Animal &lt;|-- Duck
+        note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
+        Animal &lt;|-- Fish
+        Animal &lt;|-- Zebra
+        Animal : +int age
+        Animal : +String gender
+        Animal: +isMammal()
+        Animal: +mate()
+        class Duck{
+            +String beakColor
+            +swim()
+            +quack()
+        }
+        class Fish{
+            -int sizeInFeet
+            -canEat()
+        }
+        class Zebra{
+            +bool is_wild
+            +run()
+        }
+</div>
+<p>Find more in <a href="https://mermaid.js.org/config/Tutorials.html">this</a></p>]]></content><author><name></name></author><category term="js" /><category term="jekyll" /><category term="mermadjs" /><summary type="html"><![CDATA[1. Import Template]]></summary></entry><entry><title type="html">Microservice Interview Questions</title><link href="/microservice-interview-questions" rel="alternate" type="text/html" title="Microservice Interview Questions" /><published>2024-01-06T00:00:00+07:00</published><updated>2024-01-06T00:00:00+07:00</updated><id>/microservices-interview-questions</id><content type="html" xml:base="/microservice-interview-questions"><![CDATA[<h1 id="interview-questions"><strong>Interview Questions</strong></h1>
 <ol>
   <li>What are microservices?</li>
   <li>What issues do microservices aim to solve?</li>
@@ -2012,79 +2424,80 @@ func main() {
 }
 </code></pre>
 
-<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-cap</id><content type="html" xml:base="/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
+<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-acid</id><content type="html" xml:base="/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
 
 <ol>
+  <li><strong>Atomicity (A):</strong>
+    <ul>
+      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
+      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
+    </ul>
+  </li>
   <li><strong>Consistency (C):</strong>
     <ul>
-      <li>Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.</li>
-      <li>Strong consistency ensures that every read operation will return the most recent write’s result.</li>
-      <li>Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.</li>
+      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
+      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
     </ul>
   </li>
-  <li><strong>Availability (A):</strong>
+  <li><strong>Isolation (I):</strong>
     <ul>
-      <li>Availability refers to the system’s ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.</li>
-      <li>High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.</li>
-      <li>Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.</li>
+      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
+      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
     </ul>
   </li>
-  <li><strong>Partition Tolerance (P):</strong>
+  <li><strong>Durability (D):</strong>
     <ul>
-      <li>Partition tolerance deals with the ability of a distributed system to continue functioning correctly, even when network partitions (communication failures) occur between nodes in the system.</li>
-      <li>Network partitions can lead to scenarios where some nodes in the system cannot communicate with others, causing data inconsistencies and challenges in achieving both consistency and availability.</li>
-      <li>Achieving partition tolerance is essential for robust distributed systems, especially in cloud-based and wide-area network environments.</li>
+      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
+      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
     </ul>
   </li>
 </ol>
 
-<p>Now, the CAP theorem states that you can’t have all three of these properties simultaneously in a distributed system. You have to make trade-offs:</p>
+<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
+
+<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
+
+<p><strong>Advantages of ACID:</strong></p>
 
 <ol>
   <li>
-    <p><strong>CA:</strong> You can prioritize both Consistency and Availability but may need to sacrifice Partition Tolerance. In this case, the system ensures strong consistency and high availability but may not be able to function correctly in the presence of network partitions.</p>
+    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
   </li>
   <li>
-    <p><strong>CP:</strong> You can prioritize both Consistency and Partition Tolerance but may need to sacrifice Availability. In this case, the system ensures strong consistency and can tolerate network partitions, but it might experience downtime or reduced availability during network disruptions.</p>
+    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
   </li>
   <li>
-    <p><strong>AP:</strong> You can prioritize both Availability and Partition Tolerance but may need to sacrifice Strong Consistency. In this case, the system ensures high availability and can tolerate network partitions, but it might provide eventually consistent data.</p>
+    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
+  </li>
+  <li>
+    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
+  </li>
+  <li>
+    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
   </li>
 </ol>
 
-<p>It’s important to note that the CAP theorem is a theoretical framework that helps in understanding the trade-offs in distributed systems design. In practice, various databases and distributed systems may offer different configurations and trade-offs to meet specific use cases and requirements. Your choice of system depends on your application’s needs and the specific balance you wish to strike between consistency, availability, and partition tolerance.</p>
-
-<p>Let’s delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:</p>
+<p><strong>Disadvantages of ACID:</strong></p>
 
 <ol>
-  <li><strong>Firestore (part of Google Cloud Firestore):</strong>
-    <ul>
-      <li><strong>Consistency and Partition Tolerance:</strong> Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).</li>
-      <li><strong>Example:</strong> Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.</li>
-    </ul>
+  <li>
+    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
   </li>
-  <li><strong>DynamoDB (Amazon DynamoDB):</strong>
-    <ul>
-      <li><strong>Availability and Partition Tolerance:</strong> DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.</li>
-      <li><strong>Example:</strong> Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.</li>
-    </ul>
+  <li>
+    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
   </li>
-  <li><strong>MongoDB (MongoDB Atlas - managed MongoDB service):</strong>
-    <ul>
-      <li><strong>Consistency and Partition Tolerance or Availability and Partition Tolerance:</strong> MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.</li>
-      <li><strong>Example for Consistency and Partition Tolerance:</strong> In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.</li>
-      <li><strong>Example for Availability and Partition Tolerance:</strong> In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.</li>
-    </ul>
+  <li>
+    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
   </li>
-  <li><strong>Redis (in-memory data store):</strong>
-    <ul>
-      <li><strong>Availability and Partition Tolerance:</strong> Redis primarily focuses on high availability and partition tolerance while sacrificing strong consistency. It excels at providing low-latency, high-throughput access to data.</li>
-      <li><strong>Example:</strong> In a caching layer for a web application, Redis can be used to store frequently accessed data. During network disruptions or high traffic, Redis continues to serve cached data, ensuring availability. However, it may not guarantee strong consistency if updates are made to the data source.</li>
-    </ul>
+  <li>
+    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
+  </li>
+  <li>
+    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
   </li>
 </ol>
 
-<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry><entry><title type="html">Why Go</title><link href="/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/why-golang</id><content type="html" xml:base="/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
+<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">Why Go</title><link href="/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/why-golang</id><content type="html" xml:base="/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
 
 <p>A “Cloud Native” application is a software application that is designed and built from the ground up to fully leverage the capabilities of cloud computing platforms. Unlike traditional monolithic applications, cloud-native applications are tailored to take advantage of cloud resources, scalability, and flexibility. They are developed with a specific set of principles and practices that align with the dynamic nature of cloud environments. Here are the key characteristics that define a cloud-native application:</p>
 
@@ -2504,464 +2917,76 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
   <li><strong>Container Compatibility:</strong> Go’s compatibility with containers and orchestration platforms allows applications to be seamlessly packaged and deployed in dynamic cloud environments.</li>
 </ul>
 
-<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-acid</id><content type="html" xml:base="/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-cap</id><content type="html" xml:base="/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
 
 <ol>
-  <li><strong>Atomicity (A):</strong>
-    <ul>
-      <li>Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.</li>
-      <li>Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user’s balance remains unchanged.</li>
-    </ul>
-  </li>
   <li><strong>Consistency (C):</strong>
     <ul>
-      <li>Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.</li>
-      <li>Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.</li>
+      <li>Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.</li>
+      <li>Strong consistency ensures that every read operation will return the most recent write’s result.</li>
+      <li>Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.</li>
     </ul>
   </li>
-  <li><strong>Isolation (I):</strong>
+  <li><strong>Availability (A):</strong>
     <ul>
-      <li>Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.</li>
-      <li>Example: In a multi-user system, two users simultaneously updating the same record should not result in one user’s changes overwriting the other’s. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.</li>
+      <li>Availability refers to the system’s ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.</li>
+      <li>High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.</li>
+      <li>Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.</li>
     </ul>
   </li>
-  <li><strong>Durability (D):</strong>
+  <li><strong>Partition Tolerance (P):</strong>
     <ul>
-      <li>Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.</li>
-      <li>Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.</li>
+      <li>Partition tolerance deals with the ability of a distributed system to continue functioning correctly, even when network partitions (communication failures) occur between nodes in the system.</li>
+      <li>Network partitions can lead to scenarios where some nodes in the system cannot communicate with others, causing data inconsistencies and challenges in achieving both consistency and availability.</li>
+      <li>Achieving partition tolerance is essential for robust distributed systems, especially in cloud-based and wide-area network environments.</li>
     </ul>
   </li>
 </ol>
 
-<p>These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it’s important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as “BASE” (Basically Available, Soft state, Eventually consistent).</p>
-
-<p>ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:</p>
-
-<p><strong>Advantages of ACID:</strong></p>
+<p>Now, the CAP theorem states that you can’t have all three of these properties simultaneously in a distributed system. You have to make trade-offs:</p>
 
 <ol>
   <li>
-    <p><strong>Data Integrity:</strong> ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.</p>
+    <p><strong>CA:</strong> You can prioritize both Consistency and Availability but may need to sacrifice Partition Tolerance. In this case, the system ensures strong consistency and high availability but may not be able to function correctly in the presence of network partitions.</p>
   </li>
   <li>
-    <p><strong>Consistency:</strong> ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.</p>
+    <p><strong>CP:</strong> You can prioritize both Consistency and Partition Tolerance but may need to sacrifice Availability. In this case, the system ensures strong consistency and can tolerate network partitions, but it might experience downtime or reduced availability during network disruptions.</p>
   </li>
   <li>
-    <p><strong>Isolation:</strong> ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.</p>
-  </li>
-  <li>
-    <p><strong>Durability:</strong> ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.</p>
-  </li>
-  <li>
-    <p><strong>Predictability:</strong> Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application’s logic.</p>
+    <p><strong>AP:</strong> You can prioritize both Availability and Partition Tolerance but may need to sacrifice Strong Consistency. In this case, the system ensures high availability and can tolerate network partitions, but it might provide eventually consistent data.</p>
   </li>
 </ol>
 
-<p><strong>Disadvantages of ACID:</strong></p>
+<p>It’s important to note that the CAP theorem is a theoretical framework that helps in understanding the trade-offs in distributed systems design. In practice, various databases and distributed systems may offer different configurations and trade-offs to meet specific use cases and requirements. Your choice of system depends on your application’s needs and the specific balance you wish to strike between consistency, availability, and partition tolerance.</p>
+
+<p>Let’s delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:</p>
 
 <ol>
-  <li>
-    <p><strong>Performance Overhead:</strong> ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.</p>
+  <li><strong>Firestore (part of Google Cloud Firestore):</strong>
+    <ul>
+      <li><strong>Consistency and Partition Tolerance:</strong> Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).</li>
+      <li><strong>Example:</strong> Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.</li>
+    </ul>
   </li>
-  <li>
-    <p><strong>Complexity:</strong> Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.</p>
+  <li><strong>DynamoDB (Amazon DynamoDB):</strong>
+    <ul>
+      <li><strong>Availability and Partition Tolerance:</strong> DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.</li>
+      <li><strong>Example:</strong> Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.</li>
+    </ul>
   </li>
-  <li>
-    <p><strong>Scalability Challenges:</strong> ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.</p>
+  <li><strong>MongoDB (MongoDB Atlas - managed MongoDB service):</strong>
+    <ul>
+      <li><strong>Consistency and Partition Tolerance or Availability and Partition Tolerance:</strong> MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.</li>
+      <li><strong>Example for Consistency and Partition Tolerance:</strong> In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.</li>
+      <li><strong>Example for Availability and Partition Tolerance:</strong> In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.</li>
+    </ul>
   </li>
-  <li>
-    <p><strong>Inflexibility:</strong> ACID’s strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.</p>
-  </li>
-  <li>
-    <p><strong>Resource Utilization:</strong> ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.</p>
+  <li><strong>Redis (in-memory data store):</strong>
+    <ul>
+      <li><strong>Availability and Partition Tolerance:</strong> Redis primarily focuses on high availability and partition tolerance while sacrificing strong consistency. It excels at providing low-latency, high-throughput access to data.</li>
+      <li><strong>Example:</strong> In a caching layer for a web application, Redis can be used to store frequently accessed data. During network disruptions or high traffic, Redis continues to serve cached data, ensuring availability. However, it may not guarantee strong consistency if updates are made to the data source.</li>
+    </ul>
   </li>
 </ol>
 
-<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">Leetcode Most Asked Questions</title><link href="/leetcode-most-asked-questions" rel="alternate" type="text/html" title="Leetcode Most Asked Questions" /><published>2023-09-15T00:00:00+07:00</published><updated>2023-09-15T00:00:00+07:00</updated><id>/leetcode-most-asked-questions</id><content type="html" xml:base="/leetcode-most-asked-questions"><![CDATA[<h1 id="random">Random</h1>
-<div class="container">
-    <div class="select-box">
-        <label for="tags">Tag</label>
-        <select id="tags"></select>
-    </div>
-    <div class="select-box">
-        <label for="difficulties">Difficulty</label>
-        <select id="difficulties"></select>
-    </div>
-    <button onclick="changeRandomBar()">🎲</button>
-    <button onclick="resetRandomBar()">❌</button>
-</div>
-
-<div id="random-result"></div>
-
-<script type="application/json" id="leetfeed">[
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            {
-                "content": "# Random{% include random-leetcode-bar.html %}# List Order By Frequency## **Array**### Easy- [Two Sum](https://leetcode.com/problems/two-sum/)- [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)- [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)- [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/description/)- [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)- [Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/description/)- [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/)- [Move Zeroes](https://leetcode.com/problems/move-zeroes/description/)- [Check If It Is a Straight Line](https://leetcode.com/problems/check-if-it-is-a-straight-line/description/)- [Binary Search](https://leetcode.com/problems/binary-search/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Richest Customer Wealth](https://leetcode.com/problems/richest-customer-wealth/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Flood Fill](https://leetcode.com/problems/flood-fill/description/)### Medium- [Predict the Winner](https://leetcode.com/problems/predict-the-winner/description/)- [Spiral Matrix](https://leetcode.com/problems/spiral-matrix/description/)- [3Sum](https://leetcode.com/problems/3sum/description/)- [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)- [Number of Islands](https://leetcode.com/problems/number-of-islands/description/)- [Next Permutation](https://leetcode.com/problems/next-permutation/description/)- [Container With Most Water](https://leetcode.com/problems/container-with-most-water/description/)- [Maximum Subarray](https://leetcode.com/problems/maximum-subarray/description/)- [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/description/)- [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)- [Rotate Image](https://leetcode.com/problems/rotate-image/description/)- [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/)- [Shortest Bridge](https://leetcode.com/problems/shortest-bridge/description/)- [Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/)- [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)- [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)### Hard- [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/)- [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)- [Minimum Number of Taps to Open to Water a Garden](https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/)- [Frog Jump](https://leetcode.com/problems/frog-jump/description/)- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)## **Sorting**### Easy- [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)- [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Can Make Arithmetic Progression From Sequence](https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/description/)- [Average Salary Excluding the Minimum and Maximum Salary](https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary/description/)- [Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/description/)- [Sort Array by Increasing Frequency](https://leetcode.com/problems/sort-array-by-increasing-frequency/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [The K Weakest Rows in a Matrix](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/)- [Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap/description/)- [Maximum Product of Three Numbers](https://leetcode.com/problems/maximum-product-of-three-numbers/description/)- [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/description/)- [Minimum Absolute Difference](https://leetcode.com/problems/minimum-absolute-difference/description/)### Medium- [3Sum](https://leetcode.com/problems/3sum/description/)- [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Reorganize String](https://leetcode.com/problems/reorganize-string/description/)- [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)- [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)- [Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/)- [4Sum](https://leetcode.com/problems/4sum/description/)- [Meeting Rooms II ~ Premium](https://leetcode.com/problems/meeting-rooms-ii/description/)- [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/)- [Largest Number](https://leetcode.com/problems/largest-number/description/)- [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/)- [Maximum Length of Pair Chain](https://leetcode.com/problems/maximum-length-of-pair-chain/description/)- [Design a Todo List ~ Premium](https://leetcode.com/problems/design-a-todo-list/description/)- [Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes/description/)### Hard- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)- [Maximum Number of Events That Can Be Attended II](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/)- [Put Marbles in Bags](https://leetcode.com/problems/put-marbles-in-bags/description/)- [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)## **Binary Search**### Easy- [Binary Search](https://leetcode.com/problems/binary-search/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)- [First Bad Version](https://leetcode.com/problems/first-bad-version/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [Search Insert Position](https://leetcode.com/problems/search-insert-position/description/)- [Count Negative Numbers in a Sorted Matrix](https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/description/)- [The K Weakest Rows in a Matrix](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/)- [Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap/description/)- [Kth Missing Positive Number](https://leetcode.com/problems/kth-missing-positive-number/description/)- [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/description/)- [Find Smallest Letter Greater Than Target](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)- [Arranging Coins](https://leetcode.com/problems/arranging-coins/description/)- [Special Array With X Elements Greater Than or Equal X](https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/description/)### Medium- [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/description/)- [Maximum Value at a Given Index in a Bounded Array](https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/description/)- [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)- [Longest Arithmetic Subsequence](https://leetcode.com/problems/longest-arithmetic-subsequence/description/)- [Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/description/)- [Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/description/)- [Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)- [Maximize the Confusion of an Exam](https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/)- [Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/)- [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)- [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/)- [Design Hit Counter ~ Premium](https://leetcode.com/problems/design-hit-counter/description/)- [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/description/)- [Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)  ### Hard- [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)- [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)- [Maximum Running Time of N Computers](https://leetcode.com/problems/maximum-running-time-of-n-computers/description/)- [Maximum Number of Events That Can Be Attended II](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/)- [Partition Array Into Two Arrays to Minimize Sum Difference](https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/)- [Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/)## **Hash Table**### Easy- [Two Sum](https://leetcode.com/problems/two-sum/description/)- [Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/)- [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)- [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)- [Majority Element](https://leetcode.com/problems/majority-element/description/)- [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)- [Happy Number](https://leetcode.com/problems/happy-number/description/)- [Logger Rate Limiter ~ Premium](https://leetcode.com/problems/logger-rate-limiter/description/)- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)- [Degree of an Array](https://leetcode.com/problems/degree-of-an-array/description/)- [Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/description/)- [Check Whether Two Strings are Almost Equivalent](https://leetcode.com/problems/check-whether-two-strings-are-almost-equivalent/description/)- [Sort Array by Increasing Frequency](https://leetcode.com/problems/sort-array-by-increasing-frequency/description/)- [Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/description/)- [Missing Number](https://leetcode.com/problems/missing-number/description/)- [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/description/)- [First Unique Character in a String](https://leetcode.com/problems/first-unique-character-in-a-string/description/)- [Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/)- [Buddy Strings](https://leetcode.com/problems/buddy-strings/description/)### Medium- [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)- [LRU Cache](https://leetcode.com/problems/lru-cache/description/)- [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)- [Line Reflection ~ Premium](https://leetcode.com/problems/line-reflection/description/)- [Reorganize String](https://leetcode.com/problems/reorganize-string/description/)- [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)- [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/)- [Longest Arithmetic Subsequence](https://leetcode.com/problems/longest-arithmetic-subsequence/description/)- [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/description/)- [Longest Arithmetic Subsequence of Given Difference](https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/description/)- [Set Matrix Zeroes](https://leetcode.com/problems/set-matrix-zeroes/description/)- [Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/)- [Design Authentication Manager](https://leetcode.com/problems/design-authentication-manager/description/)### Hard- [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)- [Bus Routes](https://leetcode.com/problems/bus-routes/description/)- [First Missing Positive](https://leetcode.com/problems/first-missing-positive/description/)- [All O`one Data Structure](https://leetcode.com/problems/all-oone-data-structure/description/)- [Largest Color Value in a Directed Graph](https://leetcode.com/problems/largest-color-value-in-a-directed-graph/description/)- [Sudoku Solver](https://leetcode.com/problems/sudoku-solver/description/)"
-            }
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-]</script>
-
-<script>
-    let leet_feed_data = JSON.parse(document.getElementById('leetfeed').textContent);
-    let toJson = function (txt) {
-        let data = {}
-        const tags = txt.split('## **').slice(1);
-        for (let _tag of tags) {
-            let cut_size = _tag.indexOf("**") + 2;
-            let tag_name = _tag.substring(0, cut_size - 2).toLowerCase();
-
-            let tag = _tag.slice(cut_size);
-            let difs = tag.split("### ").splice(1);
-            data[tag_name] = {}
-            for (let _diff of difs) {
-                let probs = _diff.split("- ");
-                let diff_name = probs[0].toLowerCase();
-
-                probs = probs.slice(1, probs.length);
-                data[tag_name][diff_name] = []
-                for (let prob of probs) {
-                    let inputString = prob;
-                    // Using regular expressions to extract the text within square brackets and parentheses
-                    let matches = inputString.match(/\[(.*?)\]\((.*?)\)/);
-
-                    if (matches) {
-                        let title = matches[1]; // Extracted text within square brackets
-                        let url = matches[2];   // Extracted text within parentheses
-                        data[tag_name][diff_name].push({
-                            "title": title,
-                            "url": url
-                        });
-                    } else {
-                        console.error("String format not as expected.");
-                    }
-                }
-            }
-        }
-        return data;
-    }
-    let emojis = ['🧠', '🤯', '🚀', '🚨', '👻', '😆', '😩', '👮', '🎃', '😶', '😤', '🤔', '🧑‍🏭', '🤓', '🤙', '🦸🏻‍♀️', '😈', '🐼', '👾'];
-    let random_data = toJson(leet_feed_data[0].content);
-    let capitalizeFirstLetter = function (s) {
-        return s.replace(/\b\w/g, match => match.toUpperCase());
-    }
-    let set_tags_option = function () {
-        let select = document.getElementById("tags");
-        for (let key in random_data) {
-            let newOption = document.createElement("option");
-            newOption.value = key;
-            newOption.text = capitalizeFirstLetter(key);
-            select.appendChild(newOption);
-        }
-    }
-    let set_difficulty_option = function () {
-        let select = document.getElementById("difficulties");
-        for (let key of ['easy', 'medium', 'hard']) {
-            let newOption = document.createElement("option");
-            newOption.value = key;
-            newOption.text = capitalizeFirstLetter(key);
-            select.appendChild(newOption);
-        }
-    }
-    set_tags_option();
-    set_difficulty_option();
-    let changeRandomBar = function () {
-        let tag = document.getElementById("tags").value;
-        let difficulty = document.getElementById("difficulties").value
-        let random_index = Math.floor(Math.random() * random_data[tag][difficulty].length);
-        let item = random_data[tag][difficulty][random_index];
-
-        let result_bar = document.getElementById('random-result');
-        result_bar.innerHTML = "";
-        let q = document.createElement('a');
-        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-        q.href = item.url;
-        q.textContent = randomEmoji + ' ' + item.title;
-        result_bar.appendChild(q);
-    }
-    let resetRandomBar = function () {
-        let result_bar = document.getElementById('random-result');
-        result_bar.innerHTML = "";
-    }
-</script>
-
-<style>
-    .container {
-        display: flex;
-        align-items: center;
-    }
-
-    .select-box {
-        margin-right: 20px;
-    }
-
-    label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    select {
-        width: 100%;
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        font-size: 17px;
-    }
-
-    #random-result {
-        margin-top: 10px;
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    button {
-        padding: 0px 15px;
-        font-size: 40px;
-        text-align: center;
-        cursor: pointer;
-        outline: none;
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 9px #999;
-        margin-bottom: 10px;
-        margin-right: 10px;
-    }
-
-    button:hover {
-        transform: translateY(-2px);
-    }
-
-    button:active {
-        box-shadow: 0 5px #545353;
-        transform: translateY(5px);
-    }
-</style>
-
-<h1 id="list-order-by-frequency">List Order By Frequency</h1>
-
-<h2 id="array"><strong>Array</strong></h2>
-
-<h3 id="easy">Easy</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/two-sum/">Two Sum</a></li>
-  <li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/">Best Time to Buy and Sell Stock</a></li>
-  <li><a href="https://leetcode.com/problems/unique-number-of-occurrences/description/">Unique Number of Occurrences</a></li>
-  <li><a href="https://leetcode.com/problems/merge-sorted-array/description/">Merge Sorted Array</a></li>
-  <li><a href="https://leetcode.com/problems/contains-duplicate/description/">Contains Duplicate</a></li>
-  <li><a href="https://leetcode.com/problems/pascals-triangle/description/">Pascal’s Triangle</a></li>
-  <li><a href="https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/">Sort Integers by The Number of 1 Bits</a></li>
-  <li><a href="https://leetcode.com/problems/running-sum-of-1d-array/description/">Running Sum of 1d Array</a></li>
-  <li><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/">Remove Duplicates from Sorted Array</a></li>
-  <li><a href="https://leetcode.com/problems/move-zeroes/description/">Move Zeroes</a></li>
-  <li><a href="https://leetcode.com/problems/check-if-it-is-a-straight-line/description/">Check If It Is a Straight Line</a></li>
-  <li><a href="https://leetcode.com/problems/binary-search/description/">Binary Search</a></li>
-  <li><a href="https://leetcode.com/problems/majority-element/description/">Majority Element</a></li>
-  <li><a href="https://leetcode.com/problems/richest-customer-wealth/description/">Richest Customer Wealth</a></li>
-  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/description/">Intersection of Two Arrays</a></li>
-  <li><a href="https://leetcode.com/problems/flood-fill/description/">Flood Fill</a></li>
-</ul>
-
-<h3 id="medium">Medium</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/predict-the-winner/description/">Predict the Winner</a></li>
-  <li><a href="https://leetcode.com/problems/spiral-matrix/description/">Spiral Matrix</a></li>
-  <li><a href="https://leetcode.com/problems/3sum/description/">3Sum</a></li>
-  <li><a href="https://leetcode.com/problems/merge-intervals/description/">Merge Intervals</a></li>
-  <li><a href="https://leetcode.com/problems/number-of-islands/description/">Number of Islands</a></li>
-  <li><a href="https://leetcode.com/problems/next-permutation/description/">Next Permutation</a></li>
-  <li><a href="https://leetcode.com/problems/container-with-most-water/description/">Container With Most Water</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-subarray/description/">Maximum Subarray</a></li>
-  <li><a href="https://leetcode.com/problems/minimize-maximum-of-array/description/">Minimize Maximum of Array</a></li>
-  <li><a href="https://leetcode.com/problems/group-anagrams/description/">Group Anagrams</a></li>
-  <li><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Subarray Sum Equals K</a></li>
-  <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/description/">Kth Largest Element in an Array</a></li>
-  <li><a href="https://leetcode.com/problems/rotate-image/description/">Rotate Image</a></li>
-  <li><a href="https://leetcode.com/problems/longest-consecutive-sequence/description/">Longest Consecutive Sequence</a></li>
-  <li><a href="https://leetcode.com/problems/shortest-bridge/description/">Shortest Bridge</a></li>
-  <li><a href="https://leetcode.com/problems/fair-distribution-of-cookies/description/">Fair Distribution of Cookies</a></li>
-  <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/description/">Search in Rotated Sorted Array</a></li>
-  <li><a href="https://leetcode.com/problems/boats-to-save-people/description/">Boats to Save People</a></li>
-</ul>
-
-<h3 id="hard">Hard</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/trapping-rain-water/description/">Trapping Rain Water</a></li>
-  <li><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/">Median of Two Sorted Arrays</a></li>
-  <li><a href="https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/">Minimum Number of Taps to Open to Water a Garden</a></li>
-  <li><a href="https://leetcode.com/problems/frog-jump/description/">Frog Jump</a></li>
-  <li><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/">Minimum Cost to Make Array Equal</a></li>
-</ul>
-
-<h2 id="sorting"><strong>Sorting</strong></h2>
-<h3 id="easy-1">Easy</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/merge-sorted-array/description/">Merge Sorted Array</a></li>
-  <li><a href="https://leetcode.com/problems/contains-duplicate/description/">Contains Duplicate</a></li>
-  <li><a href="https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/">Sort Integers by The Number of 1 Bits</a></li>
-  <li><a href="https://leetcode.com/problems/valid-anagram/description/">Valid Anagram</a></li>
-  <li><a href="https://leetcode.com/problems/majority-element/description/">Majority Element</a></li>
-  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/description/">Intersection of Two Arrays</a></li>
-  <li><a href="https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/description/">Can Make Arithmetic Progression From Sequence</a></li>
-  <li><a href="https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary/description/">Average Salary Excluding the Minimum and Maximum Salary</a></li>
-  <li><a href="https://leetcode.com/problems/squares-of-a-sorted-array/description/">Squares of a Sorted Array</a></li>
-  <li><a href="https://leetcode.com/problems/sort-array-by-increasing-frequency/description/">Sort Array by Increasing Frequency</a></li>
-  <li><a href="https://leetcode.com/problems/missing-number/description/">Missing Number</a></li>
-  <li><a href="https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/">The K Weakest Rows in a Matrix</a></li>
-  <li><a href="https://leetcode.com/problems/fair-candy-swap/description/">Fair Candy Swap</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-product-of-three-numbers/description/">Maximum Product of Three Numbers</a></li>
-  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays-ii/description/">Intersection of Two Arrays II</a></li>
-  <li><a href="https://leetcode.com/problems/minimum-absolute-difference/description/">Minimum Absolute Difference</a></li>
-</ul>
-
-<h3 id="medium-1">Medium</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/3sum/description/">3Sum</a></li>
-  <li><a href="https://leetcode.com/problems/merge-intervals/description/">Merge Intervals</a></li>
-  <li><a href="https://leetcode.com/problems/group-anagrams/description/">Group Anagrams</a></li>
-  <li><a href="https://leetcode.com/problems/reorganize-string/description/">Reorganize String</a></li>
-  <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/description/">Kth Largest Element in an Array</a></li>
-  <li><a href="https://leetcode.com/problems/boats-to-save-people/description/">Boats to Save People</a></li>
-  <li><a href="https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/">Least Number of Unique Integers after K Removals</a></li>
-  <li><a href="https://leetcode.com/problems/4sum/description/">4Sum</a></li>
-  <li><a href="https://leetcode.com/problems/meeting-rooms-ii/description/">Meeting Rooms II ~ Premium</a></li>
-  <li><a href="https://leetcode.com/problems/top-k-frequent-elements/description/">Top K Frequent Elements</a></li>
-  <li><a href="https://leetcode.com/problems/largest-number/description/">Largest Number</a></li>
-  <li><a href="https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/">Number of Subsequences That Satisfy the Given Sum Condition</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-length-of-pair-chain/description/">Maximum Length of Pair Chain</a></li>
-  <li><a href="https://leetcode.com/problems/design-a-todo-list/description/">Design a Todo List ~ Premium</a></li>
-  <li><a href="https://leetcode.com/problems/rank-teams-by-votes/description/">Rank Teams by Votes</a></li>
-</ul>
-
-<h3 id="hard-1">Hard</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/">Minimum Cost to Make Array Equal</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/">Maximum Number of Events That Can Be Attended II</a></li>
-  <li><a href="https://leetcode.com/problems/put-marbles-in-bags/description/">Put Marbles in Bags</a></li>
-  <li><a href="https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/">Smallest Range Covering Elements from K Lists</a></li>
-</ul>
-
-<h2 id="binary-search"><strong>Binary Search</strong></h2>
-<h3 id="easy-2">Easy</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/binary-search/description/">Binary Search</a></li>
-  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/description/">Intersection of Two Arrays</a></li>
-  <li><a href="https://leetcode.com/problems/sqrtx/description/">Sqrt(x)</a></li>
-  <li><a href="https://leetcode.com/problems/first-bad-version/description/">First Bad Version</a></li>
-  <li><a href="https://leetcode.com/problems/missing-number/description/">Missing Number</a></li>
-  <li><a href="https://leetcode.com/problems/search-insert-position/description/">Search Insert Position</a></li>
-  <li><a href="https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/description/">Count Negative Numbers in a Sorted Matrix</a></li>
-  <li><a href="https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/">The K Weakest Rows in a Matrix</a></li>
-  <li><a href="https://leetcode.com/problems/fair-candy-swap/description/">Fair Candy Swap</a></li>
-  <li><a href="https://leetcode.com/problems/kth-missing-positive-number/description/">Kth Missing Positive Number</a></li>
-  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays-ii/description/">Intersection of Two Arrays II</a></li>
-  <li><a href="https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/">Find Smallest Letter Greater Than Target</a></li>
-  <li><a href="https://leetcode.com/problems/arranging-coins/description/">Arranging Coins</a></li>
-  <li><a href="https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/description/">Special Array With X Elements Greater Than or Equal X</a></li>
-</ul>
-
-<h3 id="medium-2">Medium</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/minimize-maximum-of-array/description/">Minimize Maximum of Array</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/description/">Maximum Value at a Given Index in a Bounded Array</a></li>
-  <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/description/">Search in Rotated Sorted Array</a></li>
-  <li><a href="https://leetcode.com/problems/longest-arithmetic-subsequence/description/">Longest Arithmetic Subsequence</a></li>
-  <li><a href="https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/description/">Minimize the Maximum Difference of Pairs</a></li>
-  <li><a href="https://leetcode.com/problems/longest-increasing-subsequence/description/">Longest Increasing Subsequence</a></li>
-  <li><a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/description/">Peak Index in a Mountain Array</a></li>
-  <li><a href="https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/">Maximize the Confusion of an Exam</a></li>
-  <li><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/">Capacity To Ship Packages Within D Days</a></li>
-  <li><a href="https://leetcode.com/problems/koko-eating-bananas/description/">Koko Eating Bananas</a></li>
-  <li><a href="https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/">Number of Subsequences That Satisfy the Given Sum Condition</a></li>
-  <li><a href="https://leetcode.com/problems/design-hit-counter/description/">Design Hit Counter ~ Premium</a></li>
-  <li><a href="https://leetcode.com/problems/find-the-duplicate-number/description/">Find the Duplicate Number</a></li>
-  <li><a href="https://leetcode.com/problems/single-element-in-a-sorted-array/description/">Single Element in a Sorted Array</a></li>
-</ul>
-
-<h3 id="hard-2">Hard</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/">Median of Two Sorted Arrays</a></li>
-  <li><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/">Minimum Cost to Make Array Equal</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-running-time-of-n-computers/description/">Maximum Running Time of N Computers</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/">Maximum Number of Events That Can Be Attended II</a></li>
-  <li><a href="https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/">Partition Array Into Two Arrays to Minimize Sum Difference</a></li>
-  <li><a href="https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/">Maximum Profit in Job Scheduling</a></li>
-</ul>
-
-<h2 id="hash-table"><strong>Hash Table</strong></h2>
-<h3 id="easy-3">Easy</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/two-sum/description/">Two Sum</a></li>
-  <li><a href="https://leetcode.com/problems/roman-to-integer/description/">Roman to Integer</a></li>
-  <li><a href="https://leetcode.com/problems/unique-number-of-occurrences/description/">Unique Number of Occurrences</a></li>
-  <li><a href="https://leetcode.com/problems/contains-duplicate/description/">Contains Duplicate</a></li>
-  <li><a href="https://leetcode.com/problems/majority-element/description/">Majority Element</a></li>
-  <li><a href="https://leetcode.com/problems/valid-anagram/description/">Valid Anagram</a></li>
-  <li><a href="https://leetcode.com/problems/happy-number/description/">Happy Number</a></li>
-  <li><a href="https://leetcode.com/problems/logger-rate-limiter/description/">Logger Rate Limiter ~ Premium</a></li>
-  <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/description/">Intersection of Two Arrays</a></li>
-  <li><a href="https://leetcode.com/problems/degree-of-an-array/description/">Degree of an Array</a></li>
-  <li><a href="https://leetcode.com/problems/isomorphic-strings/description/">Isomorphic Strings</a></li>
-  <li><a href="https://leetcode.com/problems/check-whether-two-strings-are-almost-equivalent/description/">Check Whether Two Strings are Almost Equivalent</a></li>
-  <li><a href="https://leetcode.com/problems/sort-array-by-increasing-frequency/description/">Sort Array by Increasing Frequency</a></li>
-  <li><a href="https://leetcode.com/problems/next-greater-element-i/description/">Next Greater Element I</a></li>
-  <li><a href="https://leetcode.com/problems/missing-number/description/">Missing Number</a></li>
-  <li><a href="https://leetcode.com/problems/linked-list-cycle/description/">Linked List Cycle</a></li>
-  <li><a href="https://leetcode.com/problems/first-unique-character-in-a-string/description/">First Unique Character in a String</a></li>
-  <li><a href="https://leetcode.com/problems/contains-duplicate-ii/description/">Contains Duplicate II</a></li>
-  <li><a href="https://leetcode.com/problems/buddy-strings/description/">Buddy Strings</a></li>
-</ul>
-
-<h3 id="medium-3">Medium</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/">Longest Substring Without Repeating Characters</a></li>
-  <li><a href="https://leetcode.com/problems/lru-cache/description/">LRU Cache</a></li>
-  <li><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/">Letter Combinations of a Phone Number</a></li>
-  <li><a href="https://leetcode.com/problems/line-reflection/description/">Line Reflection ~ Premium</a></li>
-  <li><a href="https://leetcode.com/problems/reorganize-string/description/">Reorganize String</a></li>
-  <li><a href="https://leetcode.com/problems/group-anagrams/description/">Group Anagrams</a></li>
-  <li><a href="https://leetcode.com/problems/longest-consecutive-sequence/description/">Longest Consecutive Sequence</a></li>
-  <li><a href="https://leetcode.com/problems/longest-arithmetic-subsequence/description/">Longest Arithmetic Subsequence</a></li>
-  <li><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Subarray Sum Equals K</a></li>
-  <li><a href="https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/description/">Longest Arithmetic Subsequence of Given Difference</a></li>
-  <li><a href="https://leetcode.com/problems/set-matrix-zeroes/description/">Set Matrix Zeroes</a></li>
-  <li><a href="https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/">Least Number of Unique Integers after K Removals</a></li>
-  <li><a href="https://leetcode.com/problems/design-authentication-manager/description/">Design Authentication Manager</a></li>
-</ul>
-
-<h3 id="hard-3">Hard</h3>
-<ul>
-  <li><a href="https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/">Smallest Range Covering Elements from K Lists</a></li>
-  <li><a href="https://leetcode.com/problems/bus-routes/description/">Bus Routes</a></li>
-  <li><a href="https://leetcode.com/problems/first-missing-positive/description/">First Missing Positive</a></li>
-  <li><a href="https://leetcode.com/problems/all-oone-data-structure/description/">All O`one Data Structure</a></li>
-  <li><a href="https://leetcode.com/problems/largest-color-value-in-a-directed-graph/description/">Largest Color Value in a Directed Graph</a></li>
-  <li><a href="https://leetcode.com/problems/sudoku-solver/description/">Sudoku Solver</a></li>
-</ul>]]></content><author><name></name></author><category term="leetcode" /><summary type="html"><![CDATA[Random Tag Difficulty 🎲 ❌ List Order By Frequency]]></summary></entry></feed>
+<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry></feed>
