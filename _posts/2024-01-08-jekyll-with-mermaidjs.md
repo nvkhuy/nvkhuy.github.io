@@ -12,7 +12,7 @@ Create a file named with `mermaid.html` in `_include` directory as follows:
 
 ```html
 <script type="text/javascript"
-    src="https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js">
+  src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js">
 </script>
 <script>
     $(document).ready(function() {
