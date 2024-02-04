@@ -1,4 +1,213 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-01-08T18:27:12+07:00</updated><id>/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Jekyll With MermaidJS</title><link href="/jekyll-with-mermaidjs" rel="alternate" type="text/html" title="Jekyll With MermaidJS" /><published>2024-01-08T00:00:00+07:00</published><updated>2024-01-08T00:00:00+07:00</updated><id>/jekyll-with-mermaidjs</id><content type="html" xml:base="/jekyll-with-mermaidjs"><![CDATA[<h2 id="1-import-template">1. Import Template</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://nvkhuy.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://nvkhuy.github.io/" rel="alternate" type="text/html" /><updated>2024-02-04T12:56:05+07:00</updated><id>https://nvkhuy.github.io/feed.xml</id><title type="html">nvkhuy</title><entry><title type="html">Software Engineer Interview Questions</title><link href="https://nvkhuy.github.io/software-engineer-interview-questions" rel="alternate" type="text/html" title="Software Engineer Interview Questions" /><published>2024-01-09T00:00:00+07:00</published><updated>2024-01-09T00:00:00+07:00</updated><id>https://nvkhuy.github.io/software-engineer-interview-questions</id><content type="html" xml:base="https://nvkhuy.github.io/software-engineer-interview-questions"><![CDATA[<p>Here the top questions software engineer used to be asked in the interview</p>
+
+<h2 id="1-what-is-scrum">1. What is SCRUM?</h2>
+
+<h3 id="scrum">Scrum</h3>
+
+<p><strong>Scrum</strong> is an agile framework for project management and product development that emphasizes collaboration, flexibility, and iterative progress. Originally designed for software development, it has found widespread adoption in various industries. Scrum provides a structured yet adaptable approach to delivering valuable products and managing complex tasks. The core components of Scrum include roles, events, and artifacts.</p>
+
+<h4 id="roles">Roles</h4>
+
+<ul>
+  <li><strong>Product Owner:</strong> Represents the stakeholders and is responsible for prioritizing the product backlog (a list of features, enhancements, and fixes).</li>
+  <li><strong>Scrum Master:</strong> Ensures the Scrum team follows the Scrum framework and removes any impediments or obstacles that may hinder their progress.</li>
+  <li><strong>Development Team:</strong> A self-organizing, cross-functional group responsible for delivering the product increment during each sprint.</li>
+</ul>
+
+<h4 id="events">Events</h4>
+
+<ul>
+  <li><strong>Sprint:</strong> A time-boxed iteration, usually 2-4 weeks long, where the development team works to deliver a potentially shippable product increment.</li>
+  <li><strong>Sprint Planning:</strong> At the beginning of each sprint, the team plans the work to be done during the sprint, breaking down backlog items into tasks.</li>
+  <li><strong>Daily Scrum (Standup):</strong> A short daily meeting where team members discuss progress, plan for the day, and identify any impediments.</li>
+  <li><strong>Sprint Review:</strong> At the end of the sprint, the team demonstrates the work completed and gets feedback from stakeholders.</li>
+  <li><strong>Sprint Retrospective:</strong> A reflective meeting where the team discusses what went well, what could be improved, and plans for adjustments in the next sprint.</li>
+</ul>
+
+<h4 id="artifacts">Artifacts</h4>
+
+<ul>
+  <li><strong>Product Backlog:</strong> An ordered list of all desired work on the project, maintained by the Product Owner.</li>
+  <li><strong>Sprint Backlog:</strong> The subset of the Product Backlog that the team commits to completing during a sprint.</li>
+  <li><strong>Increment:</strong> The sum of all completed product backlog items at the end of a sprint, representing a potentially shippable product.</li>
+</ul>
+
+<h4 id="flow-in-scrum">Flow in Scrum</h4>
+
+<ol>
+  <li>
+    <p><strong>Product Backlog Refinement:</strong> The Product Owner continuously refines the product backlog by adding, removing, or reprioritizing items. This is an ongoing process to ensure the backlog is ready for sprint planning.</p>
+  </li>
+  <li>
+    <p><strong>Sprint Planning:</strong> At the start of each sprint, the team and Product Owner collaborate to select items from the product backlog to include in the sprint. The team then breaks these items into tasks and creates a sprint backlog.</p>
+  </li>
+  <li>
+    <p><strong>Daily Scrum:</strong> The team meets daily to discuss progress, address any issues, and plan for the day. The Scrum Master facilitates the meeting but doesn’t control it.</p>
+  </li>
+  <li>
+    <p><strong>Sprint Execution:</strong> The development team works on the tasks in the sprint backlog, aiming to deliver a potentially shippable product increment by the end of the sprint.</p>
+  </li>
+  <li>
+    <p><strong>Sprint Review:</strong> At the end of the sprint, the team showcases the completed work to stakeholders, gathers feedback, and discusses any adjustments needed for future sprints.</p>
+  </li>
+  <li>
+    <p><strong>Sprint Retrospective:</strong> The team reflects on the sprint, identifying what went well, what could be improved, and formulating a plan for implementing those improvements in the next sprint.</p>
+  </li>
+</ol>
+
+<p>This iterative and incremental approach allows for regular inspection and adaptation, enabling the team to respond quickly to changing requirements and deliver high-value products.</p>
+
+<h2 id="2-optimistic-locking-vs-pessimistic-locking">2. Optimistic Locking vs Pessimistic Locking</h2>
+
+<p>Overview of optimistic and pessimistic locking implementations.
+There are two models for <code>locking</code> data in a database:</p>
+<ul>
+  <li><code>Optimistic</code> locking, where a record is locked only when changes are committed to the database</li>
+  <li><code>Pessimistic</code> locking, where a record is locked while it is edited
+In both data-locking models, the lock is released after the changes are committed to the database.</li>
+</ul>
+
+<h4 id="optimistic-locking">Optimistic Locking</h4>
+
+<p>The optimistic locking model, also known as optimistic concurrency control, is a concurrency control method used in relational databases. It avoids record locking during updates and allows multiple users to attempt updates on the same record without informing them about concurrent updates. Validation of record changes occurs only when the record is <code>committed</code>. If one user successfully updates the record, others attempting concurrent updates are informed of a conflict.</p>
+
+<p>Advantages of optimistic locking:</p>
+<ul>
+  <li>Avoids the overhead of locking a record for the duration of the action.</li>
+  <li>Provides fast updates when there are no simultaneous updates.</li>
+</ul>
+
+<p>Useful in scenarios where:</p>
+<ul>
+  <li>Useful when concurrent updates are expected to be infrequent or locking overhead is high.</li>
+  <li>When multiple users edit a record concurrently, after one user’s changes are committed, the other users’ changes are rejected, and conflicts must be saved and manually merged.</li>
+</ul>
+
+<h4 id="pessimistic-locking">Pessimistic Locking</h4>
+
+<p>The pessimistic locking model prevents simultaneous updates to records. When one user starts to update a record, a lock is placed on it, informing other users of an update in progress. Other users must wait until the first user finishes committing their changes and releases the record lock before making changes.</p>
+
+<p>Advantages of pessimistic locking:</p>
+<ul>
+  <li>Prevents conflicts by serializing updates.</li>
+  <li>Updates are based on the committed record changes from the previous user.</li>
+</ul>
+
+<p>Useful in scenarios where:</p>
+<ul>
+  <li>Subsequent updates can be delayed until a previous update is completed.</li>
+  <li>Updates occur in a short time interval.</li>
+</ul>
+
+<h2 id="3-git-and-git-flow">3. Git and Git Flow</h2>
+
+<h4 id="git">Git</h4>
+
+<p><strong>Definition:</strong>
+Git is a distributed version control system (DVCS) that allows multiple developers to collaborate on a project. It tracks changes in the source code over time and enables users to work on their own copies of a project while maintaining version history and facilitating collaboration.</p>
+
+<p><strong>Key Concepts:</strong></p>
+<ul>
+  <li><strong>Repository (Repo):</strong> A collection of files and version history.</li>
+  <li><strong>Commit:</strong> A snapshot of changes made to the code.</li>
+  <li><strong>Branch:</strong> A separate line of development that diverges from the main codebase.</li>
+  <li><strong>Merge:</strong> Combining changes from one branch into another.</li>
+  <li><strong>Pull Request (PR):</strong> A proposed set of changes that one user wants to merge into the main branch.</li>
+</ul>
+
+<h4 id="git-flow">Git Flow</h4>
+
+<p><strong>Definition:</strong>
+Git Flow is a branching model that defines a set of branching conventions and workflows for using Git. It provides a structured approach to managing feature development, releases, and hotfixes.</p>
+
+<p><strong>Key Concepts:</strong></p>
+<ul>
+  <li><strong>Master Branch:</strong> Represents the production-ready code.</li>
+  <li><strong>Develop Branch:</strong> Integration branch where feature branches are merged for testing.</li>
+  <li><strong>Feature Branch:</strong> Branches created for developing new features.</li>
+  <li><strong>Release Branch:</strong> Prepares for a new release, allowing bug fixes without adding new features.</li>
+  <li><strong>Hotfix Branch:</strong> Addresses critical issues in the production code.</li>
+</ul>
+
+<h4 id="trunk-based-development">Trunk-Based Development</h4>
+
+<p><strong>Definition:</strong>
+Trunk-Based Development is an approach where all developers work on a single branch (usually the main or trunk branch). Feature branches are short-lived, and changes are continuously integrated into the main branch.</p>
+
+<p><strong>Key Concepts:</strong></p>
+<ul>
+  <li><strong>Main Branch:</strong> Represents the current state of the production-ready code.</li>
+  <li><strong>Feature Flags:</strong> Used to selectively enable or disable features in the main branch.</li>
+  <li><strong>Continuous Integration (CI):</strong> Developers integrate code changes frequently, ensuring early detection of issues.</li>
+</ul>
+
+<h4 id="feature-flags">Feature Flags</h4>
+
+<p><strong>Definition:</strong>
+Feature Flags (or Feature Toggles) are a technique to enable or disable features at runtime. They allow developers to deploy code changes to production while keeping certain features hidden from users until they are ready to be released.</p>
+
+<p><strong>Key Concepts:</strong></p>
+<ul>
+  <li><strong>Gradual Rollout:</strong> Features can be gradually introduced to users.</li>
+  <li><strong>Experimentation:</strong> A/B testing and gradual feature rollout for controlled experimentation.</li>
+  <li><strong>Rollback:</strong> Enables easy rollback of features by toggling the flag.</li>
+</ul>
+
+<h4 id="summary">Summary</h4>
+
+<ul>
+  <li><strong>Git:</strong> Version control system for tracking changes in code.</li>
+  <li><strong>Git Flow:</strong> Branching model for managing feature development, releases, and hotfixes.</li>
+  <li><strong>Trunk-Based Development:</strong> Approach where all developers work on a single branch for faster integration.</li>
+  <li><strong>Feature Flags:</strong> Technique to control the visibility of features, enabling gradual rollout and experimentation.</li>
+</ul>
+
+<h3 id="4-hash-table">4. Hash Table?</h3>
+
+<p>A hash table is a data structure that allows you to store and retrieve values using a key. It uses a hash function to map keys to indices in an array, providing efficient access to values.</p>
+
+<h4 id="time-complexity">Time Complexity:</h4>
+
+<ol>
+  <li><strong>Insertion (Addition):</strong>
+    <ul>
+      <li>Average Case: O(1)</li>
+      <li>Worst Case: O(n) - In rare instances when there are collisions, and linear probing or chaining is used to resolve them. However, proper hash function and load factor management can keep collisions rare.</li>
+    </ul>
+  </li>
+  <li><strong>Deletion:</strong>
+    <ul>
+      <li>Average Case: O(1)</li>
+      <li>Worst Case: O(n) - Similar to insertion, worst-case scenario occurs when there are many collisions.</li>
+    </ul>
+  </li>
+  <li><strong>Search (Lookup):</strong>
+    <ul>
+      <li>Average Case: O(1)</li>
+      <li>Worst Case: O(n) - In cases of collisions, where linear probing or chaining is used.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="space-complexity">Space Complexity:</h4>
+
+<ol>
+  <li><strong>Space Complexity for Storage:</strong>
+    <ul>
+      <li>O(n) - The space required is proportional to the number of key-value pairs stored in the hash table.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="note-on-collisions">Note on Collisions:</h4>
+
+<ul>
+  <li><strong>Collision Handling:</strong> Collisions occur when two different keys hash to the same index. Hash tables typically use techniques like separate chaining or open addressing (linear probing, quadratic probing, double hashing) to handle collisions.</li>
+  <li><strong>Load Factor:</strong> The ratio of the number of stored elements to the size of the hash table is called the load factor. A well-managed load factor helps minimize collisions and maintain efficient performance.</li>
+  <li><strong>Rehashing:</strong> When the load factor increases beyond a threshold, some hash tables automatically resize and rehash the elements to maintain a low load factor and reduce collisions.</li>
+</ul>
+
+<p>Hash tables provide efficient average-case time complexities for basic operations, making them a widely used data structure for associative arrays and other applications where fast key-based access is required. It’s crucial to choose a good hash function and manage load factors appropriately to ensure optimal performance.</p>]]></content><author><name></name></author><category term="interview" /><summary type="html"><![CDATA[software engineer questions used to be asked in interview]]></summary></entry><entry><title type="html">Jekyll With MermaidJS</title><link href="https://nvkhuy.github.io/jekyll-with-mermaidjs" rel="alternate" type="text/html" title="Jekyll With MermaidJS" /><published>2024-01-08T00:00:00+07:00</published><updated>2024-01-08T00:00:00+07:00</updated><id>https://nvkhuy.github.io/jekyll-with-mermaidjs</id><content type="html" xml:base="https://nvkhuy.github.io/jekyll-with-mermaidjs"><![CDATA[<h2 id="1-import-template">1. Import Template</h2>
 
 <p>Create a file named with <code>mermaid.html</code> in <code>_include</code> directory as follows:</p>
 
@@ -410,7 +619,7 @@ mermaid: true
             +run()
         }
 </div>
-<p>Find more in <a href="https://mermaid.js.org/config/Tutorials.html">this</a></p>]]></content><author><name></name></author><category term="js" /><category term="jekyll" /><category term="mermadjs" /><summary type="html"><![CDATA[1. Import Template]]></summary></entry><entry><title type="html">Microservice Interview Questions</title><link href="/microservice-interview-questions" rel="alternate" type="text/html" title="Microservice Interview Questions" /><published>2024-01-06T00:00:00+07:00</published><updated>2024-01-06T00:00:00+07:00</updated><id>/microservices-interview-questions</id><content type="html" xml:base="/microservice-interview-questions"><![CDATA[<h1 id="interview-questions"><strong>Interview Questions</strong></h1>
+<p>Find more in <a href="https://mermaid.js.org/config/Tutorials.html">this</a></p>]]></content><author><name></name></author><category term="js" /><category term="jekyll" /><category term="mermadjs" /><summary type="html"><![CDATA[1. Import Template]]></summary></entry><entry><title type="html">Microservice Interview Questions</title><link href="https://nvkhuy.github.io/microservice-interview-questions" rel="alternate" type="text/html" title="Microservice Interview Questions" /><published>2024-01-06T00:00:00+07:00</published><updated>2024-01-06T00:00:00+07:00</updated><id>https://nvkhuy.github.io/microservices-interview-questions</id><content type="html" xml:base="https://nvkhuy.github.io/microservice-interview-questions"><![CDATA[<h1 id="interview-questions"><strong>Interview Questions</strong></h1>
 <ol>
   <li>What are microservices?</li>
   <li>What issues do microservices aim to solve?</li>
@@ -1380,7 +1589,7 @@ A platform for searching, monitoring, and analyzing machine-generated data, incl
   </li>
 </ul>
 
-<p>In many cases, a hybrid approach or starting with a monolith and transitioning to microservices as the application grows might be a pragmatic choice. Evaluate the specific needs and constraints of your project before making a decision.</p>]]></content><author><name></name></author><category term="microservices" /><category term="interview" /><summary type="html"><![CDATA[Interview Questions What are microservices? What issues do microservices aim to solve? What new challenges do microservices introduce? What are some popular microservices solutions? How does monitoring and alerting work with microservices? How are logs collected and analyzed? What is a Service Registry? What is an API Gateway? What are the differences between REST and RPC? What is a configuration manager? What are common microservices fault tolerance approaches? How do we manage distributed transactions? How do we choose between monolithic and microservices architectures?]]></summary></entry><entry><title type="html">Timeout In Postgres</title><link href="/timeout-in-postgres" rel="alternate" type="text/html" title="Timeout In Postgres" /><published>2024-01-02T00:00:00+07:00</published><updated>2024-01-02T00:00:00+07:00</updated><id>/timeout-in-postgres</id><content type="html" xml:base="/timeout-in-postgres"><![CDATA[<p><strong>1.idle_in_transaction_session_timeout</strong></p>
+<p>In many cases, a hybrid approach or starting with a monolith and transitioning to microservices as the application grows might be a pragmatic choice. Evaluate the specific needs and constraints of your project before making a decision.</p>]]></content><author><name></name></author><category term="microservices" /><category term="interview" /><summary type="html"><![CDATA[Interview Questions What are microservices? What issues do microservices aim to solve? What new challenges do microservices introduce? What are some popular microservices solutions? How does monitoring and alerting work with microservices? How are logs collected and analyzed? What is a Service Registry? What is an API Gateway? What are the differences between REST and RPC? What is a configuration manager? What are common microservices fault tolerance approaches? How do we manage distributed transactions? How do we choose between monolithic and microservices architectures?]]></summary></entry><entry><title type="html">Timeout In Postgres</title><link href="https://nvkhuy.github.io/timeout-in-postgres" rel="alternate" type="text/html" title="Timeout In Postgres" /><published>2024-01-02T00:00:00+07:00</published><updated>2024-01-02T00:00:00+07:00</updated><id>https://nvkhuy.github.io/timeout-in-postgres</id><content type="html" xml:base="https://nvkhuy.github.io/timeout-in-postgres"><![CDATA[<p><strong>1.idle_in_transaction_session_timeout</strong></p>
 
 <p>Determines the maximum time a session can remain idle inside a transaction before it is automatically terminated.
 Helps prevent long-running transactions from tying up resources.</p>
@@ -1449,7 +1658,7 @@ Observe that the statement attempting to acquire the lock is canceled.</p>
 <p>Adjust these settings to configure TCP keepalives.
 Monitor network connections and observe how idle connections are handled.
 Review the impact of these settings in a controlled environment before applying them in a production setting. 
-Testing should involve various scenarios to ensure that the configured timeouts meet the requirements of your application without causing disruptions.</p>]]></content><author><name></name></author><category term="postgres" /><category term="optimization" /><summary type="html"><![CDATA[1.idle_in_transaction_session_timeout]]></summary></entry><entry><title type="html">JWT-based User Authentication in Golang</title><link href="/jwt-based-user-authentication-in-golang" rel="alternate" type="text/html" title="JWT-based User Authentication in Golang" /><published>2023-12-25T00:00:00+07:00</published><updated>2023-12-25T00:00:00+07:00</updated><id>/go-authentication-implement</id><content type="html" xml:base="/jwt-based-user-authentication-in-golang"><![CDATA[<pre><code class="language-go">package main
+Testing should involve various scenarios to ensure that the configured timeouts meet the requirements of your application without causing disruptions.</p>]]></content><author><name></name></author><category term="postgres" /><category term="optimization" /><summary type="html"><![CDATA[1.idle_in_transaction_session_timeout]]></summary></entry><entry><title type="html">JWT-based User Authentication in Golang</title><link href="https://nvkhuy.github.io/jwt-based-user-authentication-in-golang" rel="alternate" type="text/html" title="JWT-based User Authentication in Golang" /><published>2023-12-25T00:00:00+07:00</published><updated>2023-12-25T00:00:00+07:00</updated><id>https://nvkhuy.github.io/go-authentication-implement</id><content type="html" xml:base="https://nvkhuy.github.io/jwt-based-user-authentication-in-golang"><![CDATA[<pre><code class="language-go">package main
 
 import (
 	"fmt"
@@ -1830,7 +2039,7 @@ Main Function:</p>
 </code></pre>
 
 <p>Demonstrates the usage of the implemented functions, including user signup, login, password reset, password change, and access token refresh.
-This code provides a foundation for implementing user authentication and authorization using JWTs in a Go application. It’s important to note that in a production environment, additional security measures, error handling, and database integration would be necessary. The secret key should be securely managed, and user passwords should be handled with care, potentially using more advanced hashing techniques.</p>]]></content><author><name></name></author><category term="jwt" /><summary type="html"><![CDATA[```go package main]]></summary></entry><entry><title type="html">Dependency Injection vs Dependency Inversion</title><link href="/dependency-injection-vs-dependency-inversion" rel="alternate" type="text/html" title="Dependency Injection vs Dependency Inversion" /><published>2023-09-25T00:00:00+07:00</published><updated>2023-09-25T00:00:00+07:00</updated><id>/dependency-injection-vs-dependency-inversion</id><content type="html" xml:base="/dependency-injection-vs-dependency-inversion"><![CDATA[<p>Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:</p>
+This code provides a foundation for implementing user authentication and authorization using JWTs in a Go application. It’s important to note that in a production environment, additional security measures, error handling, and database integration would be necessary. The secret key should be securely managed, and user passwords should be handled with care, potentially using more advanced hashing techniques.</p>]]></content><author><name></name></author><category term="jwt" /><summary type="html"><![CDATA[```go package main]]></summary></entry><entry><title type="html">Dependency Injection vs Dependency Inversion</title><link href="https://nvkhuy.github.io/dependency-injection-vs-dependency-inversion" rel="alternate" type="text/html" title="Dependency Injection vs Dependency Inversion" /><published>2023-09-25T00:00:00+07:00</published><updated>2023-09-25T00:00:00+07:00</updated><id>https://nvkhuy.github.io/dependency-injection-vs-dependency-inversion</id><content type="html" xml:base="https://nvkhuy.github.io/dependency-injection-vs-dependency-inversion"><![CDATA[<p>Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:</p>
 
 <ol>
   <li>Dependency Injection (DI):
@@ -1966,7 +2175,7 @@ func main() {
   <li>In the <code>main</code> function, we create instances of the concrete implementations (<code>FileStorage</code> and <code>DatabaseStorage</code>) and inject them into <code>DataProcessor</code> instances. This is where Dependency Inversion is demonstrated: high-level <code>DataProcessor</code> depends on the abstract <code>DataStore</code> interface, not on concrete implementations.</li>
 </ol>
 
-<p>This structure allows you to easily switch between different storage implementations (e.g., file storage or database storage) without modifying the <code>DataProcessor</code> code, adhering to the Dependency Inversion Principle.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:]]></summary></entry><entry><title type="html">Go Design Patterns</title><link href="/go-design-patterns" rel="alternate" type="text/html" title="Go Design Patterns" /><published>2023-09-24T00:00:00+07:00</published><updated>2023-09-24T00:00:00+07:00</updated><id>/go-design-patterns</id><content type="html" xml:base="/go-design-patterns"><![CDATA[<h1 id="iterator-pattern"><strong>Iterator Pattern</strong></h1>
+<p>This structure allows you to easily switch between different storage implementations (e.g., file storage or database storage) without modifying the <code>DataProcessor</code> code, adhering to the Dependency Inversion Principle.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let’s explore each concept individually:]]></summary></entry><entry><title type="html">Go Design Patterns</title><link href="https://nvkhuy.github.io/go-design-patterns" rel="alternate" type="text/html" title="Go Design Patterns" /><published>2023-09-24T00:00:00+07:00</published><updated>2023-09-24T00:00:00+07:00</updated><id>https://nvkhuy.github.io/go-design-patterns</id><content type="html" xml:base="https://nvkhuy.github.io/go-design-patterns"><![CDATA[<h1 id="iterator-pattern"><strong>Iterator Pattern</strong></h1>
 
 <p>The iterator pattern is a behavioral design pattern that provides a way to access the elements of a collection sequentially without exposing its underlying representation. In Go, you can implement the iterator pattern using a combination of interfaces and custom types. Here’s an example of how to implement the iterator pattern in Go:</p>
 
@@ -2179,7 +2388,7 @@ func main() {
   </li>
 </ul>
 
-<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/solid-principle</id><content type="html" xml:base="/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
+<p>The factory pattern is particularly useful when you need to create objects with complex initialization logic or when you want to decouple the client code from the concrete types being created.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[Iterator Pattern]]></summary></entry><entry><title type="html">What is SOLID Principle</title><link href="https://nvkhuy.github.io/what-is-solid-principle" rel="alternate" type="text/html" title="What is SOLID Principle" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>https://nvkhuy.github.io/solid-principle</id><content type="html" xml:base="https://nvkhuy.github.io/what-is-solid-principle"><![CDATA[<p>The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:</p>
 
 <p><strong>1. Single Responsibility Principle (SRP):</strong></p>
 <ul>
@@ -2424,7 +2633,7 @@ func main() {
 }
 </code></pre>
 
-<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-acid</id><content type="html" xml:base="/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
+<p>The Dependency Inversion Principle is demonstrated here by creating an abstraction <code>Switchable</code> that allows the <code>RemoteControl</code> to work with different devices without depending on their concrete implementations. This decouples high-level and low-level modules.</p>]]></content><author><name></name></author><category term="principle" /><summary type="html"><![CDATA[The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let’s go through each of the SOLID principles and provide an example in Go (Golang) for each:]]></summary></entry><entry><title type="html">What is ACID in database</title><link href="https://nvkhuy.github.io/what-is-acid-in-database" rel="alternate" type="text/html" title="What is ACID in database" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>https://nvkhuy.github.io/what-is-acid</id><content type="html" xml:base="https://nvkhuy.github.io/what-is-acid-in-database"><![CDATA[<p>ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:</p>
 
 <ol>
   <li><strong>Atomicity (A):</strong>
@@ -2497,7 +2706,7 @@ func main() {
   </li>
 </ol>
 
-<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">Why Go</title><link href="/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/why-golang</id><content type="html" xml:base="/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
+<p>In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:]]></summary></entry><entry><title type="html">Why Go</title><link href="https://nvkhuy.github.io/why-golang" rel="alternate" type="text/html" title="Why Go" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>https://nvkhuy.github.io/why-golang</id><content type="html" xml:base="https://nvkhuy.github.io/why-golang"><![CDATA[<h1 id="1-what-is-a-cloud-native-application"><strong>1. What is a “Cloud Native” Application?</strong></h1>
 
 <p>A “Cloud Native” application is a software application that is designed and built from the ground up to fully leverage the capabilities of cloud computing platforms. Unlike traditional monolithic applications, cloud-native applications are tailored to take advantage of cloud resources, scalability, and flexibility. They are developed with a specific set of principles and practices that align with the dynamic nature of cloud environments. Here are the key characteristics that define a cloud-native application:</p>
 
@@ -2917,76 +3126,4 @@ Go’s fast compilation times and small binaries contribute to efficient CI/CD p
   <li><strong>Container Compatibility:</strong> Go’s compatibility with containers and orchestration platforms allows applications to be seamlessly packaged and deployed in dynamic cloud environments.</li>
 </ul>
 
-<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry><entry><title type="html">What is CAP Theorem</title><link href="/what-is-cap-theorem" rel="alternate" type="text/html" title="What is CAP Theorem" /><published>2023-09-18T00:00:00+07:00</published><updated>2023-09-18T00:00:00+07:00</updated><id>/what-is-cap</id><content type="html" xml:base="/what-is-cap-theorem"><![CDATA[<p>The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:</p>
-
-<ol>
-  <li><strong>Consistency (C):</strong>
-    <ul>
-      <li>Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.</li>
-      <li>Strong consistency ensures that every read operation will return the most recent write’s result.</li>
-      <li>Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.</li>
-    </ul>
-  </li>
-  <li><strong>Availability (A):</strong>
-    <ul>
-      <li>Availability refers to the system’s ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.</li>
-      <li>High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.</li>
-      <li>Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.</li>
-    </ul>
-  </li>
-  <li><strong>Partition Tolerance (P):</strong>
-    <ul>
-      <li>Partition tolerance deals with the ability of a distributed system to continue functioning correctly, even when network partitions (communication failures) occur between nodes in the system.</li>
-      <li>Network partitions can lead to scenarios where some nodes in the system cannot communicate with others, causing data inconsistencies and challenges in achieving both consistency and availability.</li>
-      <li>Achieving partition tolerance is essential for robust distributed systems, especially in cloud-based and wide-area network environments.</li>
-    </ul>
-  </li>
-</ol>
-
-<p>Now, the CAP theorem states that you can’t have all three of these properties simultaneously in a distributed system. You have to make trade-offs:</p>
-
-<ol>
-  <li>
-    <p><strong>CA:</strong> You can prioritize both Consistency and Availability but may need to sacrifice Partition Tolerance. In this case, the system ensures strong consistency and high availability but may not be able to function correctly in the presence of network partitions.</p>
-  </li>
-  <li>
-    <p><strong>CP:</strong> You can prioritize both Consistency and Partition Tolerance but may need to sacrifice Availability. In this case, the system ensures strong consistency and can tolerate network partitions, but it might experience downtime or reduced availability during network disruptions.</p>
-  </li>
-  <li>
-    <p><strong>AP:</strong> You can prioritize both Availability and Partition Tolerance but may need to sacrifice Strong Consistency. In this case, the system ensures high availability and can tolerate network partitions, but it might provide eventually consistent data.</p>
-  </li>
-</ol>
-
-<p>It’s important to note that the CAP theorem is a theoretical framework that helps in understanding the trade-offs in distributed systems design. In practice, various databases and distributed systems may offer different configurations and trade-offs to meet specific use cases and requirements. Your choice of system depends on your application’s needs and the specific balance you wish to strike between consistency, availability, and partition tolerance.</p>
-
-<p>Let’s delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:</p>
-
-<ol>
-  <li><strong>Firestore (part of Google Cloud Firestore):</strong>
-    <ul>
-      <li><strong>Consistency and Partition Tolerance:</strong> Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).</li>
-      <li><strong>Example:</strong> Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.</li>
-    </ul>
-  </li>
-  <li><strong>DynamoDB (Amazon DynamoDB):</strong>
-    <ul>
-      <li><strong>Availability and Partition Tolerance:</strong> DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.</li>
-      <li><strong>Example:</strong> Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.</li>
-    </ul>
-  </li>
-  <li><strong>MongoDB (MongoDB Atlas - managed MongoDB service):</strong>
-    <ul>
-      <li><strong>Consistency and Partition Tolerance or Availability and Partition Tolerance:</strong> MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.</li>
-      <li><strong>Example for Consistency and Partition Tolerance:</strong> In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.</li>
-      <li><strong>Example for Availability and Partition Tolerance:</strong> In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.</li>
-    </ul>
-  </li>
-  <li><strong>Redis (in-memory data store):</strong>
-    <ul>
-      <li><strong>Availability and Partition Tolerance:</strong> Redis primarily focuses on high availability and partition tolerance while sacrificing strong consistency. It excels at providing low-latency, high-throughput access to data.</li>
-      <li><strong>Example:</strong> In a caching layer for a web application, Redis can be used to store frequently accessed data. During network disruptions or high traffic, Redis continues to serve cached data, ensuring availability. However, it may not guarantee strong consistency if updates are made to the data source.</li>
-    </ul>
-  </li>
-</ol>
-
-<p>Each database’s primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it’s crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.</p>]]></content><author><name></name></author><category term="database" /><summary type="html"><![CDATA[The CAP theorem, also known as Brewer’s theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:]]></summary></entry></feed>
+<p>In conclusion, Go’s lightweight nature, built-in concurrency support, efficient memory management, and compatibility with containers and orchestration platforms make it a prime choice for cloud-native development. Its speed, scalability, and robust standard library further solidify its position as an excellent fit for building applications that leverage the full potential of cloud computing.</p>]]></content><author><name></name></author><category term="go" /><summary type="html"><![CDATA[1. What is a “Cloud Native” Application?]]></summary></entry></feed>
