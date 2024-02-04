@@ -15,6 +15,9 @@ linkedin_username: "nvkhuy"
 #youtube_username: username
 #googleplus_username: +username
 
+# Domain
+url: https://nvkhuy.github.io
+
 # Google Analytics
 google_analytics: G-FLXLZ5BFS5
 google_adsense: ca-pub-2585976587586538
