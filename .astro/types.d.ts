@@ -226,7 +226,7 @@ declare module 'astro:content' {
 } & { render(): Render[".md"] };
 "2024-01-08-jekyll-with-mermaidjs.md": {
 	id: "2024-01-08-jekyll-with-mermaidjs.md";
-  slug: "jekyll-with-mermaid-js";
+  slug: "mermaid-js-chart";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">

@@ -149,14 +149,25 @@ Go's memory layout is designed to be compact and cache-friendly. This helps redu
 
 Here's a simplified performance comparison table between Go and some other popular programming languages.
 
-| Language | Concurrency Model | Compilation Speed | Memory Management | Networking Performance | Benchmark Results | Microservices Support | Remarks |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Go | Goroutines/Channels | Fast | Garbage Collection | Optimized | Competitive | Excellent | Efficient concurrency and memory management. |
-| Java | Threads/Executors | Slower | Garbage Collection | Efficient | Competitive | Good | Strong ecosystem, JIT compilation. |
-| C++ | Threads/Async | Moderate | Manual Memory Management | Efficient | Competitive | Good | Fine control, performance optimizations. |
-| Python | Threads/Asyncio | Slower | Automatic Memory Management | Moderate | Moderate | Fair | Interpreted, dynamic typing, not best for performance. |
-| Rust | Async/Await | Moderate | Memory Safety | Efficient | Competitive | Good | Strong emphasis on memory safety and performance. |
-| Node.js | Event Loop/Async | Fast | Garbage Collection | Efficient | Moderate | Good | Event-driven, JavaScript runtime. |
+
+[//]: # (| Features/Criteria      | Go                                          | Java                              | C++                                     | Python                                                | Rust                                             | Node.js                          |)
+
+[//]: # (|------------------------|---------------------------------------------|-----------------------------------|-----------------------------------------|-------------------------------------------------------|--------------------------------------------------|----------------------------------|)
+
+[//]: # (| Concurrency Model      | Goroutines/Channels                         | Threads/Executors                 | Threads/Async                           | Threads/Asyncio                                       | Async/Await                                      | Event Loop/Async                 |)
+
+[//]: # (| Compilation Speed      | Fast                                        | Slower                            | Moderate                                | Slower                                                | Moderate                                         | Fast                             |)
+
+[//]: # (| Memory Management      | Garbage Collection                          | Garbage Collection                | Manual Memory Management                | Automatic Memory Management                           | Memory Safety                                    | Garbage Collection               |)
+
+[//]: # (| Networking Performance | Optimized                                   | Efficient                         | Efficient                               | Moderate                                              | Efficient                                        | Efficient                        |)
+
+[//]: # (| Benchmark Results      | Competitive                                 | Competitive                       | Competitive                             | Moderate                                              | Competitive                                      | Moderate                         |)
+
+[//]: # (| Microservices Support  | Excellent                                   | Good                              | Good                                    | Fair                                                  | Good                                             | Good                             |)
+
+[//]: # (| Remarks                | Efficient concurrency and memory management | Strong ecosystem, JIT compilation | Fine control, performance optimizations | Interpreted, dynamic typing, not best for performance | Strong emphasis on memory safety and performance | Event-driven, JavaScript runtime |)
+
 
 It's important to note that the choice of programming language depends on the specific requirements of the application, the developer team's expertise, and other considerations beyond pure performance. While Go offers a strong balance between speed, performance, and developer productivity, the right choice varies based on the specific needs of the cloud-native application.
 
