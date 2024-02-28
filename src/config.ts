@@ -26,7 +26,7 @@ export const LOGO_IMAGE = {
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
-    href: "https://github.com/nvkhuy/nvkhuy.github.io",
+    href: "https://github.com/nvkhuy",
     linkTitle: ` ${SITE.title} on Github`,
     active: true,
   },
@@ -34,17 +34,17 @@ export const SOCIALS: SocialObjects = [
     name: "Facebook",
     href: "https://github.com/nvkhuy/nvkhuy.github.io",
     linkTitle: `${SITE.title} on Facebook`,
-    active: true,
+    active: false,
   },
   {
     name: "Instagram",
     href: "https://github.com/nvkhuy/nvkhuy.github.io",
     linkTitle: `${SITE.title} on Instagram`,
-    active: true,
+    active: false,
   },
   {
     name: "LinkedIn",
-    href: "https://github.com/nvkhuy/nvkhuy.github.io",
+    href: "https://www.linkedin.com/in/nvkhuy/",
     linkTitle: `${SITE.title} on LinkedIn`,
     active: true,
   },
@@ -56,9 +56,9 @@ export const SOCIALS: SocialObjects = [
   },
   {
     name: "Twitter",
-    href: "https://github.com/nvkhuy/nvkhuy.github.io",
+    href: "https://twitter.com/nvkhuy",
     linkTitle: `${SITE.title} on Twitter`,
-    active: false,
+    active: true,
   },
   {
     name: "Twitch",
