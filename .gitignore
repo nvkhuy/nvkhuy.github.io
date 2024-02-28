@@ -1,5 +1,6 @@
 ﻿# _site
 .idea
+.jampack
 node_modules
 dist
 .DS_Store
