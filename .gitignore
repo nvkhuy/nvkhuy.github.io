@@ -1,6 +1,7 @@
 ﻿# _site
 .idea
 .jampack
+.astro
 node_modules
 dist
 .DS_Store
