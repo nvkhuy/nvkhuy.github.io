@@ -5,6 +5,7 @@ import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import {mermaid} from "./src/plugins/mermaid"
+import partytown from "@astrojs/partytown";
 import {SITE} from "./src/config";
 
 // https://astro.build/config
@@ -16,6 +17,12 @@ export default defineConfig({
         }),
         react(),
         sitemap(),
+        partytown({
+            // Adds dataLayer.push as a forwarding-event.
+            config: {
+                forward: ["dataLayer.push"],
+            },
+        }),
     ],
     markdown: {
         remarkPlugins: [
