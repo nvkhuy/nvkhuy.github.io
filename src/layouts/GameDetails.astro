@@ -112,7 +112,6 @@ const layoutProps = {
     async function renderHTML(htmlContents) {
         for (const htmlContent of htmlContents) {
             const content = htmlContent.getAttribute("data-content")
-            console.log('content:', content);
             if (!content) continue
             let divAppend = document.createElement("div")
             divAppend.id = "renderhtml-" + Math.round(Math.random() * 100000)

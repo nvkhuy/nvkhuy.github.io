@@ -9,7 +9,7 @@ const games = await getCollection("game");
 const sortedGames = getSortedGames(games);
 
 const pagination = getGamePagination({
-    games: sortedGames,
+    games: games,
     page: 1,
     isIndex: true,
 });
