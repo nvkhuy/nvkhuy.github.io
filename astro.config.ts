@@ -5,6 +5,7 @@ import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import {mermaid} from "./src/plugins/mermaid"
+import {renderhtml} from "./src/plugins/renderhtml.ts"
 import partytown from "@astrojs/partytown";
 import {SITE} from "./src/config";
 
@@ -33,7 +34,8 @@ export default defineConfig({
                     test: "Table of contents",
                 },
             ],
-            mermaid
+            mermaid,
+            renderhtml
         ],
         shikiConfig: {
             // Choose from Shiki's built-in themes (or add your own)

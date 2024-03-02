@@ -1,0 +1,18 @@
+---
+import {getCollection} from "astro:content";
+import getPagination from "@utils/getPagination";
+import Games from "../../layouts/Games.astro";
+import getSortedGames from "../../utils/getSortedGames";
+
+const games = await getCollection("game");
+
+const sortedGames = getSortedGames(games);
+
+const pagination = getPagination({
+    posts: sortedGames,
+    page: 1,
+    isIndex: true,
+});
+---
+
+<Games {...pagination}/>
