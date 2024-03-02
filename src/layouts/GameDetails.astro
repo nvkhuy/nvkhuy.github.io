@@ -70,9 +70,7 @@ const layoutProps = {
                 size="lg"
                 className="my-2"
         />
-        <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
-            <Content/>
-        </article>
+        <Content/>
         <ul class="my-8">
             {tags.map((tag) =>
                     <Tag tag={slugifyStr(tag)}/>)}

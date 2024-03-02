@@ -42,9 +42,6 @@ const game = defineCollection({
                 .optional(),
             description: z.string(),
             canonicalURL: z.string().optional(),
-            appstoreURL: z.string().optional(),
-            googlePlayURL: z.string().optional(),
-            topImage: z.string().optional(),
         }),
 });
 
