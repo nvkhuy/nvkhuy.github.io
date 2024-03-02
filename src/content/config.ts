@@ -45,4 +45,4 @@ const game = defineCollection({
         }),
 });
 
-export const collections = {blog, game};
+export const collections = {game, blog};

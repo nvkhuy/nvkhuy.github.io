@@ -5,25 +5,25 @@ import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
-import Card from "@components/Card";
+import GameCard from "@components/GameCard";
 import {SITE} from "@config";
 
 export interface Props {
     currentPage: number;
     totalPages: number;
-    paginatedPosts: CollectionEntry<"game">[];
+    paginatedGames: CollectionEntry<"game">[];
 }
 
-const {currentPage, totalPages, paginatedPosts} = Astro.props;
+const {currentPage, totalPages, paginatedGames} = Astro.props;
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
+<Layout title={`Games | ${SITE.title}`}>
     <Header activeNav="games"/>
     <Main pageTitle="Games" pageDesc="All the games Huy made">
         <ul>
             {
-                paginatedPosts.map(({data, slug}) => (
-                        <Card href={`/games/${slug}/`} frontmatter={data}/>
+                paginatedGames.map(({data, slug}) => (
+                        <GameCard href={`/games/${slug}/`} frontmatter={data}/>
                 ))
             }
         </ul>

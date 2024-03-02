@@ -2,9 +2,9 @@
 import {type CollectionEntry, getCollection} from "astro:content";
 import getSortedGames from "@utils/getSortedGames";
 import getPageNumbers from "@utils/getPageNumbers";
-import getPagination from "@utils/getPagination";
-import GameDetails from "../../../layouts/GameDetails.astro";
-import Games from "../../../layouts/Games.astro";
+import GameDetails from "@layouts/GameDetails.astro";
+import Games from "@layouts/Games.astro";
+import getGamePagination from "@utils/getGamePagination";
 
 export interface Props {
     game: CollectionEntry<"game">;
@@ -32,8 +32,8 @@ const games = await getCollection("game");
 
 const sortedGames = getSortedGames(games);
 
-const pagination = getPagination({
-    posts: sortedGames,
+const pagination = getGamePagination({
+    games: sortedGames,
     page: slug,
 });
 ---
