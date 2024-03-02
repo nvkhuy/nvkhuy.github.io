@@ -23,7 +23,6 @@ const {
     canonicalURL,
     pubDatetime,
     modDatetime,
-    tags,
 } = game.data;
 
 const {Content} = await game.render();
@@ -71,10 +70,10 @@ const layoutProps = {
                 className="my-2"
         />
         <Content/>
-        <ul class="my-8">
-            {tags.map((tag) =>
-                    <Tag tag={slugifyStr(tag)}/>)}
-        </ul>
+        <!--<ul class="my-8">-->
+        <!--    {tags.map((tag) =>-->
+        <!--            <Tag tag={slugifyStr(tag)}/>)}-->
+        <!--</ul>-->
 
         <div
                 class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
@@ -113,7 +112,6 @@ const layoutProps = {
     async function renderHTML(htmlContents) {
         for (const htmlContent of htmlContents) {
             const content = htmlContent.getAttribute("data-content")
-            console.log('content:', content);
             if (!content) continue
             let divAppend = document.createElement("div")
             divAppend.id = "renderhtml-" + Math.round(Math.random() * 100000)

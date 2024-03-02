@@ -1,10 +1,10 @@
 ---
 import {type CollectionEntry, getCollection} from "astro:content";
 import getSortedGames from "@utils/getSortedGames";
-import getPageNumbers from "@utils/getPageNumbers";
-import getPagination from "@utils/getPagination";
-import GameDetails from "../../../layouts/GameDetails.astro";
-import Games from "../../../layouts/Games.astro";
+import getGamePageNumbers from "@utils/getGamePageNumber";
+import GameDetails from "@layouts/GameDetails.astro";
+import Games from "@layouts/Games.astro";
+import getGamePagination from "@utils/getGamePagination";
 
 export interface Props {
     game: CollectionEntry<"game">;
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
         props: {game},
     }));
 
-    const pagePaths = getPageNumbers(games.length).map((pageNum) => ({
+    const pagePaths = getGamePageNumbers(games.length).map((pageNum) => ({
         params: {slug: String(pageNum)},
     }));
 
@@ -32,8 +32,8 @@ const games = await getCollection("game");
 
 const sortedGames = getSortedGames(games);
 
-const pagination = getPagination({
-    posts: sortedGames,
+const pagination = getGamePagination({
+    games: sortedGames,
     page: slug,
 });
 ---

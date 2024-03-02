@@ -1,8 +1,8 @@
 import type {CollectionEntry} from "astro:content";
 import gameFilter from "./gameFilter";
 
-const getSortedGames = (posts: CollectionEntry<"game">[]) => {
-    return posts
+const getSortedGames = (games: CollectionEntry<"game">[]) => {
+    return games
         .filter(gameFilter)
         .sort(
             (a, b) =>

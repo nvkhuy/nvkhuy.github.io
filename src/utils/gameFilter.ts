@@ -1,7 +1,7 @@
-import { SITE } from "@config";
-import type { CollectionEntry } from "astro:content";
+import {SITE} from "@config";
+import type {CollectionEntry} from "astro:content";
 
-const gameFilter = ({ data }: CollectionEntry<"game">) => {
+const gameFilter = ({data}: CollectionEntry<"game">) => {
     const isPublishTimePassed =
         Date.now() >
         new Date(data.pubDatetime).getTime() - SITE.scheduledPostMargin;

@@ -1,11 +1,9 @@
 ---
-tags:
-  - game
 title: First Game Page
 author: Huy Nguyen
-pubDatetime: 2024-03-02T15:57:52.737Z
+pubDatetime: 2024-03-01T15:57:52.737Z
 slug: first-game-page
-featured: false
+featured: true
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: first game page
 ---

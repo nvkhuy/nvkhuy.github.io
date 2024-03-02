@@ -1,7 +1,7 @@
 import {SITE} from "@config";
 
-const getPageNumbers = (numberOfPosts: number) => {
-    const numberOfPages = numberOfPosts / Number(SITE.postPerPage);
+const getGamePageNumbers = (numberOfGames: number) => {
+    const numberOfPages = numberOfGames / Number(SITE.gamePerPage);
 
     let pageNumbers: number[] = [];
     for (let i = 1; i <= Math.ceil(numberOfPages); i++) {
@@ -11,4 +11,4 @@ const getPageNumbers = (numberOfPosts: number) => {
     return pageNumbers;
 };
 
-export default getPageNumbers;
+export default getGamePageNumbers;

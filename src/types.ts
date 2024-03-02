@@ -8,6 +8,7 @@ export type Site = {
   ogImage?: string;
   lightAndDarkMode: boolean;
   postPerPage: number;
+  gamePerPage: number;
   scheduledPostMargin: number;
 };
 
