@@ -239,6 +239,15 @@ declare module 'astro:content' {
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 };
+"game": {
+"2024-03-02-first-game-page.md": {
+	id: "2024-03-02-first-game-page.md";
+  slug: "first-game-page";
+  body: string;
+  collection: "game";
+  data: InferEntrySchema<"game">
+} & { render(): Render[".md"] };
+};
 
 	};
 
