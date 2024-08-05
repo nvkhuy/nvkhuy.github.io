@@ -1,7 +1,7 @@
 ---
 tags:
-   - interview
-   - principle
+  - interview
+  - principle
 title: What is ACID
 author: Huy Nguyen
 pubDatetime: 2023-09-18T15:57:52.737Z
@@ -10,19 +10,23 @@ featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: explain what is acid and usage
 ---
+
 ## Table of contents
 
 ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:
 
 1. **Atomicity (A):**
+
    - Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.
    - Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user's balance remains unchanged.
 
 2. **Consistency (C):**
+
    - Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.
    - Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.
 
 3. **Isolation (I):**
+
    - Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.
    - Example: In a multi-user system, two users simultaneously updating the same record should not result in one user's changes overwriting the other's. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.
 

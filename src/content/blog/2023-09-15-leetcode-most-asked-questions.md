@@ -8,7 +8,7 @@ pubDatetime: 2023-09-15T15:57:52.737Z
 slug: leetcode-most-asked-questions
 featured: true
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
-description: collect top questions in each category from leetcode 
+description: collect top questions in each category from leetcode
 ---
 
 ## Table of contents
@@ -16,6 +16,7 @@ description: collect top questions in each category from leetcode
 ## **Array**
 
 ### Easy
+
 - [Two Sum](https://leetcode.com/problems/two-sum/)
 - [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
 - [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)
@@ -34,6 +35,7 @@ description: collect top questions in each category from leetcode
 - [Flood Fill](https://leetcode.com/problems/flood-fill/description/)
 
 ### Medium
+
 - [Predict the Winner](https://leetcode.com/problems/predict-the-winner/description/)
 - [Spiral Matrix](https://leetcode.com/problems/spiral-matrix/description/)
 - [3Sum](https://leetcode.com/problems/3sum/description/)
@@ -54,6 +56,7 @@ description: collect top questions in each category from leetcode
 - [Boats to Save People](https://leetcode.com/problems/boats-to-save-people/description/)
 
 ### Hard
+
 - [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/)
 - [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)
 - [Minimum Number of Taps to Open to Water a Garden](https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/)
@@ -61,7 +64,9 @@ description: collect top questions in each category from leetcode
 - [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)
 
 ## **Sorting**
+
 ### Easy
+
 - [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)
 - [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)
 - [Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/description/)
@@ -80,6 +85,7 @@ description: collect top questions in each category from leetcode
 - [Minimum Absolute Difference](https://leetcode.com/problems/minimum-absolute-difference/description/)
 
 ### Medium
+
 - [3Sum](https://leetcode.com/problems/3sum/description/)
 - [Merge Intervals](https://leetcode.com/problems/merge-intervals/description/)
 - [Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)
@@ -97,13 +103,16 @@ description: collect top questions in each category from leetcode
 - [Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes/description/)
 
 ### Hard
+
 - [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)
 - [Maximum Number of Events That Can Be Attended II](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/)
 - [Put Marbles in Bags](https://leetcode.com/problems/put-marbles-in-bags/description/)
 - [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)
 
 ## **Binary Search**
+
 ### Easy
+
 - [Binary Search](https://leetcode.com/problems/binary-search/description/)
 - [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/)
 - [Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
@@ -120,6 +129,7 @@ description: collect top questions in each category from leetcode
 - [Special Array With X Elements Greater Than or Equal X](https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/description/)
 
 ### Medium
+
 - [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/description/)
 - [Maximum Value at a Given Index in a Bounded Array](https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/description/)
 - [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)
@@ -134,8 +144,9 @@ description: collect top questions in each category from leetcode
 - [Design Hit Counter ~ Premium](https://leetcode.com/problems/design-hit-counter/description/)
 - [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/description/)
 - [Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
-  
+
 ### Hard
+
 - [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/)
 - [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/description/)
 - [Maximum Running Time of N Computers](https://leetcode.com/problems/maximum-running-time-of-n-computers/description/)
@@ -144,7 +155,9 @@ description: collect top questions in each category from leetcode
 - [Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/)
 
 ## **Hash Table**
+
 ### Easy
+
 - [Two Sum](https://leetcode.com/problems/two-sum/description/)
 - [Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/)
 - [Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/description/)
@@ -166,6 +179,7 @@ description: collect top questions in each category from leetcode
 - [Buddy Strings](https://leetcode.com/problems/buddy-strings/description/)
 
 ### Medium
+
 - [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
 - [LRU Cache](https://leetcode.com/problems/lru-cache/description/)
 - [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
@@ -181,6 +195,7 @@ description: collect top questions in each category from leetcode
 - [Design Authentication Manager](https://leetcode.com/problems/design-authentication-manager/description/)
 
 ### Hard
+
 - [Smallest Range Covering Elements from K Lists](https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/description/)
 - [Bus Routes](https://leetcode.com/problems/bus-routes/description/)
 - [First Missing Positive](https://leetcode.com/problems/first-missing-positive/description/)

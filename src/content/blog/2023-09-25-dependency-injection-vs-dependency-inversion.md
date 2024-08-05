@@ -13,6 +13,7 @@ description: explain the difference between dependency injection vs dependency i
 Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let's explore each concept individually:
 
 1. Dependency Injection (DI):
+
    - Dependency Injection is a design pattern and technique used in object-oriented programming to manage dependencies between classes and components.
    - In DI, dependencies are "injected" into a class rather than the class creating its own dependencies. This injection can occur through constructor injection, method injection, or property injection.
    - The main goal of DI is to decouple the high-level modules (e.g., classes or components) from their low-level dependencies (e.g., other classes or services). This makes the code more modular, testable, and flexible.

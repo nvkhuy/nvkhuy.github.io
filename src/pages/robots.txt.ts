@@ -8,6 +8,9 @@ Disallow: /nogooglebot/
 User-agent: *
 Allow: /
 
+User-agent: Google-adstxt
+Disallow:
+
 Sitemap: ${new URL("sitemap-index.xml", SITE.website).href}
 `.trim();
 

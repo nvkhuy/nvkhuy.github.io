@@ -61,19 +61,22 @@ This iterative and incremental approach allows for regular inspection and adapta
 
 Overview of optimistic and pessimistic locking implementations.
 There are two models for `locking` data in a database:
+
 - `Optimistic` locking, where a record is locked only when changes are committed to the database
 - `Pessimistic` locking, where a record is locked while it is edited
-In both data-locking models, the lock is released after the changes are committed to the database.
+  In both data-locking models, the lock is released after the changes are committed to the database.
 
 #### Optimistic Locking
 
 The optimistic locking model, also known as optimistic concurrency control, is a concurrency control method used in relational databases. It avoids record locking during updates and allows multiple users to attempt updates on the same record without informing them about concurrent updates. Validation of record changes occurs only when the record is `committed`. If one user successfully updates the record, others attempting concurrent updates are informed of a conflict.
 
 Advantages of optimistic locking:
+
 - Avoids the overhead of locking a record for the duration of the action.
 - Provides fast updates when there are no simultaneous updates.
 
 Useful in scenarios where:
+
 - Useful when concurrent updates are expected to be infrequent or locking overhead is high.
 - When multiple users edit a record concurrently, after one user's changes are committed, the other users' changes are rejected, and conflicts must be saved and manually merged.
 
@@ -82,10 +85,12 @@ Useful in scenarios where:
 The pessimistic locking model prevents simultaneous updates to records. When one user starts to update a record, a lock is placed on it, informing other users of an update in progress. Other users must wait until the first user finishes committing their changes and releases the record lock before making changes.
 
 Advantages of pessimistic locking:
+
 - Prevents conflicts by serializing updates.
 - Updates are based on the committed record changes from the previous user.
 
 Useful in scenarios where:
+
 - Subsequent updates can be delayed until a previous update is completed.
 - Updates occur in a short time interval.
 
@@ -97,6 +102,7 @@ Useful in scenarios where:
 Git is a distributed version control system (DVCS) that allows multiple developers to collaborate on a project. It tracks changes in the source code over time and enables users to work on their own copies of a project while maintaining version history and facilitating collaboration.
 
 **Key Concepts:**
+
 - **Repository (Repo):** A collection of files and version history.
 - **Commit:** A snapshot of changes made to the code.
 - **Branch:** A separate line of development that diverges from the main codebase.
@@ -109,6 +115,7 @@ Git is a distributed version control system (DVCS) that allows multiple develope
 Git Flow is a branching model that defines a set of branching conventions and workflows for using Git. It provides a structured approach to managing feature development, releases, and hotfixes.
 
 **Key Concepts:**
+
 - **Master Branch:** Represents the production-ready code.
 - **Develop Branch:** Integration branch where feature branches are merged for testing.
 - **Feature Branch:** Branches created for developing new features.
@@ -121,6 +128,7 @@ Git Flow is a branching model that defines a set of branching conventions and wo
 Trunk-Based Development is an approach where all developers work on a single branch (usually the main or trunk branch). Feature branches are short-lived, and changes are continuously integrated into the main branch.
 
 **Key Concepts:**
+
 - **Main Branch:** Represents the current state of the production-ready code.
 - **Feature Flags:** Used to selectively enable or disable features in the main branch.
 - **Continuous Integration (CI):** Developers integrate code changes frequently, ensuring early detection of issues.
@@ -131,6 +139,7 @@ Trunk-Based Development is an approach where all developers work on a single bra
 Feature Flags (or Feature Toggles) are a technique to enable or disable features at runtime. They allow developers to deploy code changes to production while keeping certain features hidden from users until they are ready to be released.
 
 **Key Concepts:**
+
 - **Gradual Rollout:** Features can be gradually introduced to users.
 - **Experimentation:** A/B testing and gradual feature rollout for controlled experimentation.
 - **Rollback:** Enables easy rollback of features by toggling the flag.
@@ -149,10 +158,12 @@ A hash table is a data structure that allows you to store and retrieve values us
 #### Time Complexity:
 
 1. **Insertion (Addition):**
+
    - Average Case: O(1)
    - Worst Case: O(n) - In rare instances when there are collisions, and linear probing or chaining is used to resolve them. However, proper hash function and load factor management can keep collisions rare.
 
 2. **Deletion:**
+
    - Average Case: O(1)
    - Worst Case: O(n) - Similar to insertion, worst-case scenario occurs when there are many collisions.
 
@@ -172,7 +183,3 @@ A hash table is a data structure that allows you to store and retrieve values us
 - **Rehashing:** When the load factor increases beyond a threshold, some hash tables automatically resize and rehash the elements to maintain a low load factor and reduce collisions.
 
 Hash tables provide efficient average-case time complexities for basic operations, making them a widely used data structure for associative arrays and other applications where fast key-based access is required. It's crucial to choose a good hash function and manage load factors appropriately to ensure optimal performance.
-
-
-
-
