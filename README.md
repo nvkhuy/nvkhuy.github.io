@@ -166,6 +166,8 @@ All commands are run from the root of the project, from a terminal:
 > development (`astro check --watch & astro dev`). For more info,
 > see [this issue](https://github.com/nvkhuy/nvkhuy.github.io/issues/113).
 
+## Note
+> Change `pubDatetime` one day before current date to publish
 ## ✨ Feedback & Suggestions
 
 If you have any suggestions/feedback, you can contact me via [my email](mailto:contact@satnaing.dev). Alternatively,
