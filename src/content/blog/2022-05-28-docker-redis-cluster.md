@@ -1,7 +1,7 @@
 ---
 tags:
-    - docker
-    - redis
+  - docker
+  - redis
 title: Docker Redis Cluster
 author: Huy Nguyen
 pubDatetime: 2022-05-28T15:57:52.737Z
@@ -12,7 +12,8 @@ description: using redis cluster with docker
 ---
 
 ---
-Redis Cluster provides a way to run a Redis installation 
+
+Redis Cluster provides a way to run a Redis installation
 where data is automatically sharded across multiple Redis nodes.
 
 ---
@@ -40,11 +41,13 @@ services:
 ```
 
 ### Docker compose
+
 ```
 $ docker-compose up -d
 ```
 
 ### Connect redis cluster
+
 ```
 $ redis-client -c -h 127.0.0.1 -p 26379
 ```

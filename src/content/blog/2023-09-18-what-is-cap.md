@@ -1,7 +1,7 @@
 ---
 tags:
-   - interview
-   - principle
+  - interview
+  - principle
 title: What is CAP
 author: Huy Nguyen
 pubDatetime: 2023-09-18T15:57:52.737Z
@@ -10,14 +10,17 @@ featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: explain what is cap
 ---
+
 The CAP theorem, also known as Brewer's theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:
 
 1. **Consistency (C):**
+
    - Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.
    - Strong consistency ensures that every read operation will return the most recent write's result.
    - Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.
 
 2. **Availability (A):**
+
    - Availability refers to the system's ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.
    - High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.
    - Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.
@@ -40,14 +43,17 @@ It's important to note that the CAP theorem is a theoretical framework that help
 Let's delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:
 
 1. **Firestore (part of Google Cloud Firestore):**
+
    - **Consistency and Partition Tolerance:** Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).
    - **Example:** Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.
 
 2. **DynamoDB (Amazon DynamoDB):**
+
    - **Availability and Partition Tolerance:** DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.
    - **Example:** Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.
 
 3. **MongoDB (MongoDB Atlas - managed MongoDB service):**
+
    - **Consistency and Partition Tolerance or Availability and Partition Tolerance:** MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.
    - **Example for Consistency and Partition Tolerance:** In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.
    - **Example for Availability and Partition Tolerance:** In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.

@@ -9,6 +9,7 @@ featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: explain what is http and usage
 ---
+
 HTTP, or Hypertext Transfer Protocol, is an application-layer protocol used for transmitting hypermedia documents (such as HTML) over the World Wide Web. It's the foundation of data communication on the internet, enabling web browsers to request and retrieve web pages from web servers. HTTP operates on top of the TCP (Transmission Control Protocol) or sometimes on top of the TLS/SSL for secure communication (HTTPS). Here are some details about HTTP and its methods:
 
 **HTTP Methods (HTTP Verbs):**
@@ -49,7 +50,7 @@ The primary differences between these methods lie in their purpose and the effec
 Here's a comparison of common HTTP methods in a table format:
 
 | HTTP Method | Purpose                        | Idempotent | Request Body | Safe |
-|-------------|--------------------------------|------------|--------------|------|
+| ----------- | ------------------------------ | ---------- | ------------ | ---- |
 | GET         | Retrieve data from a resource  | Yes        | No           | Yes  |
 | POST        | Submit data to a resource      | No         | Yes          | No   |
 | PUT         | Replace a resource             | Yes        | Yes          | No   |
@@ -59,7 +60,6 @@ Here's a comparison of common HTTP methods in a table format:
 | PATCH       | Apply partial modifications    | No         | Yes          | No   |
 | CONNECT     | Establish network connection   | No         | Yes          | No   |
 | TRACE       | Retrieve diagnostic info       | Yes        | No           | Yes  |
-
 
 - **Idempotent:** An idempotent method means that making the same request multiple times has the same effect as making it once. For example, multiple GET or DELETE requests with the same parameters should have the same outcome each time. PUT and HEAD are also idempotent if the request body is the same.
 
@@ -89,16 +89,16 @@ Using the POST method for login requests is a security best practice because it 
 
 1. **Safe Methods:** Safe methods are HTTP methods that are considered to be safe, meaning they should not have any side effects on the server or its resources. These methods are generally cacheable by intermediaries like web browsers and proxies. Safe methods include:
 
-    - GET: Retrieves data from a resource.
-    - HEAD: Retrieves only the headers of a response (similar to GET but without the body).
-    - OPTIONS: Retrieves information about the communication options for a resource.
+   - GET: Retrieves data from a resource.
+   - HEAD: Retrieves only the headers of a response (similar to GET but without the body).
+   - OPTIONS: Retrieves information about the communication options for a resource.
 
 2. **Unsafe Methods:** Unsafe methods are HTTP methods that can have side effects on the server or its resources, and they are generally not cacheable. Unsafe methods include:
 
-    - POST: Submits data to the server to create or modify a resource.
-    - PUT: Replaces a resource at a specific URL with new data.
-    - DELETE: Requests the removal of a resource from the server.
-    - PATCH: Applies partial modifications to a resource.
+   - POST: Submits data to the server to create or modify a resource.
+   - PUT: Replaces a resource at a specific URL with new data.
+   - DELETE: Requests the removal of a resource from the server.
+   - PATCH: Applies partial modifications to a resource.
 
 The HTTP specification defines that safe methods are generally cacheable because they don't change server state. Therefore, GET, HEAD, and OPTIONS requests are often cached by intermediaries to improve performance and reduce server load. However, caching behavior can be influenced by various factors, including HTTP headers such as "Cache-Control" and "Expires."
 

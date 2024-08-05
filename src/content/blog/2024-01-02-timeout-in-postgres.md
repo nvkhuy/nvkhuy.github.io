@@ -11,7 +11,8 @@ featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: prevent long-running transactions from tying up resources
 ---
-**1.idle_in_transaction_session_timeout** 
+
+**1.idle_in_transaction_session_timeout**
 
 Determines the maximum time a session can remain idle inside a transaction before it is automatically terminated.
 Helps prevent long-running transactions from tying up resources.
@@ -83,5 +84,5 @@ Observe that the statement attempting to acquire the lock is canceled.
 
 Adjust these settings to configure TCP keepalives.
 Monitor network connections and observe how idle connections are handled.
-Review the impact of these settings in a controlled environment before applying them in a production setting. 
+Review the impact of these settings in a controlled environment before applying them in a production setting.
 Testing should involve various scenarios to ensure that the configured timeouts meet the requirements of your application without causing disruptions.

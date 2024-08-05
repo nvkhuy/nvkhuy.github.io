@@ -10,13 +10,16 @@ featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: solid principle
 ---
+
 The SOLID principles are a set of five design principles that help developers create more maintainable, flexible, and understandable software. Each principle addresses a specific aspect of software design and encourages the development of clean and modular code. Let's go through each of the SOLID principles and provide an example in Go (Golang) for each:
 
 **1. Single Responsibility Principle (SRP):**
-   - A class should have only one reason to change, meaning it should have only one responsibility.
-   - This principle encourages separation of concerns.
+
+- A class should have only one reason to change, meaning it should have only one responsibility.
+- This principle encourages separation of concerns.
 
 Example in Go:
+
 ```go
 package main
 
@@ -58,10 +61,12 @@ func main() {
 In this example, we have separate components (`OrderRepository` and `OrderService`) responsible for handling database operations and business logic, respectively, adhering to the Single Responsibility Principle.
 
 **2. Open-Closed Principle (OCP):**
-   - Software entities (classes, modules, functions) should be open for extension but closed for modification.
-   - This principle encourages adding new functionality by extending existing code, rather than changing it.
+
+- Software entities (classes, modules, functions) should be open for extension but closed for modification.
+- This principle encourages adding new functionality by extending existing code, rather than changing it.
 
 Example in Go:
+
 ```go
 package main
 
@@ -104,10 +109,12 @@ func main() {
 The Open-Closed Principle is demonstrated here by defining a `Shape` interface that can be extended with new shapes (e.g., adding a `Triangle`) without modifying the existing code that calculates the area.
 
 **3. Liskov Substitution Principle (LSP):**
-   - Objects of a derived class must be able to replace objects of the base class without affecting the correctness of the program.
-   - This principle ensures that derived classes adhere to the contract established by their base classes.
+
+- Objects of a derived class must be able to replace objects of the base class without affecting the correctness of the program.
+- This principle ensures that derived classes adhere to the contract established by their base classes.
 
 Example in Go:
+
 ```go
 package main
 
@@ -145,10 +152,12 @@ func main() {
 Here, both `Sparrow` and `Ostrich` implement the `Bird` interface, but while `Sparrow` can fly, `Ostrich` cannot. Still, both can be used interchangeably with the `MakeBirdFly` function, adhering to the Liskov Substitution Principle.
 
 **4. Interface Segregation Principle (ISP):**
-   - Clients should not be forced to depend on interfaces they do not use.
-   - This principle encourages creating smaller, more focused interfaces.
+
+- Clients should not be forced to depend on interfaces they do not use.
+- This principle encourages creating smaller, more focused interfaces.
 
 Example in Go:
+
 ```go
 package main
 
@@ -200,11 +209,13 @@ func main() {
 In this example, we have two interfaces, `Worker` and `Eater`, and two types, `Robot` and `Human`. Each type only implements the methods it needs, adhering to the Interface Segregation Principle.
 
 **5. Dependency Inversion Principle (DIP):**
-   - High-level modules should not depend on low-level modules. Both should depend on abstractions.
-   - Abstractions should not depend on details. Details should depend on abstractions.
-   - This principle encourages the use of interfaces and abstractions to decouple high-level and low-level modules.
+
+- High-level modules should not depend on low-level modules. Both should depend on abstractions.
+- Abstractions should not depend on details. Details should depend on abstractions.
+- This principle encourages the use of interfaces and abstractions to decouple high-level and low-level modules.
 
 Example in Go:
+
 ```go
 package main
 

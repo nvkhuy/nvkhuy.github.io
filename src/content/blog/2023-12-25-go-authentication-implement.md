@@ -294,9 +294,11 @@ func main() {
 }
 
 ```
+
 This Go code provides a simplified implementation of user authentication and authorization using JSON Web Tokens (JWT) in Golang. Let's break down the code step by step:
 
 User Struct and Database Setup:
+
 ```go
 type User struct {
 	ID       int
@@ -306,17 +308,20 @@ type User struct {
 ```
 
 Defines a User struct to represent a user in the system with attributes such as ID, username, and password.
+
 ```go
 var users = make(map[string]User)
 ```
 
 Creates an in-memory map (users) to simulate a simple database where user data is stored.
+
 ```go
 var jwtSecret = []byte("your_jwt_secret")
 ```
 
 Defines a secret key used for signing and verifying JWTs. In a real-world scenario, this should be kept secure and not hardcoded in the code.
 JWT Claims Structure:
+
 ```go
 type Claims struct {
 	UserID int `json:"user_id"`
@@ -326,6 +331,7 @@ type Claims struct {
 
 Defines a Claims struct to represent the claims included in JWTs. In this case, it includes a UserID field and inherits from jwt.StandardClaims for standard JWT claims.
 Signup Function:
+
 ```go
 func signup(username, password string) error {
     // ...
@@ -334,6 +340,7 @@ func signup(username, password string) error {
 
 Implements user signup by checking if the username already exists, hashing the password, creating a new user, and saving it in the simulated database.
 Login Function:
+
 ```go
 func login(username, password string) (string, string, error) {
     // ...
@@ -342,6 +349,7 @@ func login(username, password string) (string, string, error) {
 
 Handles user login by retrieving the user from the database, comparing the hashed password, and generating JWTs (access token and refresh token) if login is successful.
 Reset Password Function:
+
 ```go
 func resetPassword(username, newPassword string) error {
     // ...
@@ -368,6 +376,7 @@ func getUserByID(userID int) (User, bool) {
 
 Retrieves a user from the database based on their ID.
 Generate Access Token Function:
+
 ```go
 func generateAccessToken(userID int) (string, error) {
     // ...
@@ -376,6 +385,7 @@ func generateAccessToken(userID int) (string, error) {
 
 Creates a new access token with user-specific claims and an expiration time.
 Generate Refresh Token Function:
+
 ```go
 func generateRefreshToken(userID int) (string, error) {
     // ...
@@ -384,6 +394,7 @@ func generateRefreshToken(userID int) (string, error) {
 
 Generates a refresh token with user-specific claims and a longer expiration time.
 Validate Access Token Function:
+
 ```go
 func validateAccessToken(accessToken string) (int, error) {
     // ...
@@ -392,6 +403,7 @@ func validateAccessToken(accessToken string) (int, error) {
 
 Parses and validates an access token, returning the user ID if successful.
 Refresh Access Token Function:
+
 ```go
 func refreshAccessToken(refreshToken string) (string, error) {
     // ...
@@ -400,6 +412,7 @@ func refreshAccessToken(refreshToken string) (string, error) {
 
 Parses and validates a refresh token, then generates a new access token if successful.
 Main Function:
+
 ```go
 func main() {
     // ...

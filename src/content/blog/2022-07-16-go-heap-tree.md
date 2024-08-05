@@ -10,11 +10,13 @@ featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: example using go heap tree
 ---
+
 Implement golang heap tree interface
 
 ---
 
 ### Code
+
 ```go
 package main
 
@@ -24,14 +26,14 @@ import (
 )
 type IntHeap []int
 
-func (h IntHeap) Len() int { 
-    return len(h) 
+func (h IntHeap) Len() int {
+    return len(h)
 }
-func (h IntHeap) Less(i, j int) bool { 
-    return h[i] < h[j] 
+func (h IntHeap) Less(i, j int) bool {
+    return h[i] < h[j]
 }
-func (h IntHeap) Swap(i, j int) { 
-    h[i], h[j] = h[j], h[i] 
+func (h IntHeap) Swap(i, j int) {
+    h[i], h[j] = h[j], h[i]
 }
 func (h *IntHeap) Push(x interface{}) {
 	*h = append(*h, x.(int))
@@ -55,6 +57,7 @@ func main() {
 ```
 
 ### Output
+
 ```
 $go run main.go
 2022/07/15 09:47:10 [1 5 3]
