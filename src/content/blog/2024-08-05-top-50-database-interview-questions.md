@@ -5,7 +5,7 @@ tags:
   - interview
 title: Top 50 Most Asked Database Interview Questions
 author: Huy Nguyen
-pubDatetime: 2024-08-05T11:20:00.737Z
+pubDatetime: 2024-08-04T11:20:00.737Z
 slug: top-50-most-asked-database-interview-questions
 featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
