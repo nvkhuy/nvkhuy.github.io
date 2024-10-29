@@ -7,6 +7,7 @@ import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import Pagination from "@components/Pagination.astro";
 import { SITE } from "@config";
+import PostGrid from "../components/PostGrid.astro";
 
 export interface Props {
   currentPage: number;
@@ -26,14 +27,7 @@ const { currentPage, totalPages, paginatedPosts, tag, tagName } = Astro.props;
     titleTransition={tag}
     pageDesc={`All the articles with the tag "${tagName}".`}
   >
-    <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
-    <ul>
-      {
-        paginatedPosts.map(({ data, slug }) => (
-          <Card href={`/posts/${slug}/`} frontmatter={data} />
-        ))
-      }
-    </ul>
+    <PostGrid posts={paginatedPosts}></PostGrid>
   </Main>
 
   <Pagination
