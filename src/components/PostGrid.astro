@@ -1,0 +1,29 @@
+---
+import type {CollectionEntry} from "astro:content";
+import Card from "./Card";
+export interface Props {
+  title?: string,
+  posts: CollectionEntry<"blog">[]
+}
+const {title, posts} = Astro.props;
+
+console.log('posts:', posts.length)
+---
+<div>
+  <section id="recent-posts" className={`pt-4`}>
+    <h2 className={`text-2xl font-bold`}>{title}</h2>
+    <div className={`mt-4 grid md:grid-cols-2 lg:grid-cols-3 gap-4`}>
+      {posts.map(
+        ({data, slug}, index) =>
+          index < 10 && (
+            <Card
+              href={`/posts/${slug}/`}
+              frontmatter={data}
+              secHeading={false}
+            />
+          ),
+      )}
+    </div>
+  </section>
+</div>
+

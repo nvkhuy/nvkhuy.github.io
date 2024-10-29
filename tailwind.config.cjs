@@ -1,5 +1,5 @@
 function withOpacity(variableName) {
-  return ({ opacityValue }) => {
+  return ({opacityValue}) => {
     if (opacityValue !== undefined) {
       return `rgba(var(${variableName}), ${opacityValue})`;
     }
@@ -15,6 +15,8 @@ module.exports = {
     // if one breakpoint is not enough for you
     screens: {
       sm: "640px",
+      md: "768px",
+      lg: "1024px"
     },
 
     extend: {

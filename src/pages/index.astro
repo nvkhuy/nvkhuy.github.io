@@ -1,26 +1,26 @@
 ---
-import { getCollection } from "astro:content";
+import {getCollection} from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import PostGrid from "@components/PostGrid.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
-import { SOCIALS } from "@config";
+import {SOCIALS} from "@config";
 
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const featuredPosts = sortedPosts.filter(({data}) => data.featured);
+const recentPosts = sortedPosts.filter(({data}) => !data.featured);
 
 const socialCount = SOCIALS.filter((social) => social.active).length;
 ---
 
 <Layout>
-  <Header />
+  <Header/>
   <main id="main-content">
     <section id="hero">
       <h1>Engineer</h1>
@@ -44,68 +44,21 @@ const socialCount = SOCIALS.filter((social) => social.active).length;
       </a>
 
       <p>Website development and mobile game analysis</p>
-      <p>
-        Read the blog posts or check
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="https://github.com/nvkhuy/nvkhuy.github.io#readme"
-        >
-          README
-        </LinkButton>
-        for more info.
-      </p>
       {
         // only display if at least one social link is enabled
 
         socialCount > 0 && (
           <div class="social-wrapper">
             <div class="social-links">Social Links:</div>
-            <Socials />
+            <Socials/>
           </div>
         )
       }
     </section>
 
-    <Hr />
-    {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured">
-            <h2>Featured</h2>
-            <ul>
-              {featuredPosts.map(({ data, slug }) => (
-                <Card
-                  href={`/posts/${slug}/`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-            </ul>
-          </section>
-          {recentPosts.length > 0 && <Hr />}
-        </>
-      )
-    }
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts">
-          <h2>Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              ({ data, slug }, index) =>
-                index < 4 && (
-                  <Card
-                    href={`/posts/${slug}/`}
-                    frontmatter={data}
-                    secHeading={false}
-                  />
-                ),
-            )}
-          </ul>
-        </section>
-      )
-    }
+    <Hr/>
+    <PostGrid title="Featured" posts={featuredPosts}></PostGrid>
+    <PostGrid title="Recent Posts" posts={recentPosts}></PostGrid>
 
     <div class="all-posts-btn-wrapper">
       <LinkButton href="/posts/">
@@ -119,7 +72,7 @@ const socialCount = SOCIALS.filter((social) => social.active).length;
     </div>
   </main>
 
-  <Footer />
+  <Footer/>
 </Layout>
 
 <style>
