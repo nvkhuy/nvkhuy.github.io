@@ -1,11 +1,11 @@
-import type { Site, SocialObjects } from "./types";
+import type {Site, SocialObjects} from "./types";
 
 export const SITE: Site = {
-  website: "https://nvkhuy.github.io/", // replace this with your deployed domain
+  website: "https://nvkhuy.com", // replace this with your deployed domain
   author: "nvkhuy",
-  desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
+  desc: "Website development and mobile game analysis",
   title: "nvkhuy",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "https://mrwallpaper.com/images/hd/happy-patrick-star-and-spongebob-cbeyd5uj2lgmfnb1.jpg",
   lightAndDarkMode: true,
   postPerPage: 6,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
