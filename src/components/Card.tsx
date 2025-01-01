@@ -25,7 +25,7 @@ export default function Card({href, frontmatter, secHeading = true}: Props) {
       <div className="">
         <img
           src={ogImage as string}
-          className="object-cover w-full h-auto rounded-lg"
+          className="object-cover w-auto h-auto rounded-lg"
           decoding="async"
           loading="lazy"
           alt={title}

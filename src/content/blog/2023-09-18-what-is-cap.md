@@ -7,7 +7,7 @@ author: Huy Nguyen
 pubDatetime: 2023-09-18T15:57:52.737Z
 slug: what-is-cap
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://creatorset.com/cdn/shop/files/Green_Screen_Word_World_Duck_saying_CAP_meme_1_-0_1920x.jpg?v=1729857071
 description: explain what is cap
 ---
 

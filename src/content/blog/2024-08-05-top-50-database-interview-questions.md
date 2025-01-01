@@ -8,7 +8,7 @@ author: Huy Nguyen
 pubDatetime: 2024-08-04T11:20:00.737Z
 slug: top-50-most-asked-database-interview-questions
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://stackify.com/wp-content/uploads/2018/11/Performance-Tuning-PostgreSQL-3-881x441-1.jpg
 description: top 50 most asked database interview questions
 ---
 

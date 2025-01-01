@@ -6,7 +6,7 @@ author: Huy Nguyen
 pubDatetime: 2023-09-24T15:57:52.737Z
 slug: go-design-patterns
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://refactoring.guru/images/patterns/content/adapter/adapter-en-3x.png
 description: go design patterns and use case
 ---
 

@@ -7,7 +7,7 @@ author: Huy Nguyen
 pubDatetime: 2024-01-06T15:57:52.737Z
 slug: microservices-interview-question
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://preview.redd.it/facnuh4p58tb1.jpg?auto=webp&s=449f040e0e69ab85512893d4137813968734d7d4
 description: detailed answer top 13 microservice interview questions
 ---
 

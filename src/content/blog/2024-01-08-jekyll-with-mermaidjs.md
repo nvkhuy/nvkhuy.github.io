@@ -6,7 +6,7 @@ author: Huy Nguyen
 pubDatetime: 2024-01-06T15:57:52.737Z
 slug: mermaid-js-chart
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://shutupandtakemymoney.com/wp-content/uploads/2022/09/lil-wayne-mermaid-meme.jpg
 description: chart example in mermaid js
 ---
 

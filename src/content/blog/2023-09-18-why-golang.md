@@ -6,7 +6,7 @@ author: Huy Nguyen
 pubDatetime: 2023-09-18T15:57:52.737Z
 slug: why-golang
 featured: true
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://syslog.me/wp-content/uploads/2018/05/goroutines.png?w=676&h=483
 description: explain the need and benefits using golang
 ---
 

@@ -7,7 +7,7 @@ author: Huy Nguyen
 pubDatetime: 2023-12-25T15:57:52.737Z
 slug: go-authentication-implementation
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
+ogImage: https://preview.redd.it/q75e2phwyzs71.png?width=640&crop=smart&auto=webp&s=be75e0a64ca115aa55876b93f143fe402955da25
 description: detailed example of go authentication
 ---
 

@@ -4,7 +4,7 @@ title: "I'm Huy Nguyen"
 ---
 <h2 align="center">A Developer 👨🏻‍💻 from Viet Nam 🇻🇳</h2>
 
-<a align="center" href="https://github.com/nvkhuy"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=435&lines=Mobile+Game+Developer;Web+Full+Stack&center=true&width=800&height=60"></a>
+<a align="center" href="https://github.com/nvkhuy"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=435&lines=Mobile+Game+Developer;Web+Full+Stack&center=true&width=800&height=60" alt="dev-image"></a>
 <a href="https://www.linkedin.com/in/nvkhuy">
   <img align="left" alt="LinkedIn" width="40px" src="https://img.icons8.com/?size=48&id=13930&format=png" />
 </a>
@@ -14,7 +14,7 @@ title: "I'm Huy Nguyen"
 <br/>
 
 ## About Me
-<img align='right' src="https://media.giphy.com/media/gjrYDwbjnK8x36xZIO/giphy.gif" width="230">
+<img align='right' src="https://media.giphy.com/media/gjrYDwbjnK8x36xZIO/giphy.gif" alt="dev-image" width="230">
 <b>Developer 👨🏻‍💻</b> with extensive experience in large-scale, high-intensity service environments. I have a successful track record, including a game app published on Google Play 🛒 that ranked highly 🤩 in the Japan App Store ⛩️. My expertise in JavaScript and Unity fuels my passion for web and app development. I thrive in collaborative settings 🤝, consistently meeting deadlines while showcasing strong 💪 coding and interpersonal skills. Embracing new challenges and opportunities 📈.
 <br/>
 <br/>

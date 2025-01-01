@@ -7,7 +7,7 @@ author: Huy Nguyen
 pubDatetime: 2030-10-18T11:20:00.737Z
 slug: tiktok-video-ad-strategy
 featured: false
-ogImage: https://avatars.mds.yandex.net/get-games/6238841/2a0000018dd12aed5b7bd426de200506e45a/orig
+ogImage: https://i.ytimg.com/vi/RiqXeUwDTmU/maxresdefault.jpg
 description: Tiktok video ad strategy
 ---
 
