@@ -1,6 +1,7 @@
 ---
 tags:
   - javascript
+  - cheatsheet
 title: JS Data Structures Cheat Sheet
 author: Huy Nguyen
 pubDatetime: 2025-12-25T11:20:00.737Z
