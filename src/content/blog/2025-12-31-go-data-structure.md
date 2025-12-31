@@ -734,12 +734,6 @@ oops
 
 ---
 
-Got it 👍
-Below are **additional frequently-used Go data structures** added on top of the previous cheatsheet.
-Same rule: **only code + sample input + sample output**, minimal text.
-
----
-
 ## 36. Stack (Struct-based)
 
 ```go
