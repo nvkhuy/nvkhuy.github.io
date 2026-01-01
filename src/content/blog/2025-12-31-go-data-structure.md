@@ -5,7 +5,7 @@ tags:
 title: Golang Data Structures Cheat Sheet
 author: Huy Nguyen
 pubDatetime: 2025-12-30T11:20:00.737Z
-slug: golang-data-structure-cheat-shee
+slug: golang-data-structure-cheat-sheet
 featured: false
 ogImage: https://pbs.twimg.com/media/DcvcASxX4AAQv56.jpg
 description: Common manipulation patterns.
