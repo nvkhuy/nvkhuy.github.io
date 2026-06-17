@@ -1,0 +1,5 @@
+want you going to post 2026-06-14-understanding-go-scheduler-gmp.md
+and fix it
+1. make the post coherent and talking about one topic, right now post look like 3 topic combine together
+2. double check everything that post with https://github.com/golang/go/blob/master/src/runtime/proc.go
+3. Keep words simple but describe exactly how goroutines works

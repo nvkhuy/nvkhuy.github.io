@@ -9,284 +9,341 @@ author: Huy Nguyen
 pubDatetime: 2026-06-14T02:50:00Z
 slug: go-scheduler-gmp-model
 featured: true
-ogImage: /assets/go-scheduler-cover.png
-description: "A simple, comprehensive guide to Go's runtime scheduler. Learn how the G-M-P model, work-stealing, and thread handoffs manage millions of concurrent tasks."
+ogImage: /assets/go-scheduler-funny.png
+description: "How Go schedules goroutines."
 ---
 
 ## Table of contents
 
 ---
 
-Go is famous for its simple and powerful concurrency model. Using the `go` keyword, you can spawn thousands or even millions of concurrent tasks (called Goroutines) without breaking a sweat. 
+Go makes concurrency look small:
 
-But how does Go manage this under the hood? 
-
-Historically, operating systems (OS) manage concurrency using heavy threads. Spawning millions of them would crash your system. To solve this, Go has its own lightweight scheduler that runs inside user space, using a design called the **G-M-P model**. 
-
-Let's break down how it works using simple terms and official Go design concepts.
-
----
-
-## The Core Problem: Why Are OS Threads Too Heavy?
-
-In languages like Java or C++, applications typically map threads directly **1:1** to operating system (OS) threads. This is problematic for two main reasons:
-
-1.  **Memory Footprint:** Each OS thread comes with a fixed-size stack of around 1MB to 2MB. Spawning 10,000 threads would require 10GB to 20GB of RAM just for their stacks.
-2.  **Context Switching Cost:** When the CPU switches from running one thread to another, it has to save and load registers and memory states. This swap happens in kernel space and takes about 1,000 to 2,000 nanoseconds, which adds up fast.
-
-Go uses an **M:N scheduler**. It maps **N** lightweight Goroutines onto **M** heavy OS threads. 
-
-| Feature | OS Threads (1:1 Model) | Goroutines (M:N Model) |
-| :--- | :--- | :--- |
-| **Stack Size** | ~1MB - 2MB (Fixed size) | ~2KB (Grows & shrinks dynamically) |
-| **Creation Cost** | High (Requires OS kernel allocation) | Very Low (User-space allocation) |
-| **Switching Speed** | Slow (~1-2 μs, enters OS kernel) | Fast (~100-200 ns, stays in Go runtime) |
-| **Managed By** | Operating System Kernel | Go Runtime Scheduler |
-
-### The Evolution of Go Stacks: Solving the "Hot Split"
-
-To make Goroutines so cheap, Go had to solve a major stack memory problem:
-
-*   **Segmented Stacks (Pre-Go 1.3):** Early versions of Go allocated a new memory block and linked it to the old stack (like a linked list) when a Goroutine ran out of space. However, this caused the **"Hot Split"** (or stack thrashing) problem. If a loop repeatedly called a function right at the boundary of a segment, Go would constantly allocate and deallocate memory blocks, creating a severe performance bottleneck.
-*   **Contiguous Stacks (Go 1.3+):** To fix this, Go changed to contiguous stacks. When a Goroutine runs out of stack space, the runtime allocates a new contiguous memory block that is **double the size**, copies the old stack's content into it, updates all internal pointers to the new addresses, and frees the old stack. This keeps stack memory contiguous and eliminates the hot split overhead.
-
----
-
-## Meet the G-M-P Model
-
-Go's scheduler uses three main components, represented by the letters **G**, **M**, and **P**. Think of them like workers in a factory:
-
-*   **G (Goroutine / The Tasks):** The actual code you want to run (the total count is **N**). It starts with a tiny 2KB stack and contains its execution state.
-*   **M (Machine / The Workers):** A physical OS thread (the total count is **M**). The workers do the actual CPU execution, but they cannot do anything without a desk (P).
-*   **P (Processor / The Desks):** The logical resource or "context" needed to run Go code (the total count is **P**). Think of it as a worker's desk. The number of desks (Ps) is determined by `GOMAXPROCS` (which defaults to your CPU's core count).
-
-### The Concurrency Formula: N >= M >= P
-
-The relationship between the number of Goroutines (**N**), OS threads (**M**), and logical processors (**P**) is governed by the following formula:
-
-<p align="center" style="font-size: 1.25em;">
-  <strong>N (Goroutines) &ge; M (OS Threads) &ge; P (Logical Processors)</strong>
-</p>
-
-```mermaid
-graph TD
-    subgraph G_layer[" "]
-        g_lbl[N Goroutines]
-        g1{G}
-        g2{G}
-        g3{G}
-        g4{G}
-        g5{G}
-        g6{G}
-        g7{G}
-    end
-
-    subgraph M_layer[" "]
-        m_lbl[M Threads]
-        t1((T))
-        t2((T))
-        t3((T))
-        t4((T))
-        t5((T))
-    end
-
-    subgraph P_layer[" "]
-        p_lbl[P Processors]
-        p1[P]
-        p2[P]
-        p3[P]
-    end
-
-    %% Align the labels vertically on the left
-    g_lbl -.-> m_lbl -.-> p_lbl
-
-    %% Connect Goroutines to Threads
-    g1 -.-> t1
-    g2 -.-> t1
-    g3 -.-> t2
-    g4 -.-> t3
-    g5 -.-> t4
-    g6 -.-> t5
-    g7 -.-> t5
-
-    %% Connect Threads to Processors
-    t1 -.-> p1
-    t2 -.-> p1
-    t3 -.-> p2
-    t4 -.-> p3
-    t5 -.-> p3
-
-    %% Style Nodes
-    style g1 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-    style g2 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-    style g3 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-    style g4 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-    style g5 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-    style g6 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-    style g7 fill:#fbcfe8,stroke:#ec4899,stroke-width:1px
-
-    style t1 fill:#dbeafe,stroke:#3b82f6,stroke-width:1px
-    style t2 fill:#dbeafe,stroke:#3b82f6,stroke-width:1px
-    style t3 fill:#dbeafe,stroke:#3b82f6,stroke-width:1px
-    style t4 fill:#dbeafe,stroke:#3b82f6,stroke-width:1px
-    style t5 fill:#dbeafe,stroke:#3b82f6,stroke-width:1px
-
-    style p1 fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px
-    style p2 fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px
-    style p3 fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px
-
-    %% Style Labels
-    style g_lbl fill:none,stroke:none,font-weight:bold,color:#475569
-    style m_lbl fill:none,stroke:none,font-weight:bold,color:#475569
-    style p_lbl fill:none,stroke:none,font-weight:bold,color:#475569
-
-    %% Style Subgraphs
-    style G_layer fill:#fff5f5,stroke:#feb2b2
-    style M_layer fill:#eff6ff,stroke:#bfdbfe
-    style P_layer fill:#f9fafb,stroke:#e5e7eb
+```go
+go sendEmail(userID)
 ```
 
-*   **N (Goroutines):** The user-space tasks. Since they are extremely cheap, you can spawn millions of them.
-*   **M (OS Threads):** The physical system threads. Go creates them as needed (e.g. when threads block in system calls). While some are actively executing code, many are sleeping or idle in the pool.
-*   **P (Logical Processors):** The hard limit on active execution. Only **P** threads can actively run Go code at any single moment. This is set by `GOMAXPROCS` (defaults to CPU core count).
+That line creates a goroutine. A goroutine is not an operating system thread. It is a small unit of work managed by the Go runtime.
 
-```mermaid
-graph LR
-    subgraph OS_Kernel[OS Kernel Space]
-        M1[OS Thread M1]
-        M2[OS Thread M2]
-    end
+The scheduler's job is simple to say and hard to implement: keep runnable goroutines moving onto CPU time without creating one OS thread for every goroutine.
 
-    subgraph Go_Runtime[Go Runtime Space]
-        P1[Logical Processor P1] --> M1
-        P2[Logical Processor P2] --> M2
-        
-        subgraph P1_Context[P1 Desk]
-            LRQ1[Local Run Queue]
-            G_active1[Active Goroutine G1]
-        end
+The current Go scheduler is built around three things:
 
-        subgraph P2_Context[P2 Desk]
-            LRQ2[Local Run Queue]
-            G_active2[Active Goroutine G2]
-        end
-        
-        GRQ[Global Run Queue] -.-> P1
-        GRQ -.-> P2
-    end
-```
+- `G`: a goroutine, which is the work Go wants to run.
+- `M`: an OS thread, called a machine in the runtime.
+- `P`: a processor, which is the runtime resource an `M` needs before it can run Go code.
 
-### The Anatomy of a Context Switch: Registers & TLB Cache
-
-Why is switching between Goroutines so much faster than OS threads? It comes down to what the CPU has to save at the hardware level:
-
-*   **OS Thread Context Switch (Heavyweight):** The kernel has to save a massive CPU state, including 16 general-purpose registers, floating-point registers, AVX vector registers, segment registers, and CPU stack pointers. Crucially, the OS must also switch the memory page table. This invalidates the CPU's **Translation Lookaside Buffer (TLB)**, which causes severe cache misses and slows down execution.
-*   **Goroutine Context Switch (Lightweight):** The Go scheduler runs in user space and only needs to save about **14 registers** (such as the Stack Pointer, Program Counter, and a few others). Since all Goroutines share the same memory space, there is no page table switch. The TLB remains warm, and the CPU cache stays highly efficient.
+This is the G-M-P model.
 
 ---
 
-## How Go Schedules Work
+## The Main Idea
 
-Each desk (P) has a **Local Run Queue (LRQ)** containing up to 256 tasks (Gs) waiting to be run. There is also a shared **Global Run Queue (GRQ)** for any extra tasks.
+An `M` runs code on a real OS thread, but it cannot run normal Go code unless it owns a `P`.
 
-When an OS thread (M) wants to work, it must sit at a desk (P) and look for a task (G) to run. It searches for tasks in this order:
+A `P` owns the scheduler state needed to run goroutines. The most important part is its local run queue: a small queue of runnable `G`s waiting for CPU time.
 
-1.  **Check Starvation (The 61-Tick Rule):** Every 61 scheduler iterations, P checks the Global Run Queue first. This ensures tasks in the global queue don't get ignored forever.
-2.  **Check Local Run Queue:** M grabs a G from its own local queue.
-3.  **Check Global Run Queue:** If the local queue is empty, M checks the shared global queue.
-4.  **Check Network Poller:** M checks if there are any network requests that just finished.
-5.  **Work Stealing:** If there is still no work, M goes to other desks (Ps) and steals half of their waiting tasks.
+`GOMAXPROCS` controls how many `P`s exist. That means it controls how many OS threads can run Go code at the same time. The runtime may have more OS threads than `GOMAXPROCS`, but only threads with a `P` can execute Go code.
 
 ```mermaid
-flowchart TD
-    Start[M needs a Goroutine to run] --> TickCheck{Is it the 61st tick?}
-    
-    TickCheck -- Yes --> GlobalCheck[Check Global Queue]
-    TickCheck -- No --> LocalCheck[Check Local Queue]
-    
-    GlobalCheck -- Found G --> Run[Run Goroutine]
-    GlobalCheck -- Empty --> LocalCheck
-    
-    LocalCheck -- Found G --> Run
-    LocalCheck -- Empty --> GlobalCheckSecond[Check Global Queue again]
-    
-    GlobalCheckSecond -- Found G --> Run
-    GlobalCheckSecond -- Empty --> NetCheck[Check Network Poller]
-    
-    NetCheck -- Found ready G --> Run
-    NetCheck -- Empty --> StealCheck[Steal from another P]
-    
-    StealCheck -- Found G --> Run
-    StealCheck -- Empty --> Sleep[M releases P and goes to sleep]
+flowchart LR
+    subgraph Exec[execution]
+        direction TB
+        CPU[CPU]
+        M[M: OS thread]
+        Running[G running]
+        CPU --> M --> Running
+    end
+
+    subgraph P[P: scheduler state]
+        direction TB
+        RN[runnext slot]
+        LRQ[local run queue]
+    end
+
+    NewG[new runnable G]
+    OtherG[more runnable Gs]
+
+    M -.-> P
+    NewG --> RN
+    OtherG --> LRQ
 ```
+
+In a busy program, the shape often looks like this:
+
+- many goroutines (`G`)
+- fewer OS threads (`M`)
+- a fixed number of processors (`P`)
+
+So people often write it as `G >= M >= P`. That is a useful mental model, not a hard rule. The runtime can create extra `M`s when threads block in syscalls, and some `M`s can exist without a `P`.
+
+The hard rule is this: an `M` needs a `P` to run Go code.
 
 ---
 
-## Handling Blocks and Bottlenecks
+## What Happens When You Start a Goroutine
 
-What happens when a task gets stuck (e.g., waiting for a file to read, a network request, or a lock)? Go handles these blocks in two primary ways:
+The compiler turns a `go` statement into a runtime call that creates a new `G`.
 
-### 1. Network I/O (The Netpoller)
-If a Goroutine blocks on a network request, Go doesn't block the OS thread (M). 
-*   Instead, the Goroutine (G) is moved to the **Netpoller** (a subsystem that monitors network sockets).
-*   The thread (M) remains at its desk (P) and immediately moves on to the next Goroutine in the local queue.
-*   Once the network data arrives, the Netpoller moves the blocked Goroutine back to a run queue.
+In `proc.go`, `newproc` creates that goroutine and calls `runqput(pp, newg, true)`. That means the runtime first tries to put the new goroutine in `runnext`; if that slot is already used, it falls back to the current `P`'s local run queue. It also calls `wakep` so an idle thread can wake up if more execution capacity is needed.
 
-### 2. Blocking System Calls (Thread Handoff)
-Some operations, like reading files from a hard drive, block the entire OS thread (M). In this case:
-*   The active thread (M1) blocks in the kernel.
-*   The Go runtime immediately detaches the desk (P) from the blocked thread (M1).
-*   An idle thread (M2), or a newly spawned one, takes over the desk (P) and continues running the remaining tasks.
-*   When the blocked thread (M1) finally finishes its file read, it tries to get a desk (P). If none are free, it puts the Goroutine (G1) in the Global Queue and goes to sleep in the idle pool.
+The new goroutine does not run immediately just because you wrote `go`.
+
+It becomes runnable:
 
 ```mermaid
 sequenceDiagram
-    participant G1 as Goroutine (G1)
-    participant M1 as OS Thread (M1)
-    participant P as Desk (P)
-    participant M2 as Idle Thread (M2)
+    participant App as Your code
+    participant Runtime as Go runtime
+    participant P as Current P
+    participant M as Worker M
 
-    Note over G1,M1: G1 is running on M1 at Desk P
-    G1->>M1: Calls blocking File Read (Syscall)
-    Note over M1: M1 blocks in OS Kernel
-    Note over P: Scheduler detaches Desk P from M1
-    P->>M2: Handed off to M2
-    Note over P,M2: M2 runs G2, G3... on Desk P
-    Note over G1,M1: File read completes
-    M1->>P: Tries to grab a free Desk
-    Note over G1: If no Desk free, G1 goes to Global Queue
-    Note over M1: M1 goes to sleep
+    App->>Runtime: go fn()
+    Runtime->>Runtime: newproc creates _Grunnable G
+    Runtime->>P: runqput(P, G, true)
+    Note over P: try runnext, then local run queue
+    Runtime->>M: wakep if main has started
+    M->>Runtime: schedule calls findRunnable
+    Runtime->>P: runqget checks runnext, then local queue
+    P-->>M: runnable G
+    M->>Runtime: execute G
 ```
 
----
-
-## Preemption: Sharing CPU Time Fairly
-
-What if a Goroutine is running a massive loop (e.g., `for { }`) and refuses to let other tasks run?
-
-*   **Cooperative Preemption (Before Go 1.14):** Goroutines would only yield control at function calls. A tight loop without function calls could block a thread permanently, starving other tasks.
-*   **Asynchronous Preemption (Go 1.14+):** A background monitoring thread (`sysmon`) keeps track of execution time. If a Goroutine runs for more than 10 milliseconds, the runtime sends a system signal (`SIGURG`) to the thread. The signal handler pauses the Goroutine, moves it back to the queue, and lets another task run.
+A runnable goroutine waits until some `M` with a `P` picks it.
 
 ---
 
-## Best Practices for Developers
+## How a P Chooses the Next Goroutine
 
-Now that you know how the scheduler works, you can write more efficient code:
+The runtime function `schedule` asks `findRunnable` for work. That search is the heart of the scheduler.
 
-1.  **Use `automaxprocs` in Docker:** By default, Go sets `GOMAXPROCS` to the number of host CPUs. In container environments (like Kubernetes), this can cause thread thrashing if your container is restricted to 1 or 2 CPU limits. Import `go.uber.org/automaxprocs` to automatically match container CPU limits.
-2.  **Observe with `GODEBUG`:** You can print out the state of your scheduler in real-time by running your app with the `schedtrace` flag:
-    ```bash
-    $ GODEBUG=schedtrace=1000 ./my-app
-    ```
-    This prints statistics every 1000ms:
-    ```text
-    SCHED 1002ms: gomaxprocs=4 idleprocs=1 threads=6 spinningthreads=0 idlethreads=2 runqueue=1 [1 0 0 0]
-    ```
-    *   `runqueue=1`: One task in the Global Queue.
-    *   `[1 0 0 0]`: Number of tasks waiting at each of the 4 desks (Ps).
+The full path includes runtime work and normal goroutine work. In simple terms, `findRunnable` does this:
+
+1. Check runtime work such as safe points, trace reader work, and GC worker work.
+2. Check the global run queue once in a while.
+3. Wake finalizer and cleanup goroutines if needed.
+4. Check `runnext`, then the local run queue for the current `P`.
+5. Check the global run queue again and move a batch to the local queue.
+6. Poll the network poller without blocking.
+7. Steal work from other `P`s.
+8. Try idle GC or wasm callback work.
+9. If there is still no work, release the `P`, recheck for missed work, then block in netpoll or stop the `M`.
+
+The global queue is checked every 61 scheduler ticks before the local queue. This avoids a bad case where goroutines on one local queue keep creating more goroutines and global work waits too long.
+
+```mermaid
+flowchart TB
+    S0[findRunnable starts]
+    S1[1. runtime work: trace reader, GC worker, safepoint]
+    S2[2. every 61 ticks: try global queue first]
+    S3[3. wake finalizer and cleanup goroutines]
+    S4[4. local work: runnext, then local queue]
+    S5[5. global queue batch]
+    S6[6. non-blocking netpoll]
+    S7[7. stealWork from other Ps]
+    S8[8. idle GC or wasm callback work]
+    S9[9. no work: release P, then sleep or wait in netpoll]
+    S10[later: wake up and search again]
+
+    S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9 --> S10
+```
+
+Each search box returns immediately if it finds a goroutine to run. If none of them finds work, the `M` releases its `P`, sleeps or waits in netpoll, and later starts the search again.
+
+The runtime also checks internal work such as tracing, GC workers, finalizers, cleanups, and timers. Those details matter inside the runtime, but the main user-level idea stays the same: the scheduler is always looking for a runnable `G`.
 
 ---
 
-## Conclusion
+## Local Queues, Global Queue, and Runnext
 
-Go's scheduler is a masterpiece of systems engineering. By decoupling tasks (**G**) from physical threads (**M**) using logical desks (**P**), Go minimizes context switches and memory overhead. Understanding these internals helps you build high-performance, container-friendly applications.
+Each `P` has:
+
+- a local run queue with 256 slots
+- a `runnext` slot for a goroutine that should run very soon
+- access to the shared global run queue
+
+When a new goroutine is created, the runtime usually tries to put it in `runnext` or the local queue of the current `P`. This keeps related work close together, which is good for CPU cache and reduces global lock use.
+
+If the local queue is full, the runtime moves about half of that local queue plus the new goroutine to the global queue. This keeps one `P` from holding too much work.
+
+When an `M` gets work from the global queue, it may take a batch and place the extra goroutines into its local queue. This reduces repeated locking on the global queue.
+
+---
+
+## Work Stealing
+
+If a `P` has no local work and the global queue has no useful work, the `M` becomes a spinning worker and tries to steal from other `P`s.
+
+Work stealing means:
+
+1. Pick another `P`.
+2. Look at that `P`'s local queue.
+3. Steal about half of its local queue. In the code, `runqgrab` takes the older half.
+4. Return one stolen goroutine to run now and keep the rest in the stealing `P`'s local queue.
+
+```mermaid
+flowchart TB
+    S1[1. Pick another P]
+    S2[2. runqgrab takes older half of its local queue]
+    S3[3. Move stolen batch to stealing P]
+    S4[4. runqsteal returns one G to run now]
+    S5[5. Keep the rest in the stealing P local queue]
+    S6[Last resort: try victim P's runnext]
+
+    S1 --> S2 --> S3 --> S4 --> S5
+    S2 -.-> S6
+```
+
+The `runnext` slot is only stolen as a last resort, after normal local queue stealing does not find work.
+
+This is why goroutines spread across available CPU time without a single central queue becoming the bottleneck.
+
+The runtime also limits how many spinning `M`s exist. A spinning `M` uses CPU while looking for work, so too many spinning threads would waste power and make the program slower.
+
+---
+
+## When a Goroutine Waits
+
+A goroutine does not always run until it finishes. It may wait or leave normal Go execution for:
+
+- a channel send or receive
+- a mutex
+- a timer
+- network I/O
+- a syscall, which is tracked as `_Gsyscall`, not as a normal parked goroutine
+
+When a goroutine waits inside the Go runtime, it is parked. Internally, `gopark` moves the current `G` from running to waiting, then the `M` goes back to the scheduler and looks for another runnable `G`.
+
+Later, when the thing it waited for is ready, the runtime calls `goready`. That puts the goroutine back on a run queue so it can run again. Syscalls use a different path: `entersyscall` or `entersyscallblock` moves the goroutine to `_Gsyscall`, and `exitsyscall` brings it back.
+
+The important point is that waiting usually blocks the goroutine, not the whole program.
+
+```mermaid
+flowchart LR
+    Runnable[Runnable]
+    Running[Running]
+    Waiting[Waiting by gopark]
+    Syscall[In syscall]
+    Dead[Dead]
+
+    Runnable --> Running
+    Running --> Waiting
+    Waiting --> Runnable
+    Running --> Syscall
+    Syscall --> Runnable
+    Running --> Dead
+```
+
+The syscall path can return straight to `Running` if `exitsyscall` gets a `P`; otherwise `exitsyscallNoP` makes the goroutine runnable again.
+
+---
+
+## Network I/O
+
+Network I/O is handled by the runtime netpoller.
+
+If a goroutine waits for network data, the runtime can park that `G` and let the `M` keep using its `P` to run other goroutines. The OS notifies Go when the socket is ready. Then netpoll returns the ready goroutine list, and the runtime puts those goroutines back into scheduler queues.
+
+That is why many goroutines can wait on network connections without needing one blocked OS thread per connection.
+
+---
+
+## Blocking Syscalls
+
+Some calls can block the OS thread itself. File I/O and some cgo calls can behave this way.
+
+When a goroutine enters a blocking syscall, the runtime must protect the `P`. If the blocked `M` kept the `P`, other goroutines waiting on that `P` could not run.
+
+So the runtime hands the `P` to another `M`.
+
+```mermaid
+sequenceDiagram
+    participant G1 as G1
+    participant M1 as M1
+    participant P as P
+    participant Runtime as Runtime
+    participant M2 as Another M
+
+    G1->>Runtime: entersyscallblock
+    Runtime->>P: releasep
+    Runtime->>M2: handoffp(P)
+    M2->>P: run other goroutines
+    G1->>Runtime: exitsyscall
+    Runtime->>P: try old P, then idle P
+    alt P available
+        P-->>M1: acquire P
+        M1->>G1: continue running
+    else no P available
+        Runtime->>Runtime: exitsyscallNoP
+        Runtime->>Runtime: put G1 on global run queue
+        M1->>Runtime: stopm, then schedule
+    end
+```
+
+When the syscall returns, the old `M` tries to keep or get a `P` again. First it may still have its `P`. If not, it tries its old `P`, then an idle `P`. If that also fails, `exitsyscallNoP` changes the goroutine back to runnable, puts it on the global queue, and parks the `M`.
+
+The `sysmon` thread also watches for long syscalls. If a `P` has been tied to a syscall for too long and there is work to do, `sysmon` can retake that `P` and hand it to another `M`.
+
+---
+
+## Preemption
+
+A goroutine can also run for too long without blocking. The runtime needs a way to stop one goroutine from taking a `P` forever.
+
+`sysmon` watches running `P`s. If the same scheduler tick runs for about 10 ms, the runtime asks that `P` to preempt the current goroutine.
+
+Preemption is a request, not always an instant stop. The runtime sets preemption flags and, when supported, asks the OS thread to take an async preemption signal. Once the goroutine reaches a safe point, it can be stopped and returned to runnable work so another goroutine can run.
+
+This keeps CPU-bound goroutines from starving the rest of the program.
+
+---
+
+## A Full Example
+
+Imagine this program:
+
+```go
+func main() {
+    go readFromNetwork()
+    go compressFile()
+    go writeLog()
+
+    select {}
+}
+```
+
+Here is what the scheduler sees:
+
+1. `main` creates three new `G`s.
+2. Those `G`s are put on a local queue or `runnext`.
+3. An `M` with a `P` picks one `G` and runs it.
+4. If `readFromNetwork` waits on a socket, it parks and netpoll tracks the socket.
+5. The same `M` can run `compressFile` or `writeLog`.
+6. If `compressFile` uses CPU for too long, preemption can let another `G` run.
+7. If `writeLog` enters a blocking syscall, its `M` may lose the `P` so another `M` can keep running Go code.
+8. When network data or the syscall result is ready, that `G` becomes runnable again.
+
+That is goroutine scheduling in practice: goroutines move between runnable, running, waiting, and done. `P`s hold the run queues and execution rights. `M`s are the OS threads that do the running.
+
+---
+
+## Mental Model
+
+Keep this model in your head:
+
+- A goroutine is work, not a thread.
+- A runnable goroutine waits in a queue.
+- An OS thread must own a `P` before it can run Go code.
+- `GOMAXPROCS` controls how many `P`s can run Go code at once.
+- Local queues make scheduling fast.
+- The global queue keeps work shared.
+- Work stealing balances busy and idle `P`s.
+- Parking blocks a goroutine, not necessarily an OS thread.
+- Blocking syscalls may block an OS thread, so the runtime hands the `P` away.
+- Preemption stops long-running goroutines from taking a `P` forever.
+
+The scheduler is not magic. It is a loop that keeps finding runnable goroutines and matching them with OS threads that are allowed to run Go code.
+
+---
+
+Source checked while editing: [`runtime/proc.go`](https://github.com/golang/go/blob/master/src/runtime/proc.go) in the Go repository.
