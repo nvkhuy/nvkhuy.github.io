@@ -85,7 +85,7 @@ The hard rule is this: an `M` needs a `P` to run Go code.
 
 The compiler turns a `go` statement into a runtime call that creates a new `G`.
 
-In `proc.go`, `newproc` creates that goroutine and calls `runqput(pp, newg, true)`. That means the runtime first tries to put the new goroutine in `runnext`; if that slot is already used, it falls back to the current `P`'s local run queue. It also calls `wakep` so an idle thread can wake up if more execution capacity is needed.
+In `proc.go`, `newproc` creates that goroutine and calls `runqput(pp, newg, true)`. That means the runtime prioritizes the new goroutine by placing it directly in `runnext`. If that slot is already occupied, the existing goroutine in `runnext` is evicted and pushed to the current `P`'s local run queue (or to the global queue if the local queue is full) to make room. It also calls `wakep` so an idle thread can wake up if more execution capacity is needed.
 
 The new goroutine does not run immediately just because you wrote `go`.
 
@@ -101,7 +101,7 @@ sequenceDiagram
     App->>Runtime: go fn()
     Runtime->>Runtime: newproc creates _Grunnable G
     Runtime->>P: runqput(P, G, true)
-    Note over P: try runnext, then local run queue
+    Note over P: put G in runnext, evict old runnext to local queue if occupied
     Runtime->>M: wakep if main has started
     M->>Runtime: schedule calls findRunnable
     Runtime->>P: runqget checks runnext, then local queue
@@ -220,18 +220,15 @@ The important point is that waiting usually blocks the goroutine, not the whole 
 
 ```mermaid
 flowchart LR
-    Runnable[Runnable]
-    Running[Running]
-    Waiting[Waiting by gopark]
-    Syscall[In syscall]
-    Dead[Dead]
+    Waiting[Waiting by gopark] -->|goready| Runnable[Runnable]
+    Runnable -->|execute| Running[Running]
+    Running -->|goexit| Dead[Dead]
 
-    Runnable --> Running
-    Running --> Waiting
-    Waiting --> Runnable
-    Running --> Syscall
-    Syscall --> Runnable
-    Running --> Dead
+    Running -->|gopark| Waiting
+
+    Running -->|entersyscall| Syscall[In syscall]
+    Syscall -->|exitsyscall: P acquired| Running
+    Syscall -->|exitsyscall: no P| Runnable
 ```
 
 The syscall path can return straight to `Running` if `exitsyscall` gets a `P`; otherwise `exitsyscallNoP` makes the goroutine runnable again.
@@ -292,7 +289,7 @@ A goroutine can also run for too long without blocking. The runtime needs a way 
 
 `sysmon` watches running `P`s. If the same scheduler tick runs for about 10 ms, the runtime asks that `P` to preempt the current goroutine.
 
-Preemption is a request, not always an instant stop. The runtime sets preemption flags and, when supported, asks the OS thread to take an async preemption signal. Once the goroutine reaches a safe point, it can be stopped and returned to runnable work so another goroutine can run.
+Preemption is a request, not always an instant stop. The runtime sets preemption flags and, when supported, asks the OS thread to take an async preemption signal. Once the goroutine reaches a safe point, it is stopped, changed to a runnable state (`_Grunnable`), and is typically placed on the global run queue (or the local `P`'s `runnext` slot if preempted to cooperate with a pending Garbage Collector Stop-The-World request). This allows another goroutine to run.
 
 This keeps CPU-bound goroutines from starving the rest of the program.
 
