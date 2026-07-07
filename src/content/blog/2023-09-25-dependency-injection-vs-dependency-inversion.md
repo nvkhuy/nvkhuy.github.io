@@ -1,141 +1,311 @@
 ---
 tags:
   - principle
+  - software-design
 title: Dependency Injection vs Dependency Inversion
 author: Huy Nguyen
 pubDatetime: 2023-09-25T15:57:52.737Z
 slug: dependency-injection-vs-dependency-inversion
 featured: false
 ogImage: https://toidicodedao.com/wp-content/uploads/2015/09/ioc-and-mapper-in-c-1-638.jpg
-description: explain the difference between dependency injection vs dependency inversion
+description: A practical explanation of the difference between dependency injection and the dependency inversion principle.
 ---
 
-Dependency Injection (DI) and Dependency Inversion (DI) are two related but distinct concepts in software design and architecture, often used together to achieve loose coupling and improve the maintainability and flexibility of software systems. Let's explore each concept individually:
+## Table of contents
 
-1. Dependency Injection (DI):
+Dependency Injection and Dependency Inversion are related, but they are not the same thing.
 
-   - Dependency Injection is a design pattern and technique used in object-oriented programming to manage dependencies between classes and components.
-   - In DI, dependencies are "injected" into a class rather than the class creating its own dependencies. This injection can occur through constructor injection, method injection, or property injection.
-   - The main goal of DI is to decouple the high-level modules (e.g., classes or components) from their low-level dependencies (e.g., other classes or services). This makes the code more modular, testable, and flexible.
-   - DI promotes the use of interfaces or abstract classes to define contracts between components, allowing for easy substitution of implementations, which is essential for achieving flexibility and maintainability.
+This topic is often explained badly because both start with the letters `DI`, and people blur together:
 
-2. Dependency Inversion (DI):
-   - Dependency Inversion is one of the SOLID principles of object-oriented design, specifically the "D" in SOLID, which stands for the Dependency Inversion Principle (DIP).
-   - The Dependency Inversion Principle states that high-level modules (e.g., classes or components) should not depend on low-level modules. Both should depend on abstractions (interfaces or abstract classes).
-   - In other words, it encourages the inversion of the traditional dependency hierarchy. Instead of concrete classes depending on abstractions, it encourages abstractions (interfaces) to depend on other abstractions.
-   - By adhering to the Dependency Inversion Principle, you create a level of indirection that allows for greater flexibility and extensibility in your codebase. It also promotes the use of DI as a means to achieve this inversion.
+- a **design principle**
+- a **wiring technique**
 
-Dependency Injection is a technique used to implement the Dependency Inversion Principle. While Dependency Injection focuses on how to inject dependencies into classes or components, Dependency Inversion focuses on the high-level design principle that encourages the use of abstractions and the inversion of dependencies. When used together, these concepts help create more modular, maintainable, and flexible software systems.
+That leads to wrong conclusions such as:
 
-## Dependency Injection in Go:
+- "Dependency injection is the same as SOLID's D"
+- "Using a DI container means you applied dependency inversion"
+- "Passing interfaces everywhere automatically improves design"
 
-Implement Dependency Injection by passing dependencies (usually as interfaces) as parameters to functions or constructors. Here's a simple example of Dependency Injection:
+None of those statements are reliably true.
+
+## The Short Version
+
+Use this mental model:
+
+- `Dependency Inversion Principle (DIP)` is **about who depends on whom**
+- `Dependency Injection (DI)` is **about how an object gets the dependencies it needs**
+
+One is an architectural rule.
+The other is a construction technique.
+
+Dependency injection can help you implement dependency inversion, but it does not guarantee it.
+
+## Dependency Inversion Principle
+
+The Dependency Inversion Principle is the `D` in SOLID.
+
+The classic statement is:
+
+1. High-level modules should not depend on low-level modules. Both should depend on abstractions.
+2. Abstractions should not depend on details. Details should depend on abstractions.
+
+That sounds abstract, so make it concrete.
+
+Suppose you have business logic that sends a welcome email after a user signs up.
+
+If your business service directly creates an SMTP client, then the policy of "send a welcome email" is tightly coupled to one delivery mechanism.
+
+That is the wrong direction of dependency.
+
+The business rule is the important part. The SMTP client is an implementation detail.
+
+With dependency inversion, the business layer depends on an abstraction such as `EmailSender`, and the SMTP implementation depends on that abstraction by implementing it.
+
+### What DIP is really trying to protect
+
+It protects your core logic from implementation details.
+
+That means:
+
+- business rules should not know how infrastructure is implemented
+- application policy should not be tightly bound to frameworks, databases, or external services
+- changing a low-level detail should not force a rewrite of high-level logic
+
+This is the heart of the principle.
+
+## Dependency Injection
+
+Dependency Injection is a way of supplying collaborators from the outside instead of constructing them internally.
+
+Instead of this:
+
+```go
+service := UserService{
+    sender: NewSMTPClient(...),
+}
+```
+
+you do something like this:
+
+```go
+service := UserService{
+    sender: smtpSender,
+}
+```
+
+The service receives what it needs. It does not create it itself.
+
+Common forms of dependency injection are:
+
+- constructor injection
+- function parameter injection
+- method injection
+- field injection
+
+Constructor injection is usually the clearest default because it makes required dependencies explicit.
+
+## The Core Difference
+
+The difference is easiest to see like this:
+
+- Dependency Inversion asks: should this service depend on a concrete implementation or an abstraction?
+- Dependency Injection asks: once we decide the dependency, how do we provide it?
+
+You can use injection without inversion.
+
+For example, this uses dependency injection:
+
+```go
+type UserService struct {
+    db *sql.DB
+}
+
+func NewUserService(db *sql.DB) UserService {
+    return UserService{db: db}
+}
+```
+
+The dependency is injected from the outside, so yes, this is DI.
+
+But the service still depends directly on a concrete database type. That may be totally fine in many codebases, but it is not a strong example of dependency inversion.
+
+Now compare that with this:
+
+```go
+type UserStore interface {
+    CreateUser(ctx context.Context, user User) error
+}
+
+type UserService struct {
+    store UserStore
+}
+
+func NewUserService(store UserStore) UserService {
+    return UserService{store: store}
+}
+```
+
+Now the service depends on an abstraction and receives that abstraction from the outside.
+
+That uses both:
+
+- dependency inversion
+- dependency injection
+
+## A Bad Example
+
+Here is a design that violates dependency inversion:
+
+```go
+type SMTPClient struct{}
+
+func (c SMTPClient) Send(to, body string) error {
+    return nil
+}
+
+type UserService struct{}
+
+func (s UserService) Register(email string) error {
+    client := SMTPClient{}
+    return client.Send(email, "welcome")
+}
+```
+
+Problems:
+
+- `UserService` creates its own dependency
+- `UserService` is coupled to one concrete delivery mechanism
+- testing requires more work because the behavior is hardwired
+- infrastructure details leak into the business use case
+
+The high-level module depends directly on the low-level module.
+
+## A Better Example
+
+Now invert the dependency and inject it:
 
 ```go
 package main
 
-import (
-    "fmt"
-)
+import "context"
 
-type Database interface {
-    Query(query string) string
+type EmailSender interface {
+    Send(ctx context.Context, to, body string) error
 }
 
-type MySQLDatabase struct{}
-
-func (db MySQLDatabase) Query(query string) string {
-    return "Result from MySQL: " + query
+type UserService struct {
+    sender EmailSender
 }
 
-type PostgreSQLDatabase struct{}
-
-func (db PostgreSQLDatabase) Query(query string) string {
-    return "Result from PostgreSQL: " + query
+func NewUserService(sender EmailSender) UserService {
+    return UserService{sender: sender}
 }
 
-func ReportGenerator(db Database, reportName string) string {
-    query := "SELECT * FROM " + reportName
-    result := db.Query(query)
-    return "Generating report with: " + result
+func (s UserService) Register(ctx context.Context, email string) error {
+    // business logic here
+    return s.sender.Send(ctx, email, "welcome")
 }
 
-func main() {
-    mysqlDB := MySQLDatabase{}
-    postgresDB := PostgreSQLDatabase{}
+type SMTPSender struct{}
 
-    report1 := ReportGenerator(mysqlDB, "sales_report")
-    report2 := ReportGenerator(postgresDB, "financial_report")
-
-    fmt.Println(report1)
-    fmt.Println(report2)
+func (s SMTPSender) Send(ctx context.Context, to, body string) error {
+    return nil
 }
 ```
 
-In this example:
+What improved:
 
-1. We define a `Database` interface representing a database connection with a `Query` method.
-2. We create two concrete implementations of the `Database` interface: `MySQLDatabase` and `PostgreSQLDatabase`.
-3. The `ReportGenerator` function takes a `Database` interface as a parameter and generates a report using the provided database.
-4. In the `main` function, we create instances of the concrete database implementations (MySQL and PostgreSQL) and pass them as dependencies to the `ReportGenerator` function.
+- the business service depends on `EmailSender`, not on SMTP
+- the SMTP implementation is now a replaceable detail
+- tests can supply a fake sender
+- wiring moves to the composition root, usually `main`
 
-This demonstrates the concept of Dependency Injection, as the `ReportGenerator` function does not create its own database instance but relies on the caller to provide the appropriate database implementation. This allows for flexibility and easy testing since you can easily swap out different database implementations without modifying the `ReportGenerator` function.
+## Why This Matters in Practice
 
-## Dependency Inversion in Go:
+The real value is not academic purity. It is changeability.
 
-Dependency Inversion in Go can be implemented by defining interfaces (abstractions) that high-level modules depend on, and then providing concrete implementations for these interfaces in low-level modules. Here's an example to illustrate Dependency Inversion in Go:
+Today you may send email through SMTP.
+Tomorrow you may send through SES, SendGrid, or a background job queue.
+
+If the business service is coupled directly to SMTP, the change spreads through the wrong layer.
+If the service depends on an abstraction, the change is localized to the adapter and wiring.
+
+That is the payoff.
+
+## Dependency Injection Does Not Automatically Mean Good Design
+
+A lot of teams overcorrect and inject everything.
+
+That creates a different failure mode:
+
+- too many interfaces with no real variation
+- abstractions defined before there is a real need
+- code that is harder to follow because every simple thing has three layers
+
+Good design is not "always use interfaces."
+Good design is "separate policy from detail where the boundary is meaningful."
+
+For example, in Go it is often perfectly fine for a repository to depend directly on `*sql.DB`.
+You do not need an interface around everything.
+The important boundary is usually where business logic should be protected from infrastructure choices.
+
+## A Better Rule for Go
+
+In Go, a practical rule is:
+
+- define interfaces close to the consumer
+- keep interfaces small
+- do not introduce abstractions until they help decouple a meaningful boundary
+
+This is usually better than creating a giant "service layer interface" for every type on day one.
+
+For example, if `UserService` only needs `CreateUser`, then this:
 
 ```go
-package main
-
-import (
-	"fmt"
-)
-
-type DataStore interface {
-	Save(data string)
-}
-
-type FileStorage struct{}
-
-func (fs FileStorage) Save(data string) {
-	fmt.Println("Saving to file:", data)
-}
-
-type DatabaseStorage struct{}
-
-func (ds DatabaseStorage) Save(data string) {
-	fmt.Println("Saving to database:", data)
-}
-
-type DataProcessor struct {
-	Storage DataStore
-}
-
-func (dp DataProcessor) ProcessAndSave(data string) {
-	fmt.Println("Processing data...")
-	dp.Storage.Save(data)
-}
-
-func main() {
-	fileStorage := FileStorage{}
-	dbStorage := DatabaseStorage{}
-
-	fileDataProcessor := DataProcessor{Storage: fileStorage}
-	dbDataProcessor := DataProcessor{Storage: dbStorage}
-
-	dataToSave := "Some important data"
-
-	fileDataProcessor.ProcessAndSave(dataToSave)
-	dbDataProcessor.ProcessAndSave(dataToSave)
+type UserStore interface {
+    CreateUser(ctx context.Context, user User) error
 }
 ```
 
-In this example:
+is better than exposing a huge storage abstraction with methods the service does not actually need.
 
-1. We define the `DataStore` interface representing a data storage mechanism with a `Save` method.
-2. We provide two concrete implementations: `FileStorage` and `DatabaseStorage`, each implementing the `DataStore` interface.
-3. The `DataProcessor` struct is a high-level module that depends on the `DataStore` interface. It has a `ProcessAndSave` method that uses the `DataStore` to save data.
-4. In the `main` function, we create instances of the concrete implementations (`FileStorage` and `DatabaseStorage`) and inject them into `DataProcessor` instances. This is where Dependency Inversion is demonstrated: high-level `DataProcessor` depends on the abstract `DataStore` interface, not on concrete implementations.
+## Constructor Injection vs DI Containers
 
-This structure allows you to easily switch between different storage implementations (e.g., file storage or database storage) without modifying the `DataProcessor` code, adhering to the Dependency Inversion Principle.
+Dependency injection does not require a framework or container.
+
+In Go, explicit wiring in `main` is often the best choice:
+
+```go
+func main() {
+    store := PostgresUserStore{db: db}
+    sender := SMTPSender{}
+    service := NewUserService(sender)
+
+    _ = store
+    _ = service
+}
+```
+
+This keeps object construction visible and debuggable.
+
+DI containers can help in very large systems, but they also hide wiring and can make control flow harder to trace. Use them when the complexity is justified, not by default.
+
+## Common Interview Answer
+
+If someone asks, "What is the difference between dependency injection and dependency inversion?", a strong short answer is:
+
+> Dependency inversion is a design principle that says high-level modules should depend on abstractions, not concrete details. Dependency injection is a technique for providing those dependencies from the outside. Injection can help implement inversion, but they are not the same thing.
+
+That answer is short, correct, and defensible.
+
+## Closing View
+
+Dependency Inversion is about architecture.
+Dependency Injection is about wiring.
+
+Use dependency inversion when you need to protect important business logic from infrastructure details.
+Use dependency injection to make those dependencies explicit and replaceable.
+
+If you remember only one line, remember this:
+
+**DIP changes the direction of dependency. DI changes the way dependencies are supplied.**

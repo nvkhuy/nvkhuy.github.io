@@ -2,64 +2,272 @@
 tags:
   - interview
   - principle
+  - distributed-systems
 title: What is CAP
 author: Huy Nguyen
 pubDatetime: 2023-09-18T15:57:52.737Z
 slug: what-is-cap
 featured: false
 ogImage: https://creatorset.com/cdn/shop/files/Green_Screen_Word_World_Duck_saying_CAP_meme_1_-0_1920x.jpg?v=1729857071
-description: explain what is cap
+description: A practical explanation of CAP theorem and the real tradeoff systems make during network partitions.
 ---
 
-The CAP theorem, also known as Brewer's theorem, is a fundamental concept in distributed systems that deals with the trade-offs between three key properties: Consistency, Availability, and Partition Tolerance. The CAP theorem asserts that, in a distributed system, you can only guarantee two out of these three properties at any given time. Here are the details of each property:
+## Table of contents
 
-1. **Consistency (C):**
+CAP is one of the most repeated ideas in distributed systems and also one of the most misquoted.
 
-   - Consistency refers to the idea that all nodes in a distributed system have a consistent view of the data. In other words, if a write operation is acknowledged as successful, any subsequent read operation should return that updated value or a more recent one.
-   - Strong consistency ensures that every read operation will return the most recent write's result.
-   - Achieving strong consistency often involves synchronization mechanisms that can introduce latency and reduce system availability.
+The oversimplified version says: "you can only pick two out of consistency, availability, and partition tolerance."
 
-2. **Availability (A):**
+That framing is not precise enough to guide design decisions.
 
-   - Availability refers to the system's ability to respond to client requests, even when some parts of the system are experiencing failures. In an available system, every request eventually receives a response, either with the requested data or an error message.
-   - High availability is crucial for systems that need to deliver uninterrupted services, even in the face of hardware failures or network issues.
-   - Ensuring high availability may lead to relaxing the constraints of strong consistency in some cases.
+The more accurate version is this:
 
-3. **Partition Tolerance (P):**
-   - Partition tolerance deals with the ability of a distributed system to continue functioning correctly, even when network partitions (communication failures) occur between nodes in the system.
-   - Network partitions can lead to scenarios where some nodes in the system cannot communicate with others, causing data inconsistencies and challenges in achieving both consistency and availability.
-   - Achieving partition tolerance is essential for robust distributed systems, especially in cloud-based and wide-area network environments.
+> When a network partition happens, a distributed system has to choose between strong consistency and availability.
 
-Now, the CAP theorem states that you can't have all three of these properties simultaneously in a distributed system. You have to make trade-offs:
+That is the core of CAP.
 
-1. **CA:** You can prioritize both Consistency and Availability but may need to sacrifice Partition Tolerance. In this case, the system ensures strong consistency and high availability but may not be able to function correctly in the presence of network partitions.
+```mermaid
+flowchart LR
+    C[Consistency<br/>latest write is observed] --- P[Partition Tolerance<br/>network can split]
+    A[Availability<br/>every non-failing node responds] --- P
+    C -. during partition .- A
+```
 
-2. **CP:** You can prioritize both Consistency and Partition Tolerance but may need to sacrifice Availability. In this case, the system ensures strong consistency and can tolerate network partitions, but it might experience downtime or reduced availability during network disruptions.
+## Why CAP Exists
 
-3. **AP:** You can prioritize both Availability and Partition Tolerance but may need to sacrifice Strong Consistency. In this case, the system ensures high availability and can tolerate network partitions, but it might provide eventually consistent data.
+A single-node database does not usually force this conversation. A distributed system does, because messages can be delayed, dropped, duplicated, or split across network boundaries.
 
-It's important to note that the CAP theorem is a theoretical framework that helps in understanding the trade-offs in distributed systems design. In practice, various databases and distributed systems may offer different configurations and trade-offs to meet specific use cases and requirements. Your choice of system depends on your application's needs and the specific balance you wish to strike between consistency, availability, and partition tolerance.
+Once you replicate data across nodes, you have a new failure mode:
 
-Let's delve into the details of why each of the mentioned databases primarily focuses on two out of the three CAP properties (Consistency, Availability, and Partition Tolerance) and provide an example for each:
+- node A accepts a write
+- node B cannot hear about it because of a partition
+- a client reads from node B
 
-1. **Firestore (part of Google Cloud Firestore):**
+Now the system must decide what to do.
 
-   - **Consistency and Partition Tolerance:** Firestore prioritizes strong consistency and partition tolerance. It ensures that when you write data, you can immediately read the most recent version (strong consistency), and it can continue to function even when network partitions occur (partition tolerance).
-   - **Example:** Suppose you have a Firestore database for a real-time messaging application. When a user sends a message, they expect that their own messages are immediately visible to them and that their friends see those messages in a consistent order. Firestore achieves this strong consistency while handling network disruptions gracefully.
+```mermaid
+flowchart TD
+    W[Client writes new value to Replica A] --> X[Network partition happens]
+    X --> Y[Replica B does not receive update]
+    Y --> Z[Client reads from Replica B]
+    Z --> Q{System choice}
+    Q -->|Favor consistency| Q1[Reject or delay response]
+    Q -->|Favor availability| Q2[Return possibly stale data]
+```
 
-2. **DynamoDB (Amazon DynamoDB):**
+## The Three Terms
 
-   - **Availability and Partition Tolerance:** DynamoDB primarily focuses on high availability and partition tolerance. It ensures that read and write operations remain available even in the presence of network partitions, making it suitable for applications that require uninterrupted service.
-   - **Example:** Consider a global e-commerce platform that uses DynamoDB to handle product catalog data. Even if there are network issues affecting some regions, customers can still browse and purchase products with minimal disruption because DynamoDB maintains high availability and partition tolerance.
+### Consistency
 
-3. **MongoDB (MongoDB Atlas - managed MongoDB service):**
+In CAP, consistency means **linearizability**.
 
-   - **Consistency and Partition Tolerance or Availability and Partition Tolerance:** MongoDB offers tunable consistency, allowing you to prioritize either consistency or availability based on your configuration.
-   - **Example for Consistency and Partition Tolerance:** In a financial application, MongoDB can be configured for strong consistency to ensure that transactions are recorded reliably and consistently, even during network disruptions.
-   - **Example for Availability and Partition Tolerance:** In a content delivery platform, MongoDB can be configured for high availability and partition tolerance, ensuring that content remains accessible even during network partitions. However, it may allow for eventual consistency in certain scenarios to maintain availability.
+If a write completes successfully, every later read must return that value or a newer one. Clients should observe one coherent, up-to-date view of the data.
 
-4. **Redis (in-memory data store):**
-   - **Availability and Partition Tolerance:** Redis primarily focuses on high availability and partition tolerance while sacrificing strong consistency. It excels at providing low-latency, high-throughput access to data.
-   - **Example:** In a caching layer for a web application, Redis can be used to store frequently accessed data. During network disruptions or high traffic, Redis continues to serve cached data, ensuring availability. However, it may not guarantee strong consistency if updates are made to the data source.
+This is different from ACID consistency.
 
-Each database's primary focus on specific CAP properties aligns with its intended use cases and design philosophy. When selecting a database for your application, it's crucial to consider the trade-offs and select the one that best matches your requirements in terms of consistency, availability, and partition tolerance. Additionally, the specific configurations and features of each database can influence the trade-offs you make in practice.
+- ACID consistency is about preserving invariants
+- CAP consistency is about what readers are allowed to observe across nodes
+
+Confusing those two is a common source of bad architecture discussions.
+
+```mermaid
+flowchart LR
+    A1[ACID consistency] --> A2[Transaction preserves rules and invariants]
+    C1[CAP consistency] --> C2[Every later read sees the latest committed write]
+```
+
+### Availability
+
+Availability means every request to a non-failing node receives a response.
+
+The important part is not "a successful response." The important part is that the system responds instead of blocking forever waiting for coordination that may never arrive.
+
+That response could be:
+
+- the current value
+- a stale value
+- an accepted write
+- an application-level error
+
+What CAP cares about is whether the node remains responsive.
+
+### Partition Tolerance
+
+Partition tolerance means the system continues operating despite communication failures between nodes.
+
+In real distributed systems, partitions are not optional. Networks fail. Cross-zone and cross-region links degrade. Timeouts happen. Packets disappear.
+
+That is why serious distributed systems are always designed with partitions in mind.
+
+## The Actual Tradeoff
+
+When there is **no partition**, many systems can provide both strong consistency and high availability.
+
+The hard case is when a partition occurs.
+
+At that moment, a replicated system must choose:
+
+- `CP`: preserve consistency by rejecting or delaying some requests
+- `AP`: preserve availability by serving responses that may be stale or divergent for a while
+
+This is why "CA system" is mostly a classroom label in distributed settings. Once a partition exists, a distributed system cannot ignore it. It either handles it by sacrificing availability or by sacrificing strong consistency.
+
+```mermaid
+flowchart LR
+    P0[Partition detected] --> CP[CP path]
+    P0 --> AP[AP path]
+    CP --> CP1[Reject or block some reads and writes]
+    CP1 --> CP2[All successful responses stay linearizable]
+    AP --> AP1[Continue serving requests]
+    AP1 --> AP2[Some reads may be stale or divergent]
+```
+
+```mermaid
+flowchart TD
+    D0[Can replicas communicate?] -->|Yes| D1[Keep both consistency and availability]
+    D0 -->|No, partition| D2{Which property do we protect?}
+    D2 -->|Consistency| D3[Reject or delay some requests]
+    D2 -->|Availability| D4[Serve requests with possible staleness]
+```
+
+## A Concrete Example
+
+Assume you run a service with two replicas:
+
+- `Replica A` in zone 1
+- `Replica B` in zone 2
+
+Both store user profile data.
+
+Now the network link between the zones fails.
+
+### If you choose consistency
+
+You may reject writes on one side, or reject reads that cannot be proven fresh.
+
+That keeps all successful operations linearizable, but some clients now see failures or timeouts.
+
+This is a `CP` choice.
+
+### If you choose availability
+
+You let both sides continue accepting traffic.
+
+Clients keep getting responses, but some reads may return stale data and conflicting writes may need reconciliation later.
+
+This is an `AP` choice.
+
+That is the real meaning of CAP: during a partition, you do not get both.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant A as Replica A
+    participant B as Replica B
+
+    Note over A,B: Network partition between replicas
+    Client->>A: Write profile = v2
+    A-->>Client: Accepted
+    Client->>B: Read profile
+    alt CP system
+        B-->>Client: Error / retry later
+    else AP system
+        B-->>Client: Return stale value v1
+    end
+```
+
+## What CAP Does Not Say
+
+CAP is useful, but it is narrow.
+
+It does **not** tell you:
+
+- how fast the system is
+- how often partitions happen
+- how stale reads might become
+- how conflict resolution should work
+- how much latency coordination adds
+- whether the product can tolerate temporary inconsistency
+
+Two systems can both be "AP" and still behave very differently in practice.
+
+## How Engineers Actually Use CAP
+
+Staff-level system design should use CAP as a failure-model lens, not as a branding label.
+
+The right question is not:
+
+- "Is this database CP or AP?"
+
+The right questions are:
+
+- what happens to reads during a partition?
+- what happens to writes during a partition?
+- do we prefer rejecting requests or serving stale data?
+- how long can data diverge?
+- how will conflicts be resolved?
+- what is the business cost of stale reads versus temporary unavailability?
+
+Those questions are operationally meaningful. "Pick two" is not.
+
+## Real-World Intuition
+
+Different product domains make different choices.
+
+### Prefer consistency
+
+Systems often lean toward consistency when the cost of stale or conflicting data is high:
+
+- payments
+- inventory reservation
+- access control
+- leader election
+
+If two nodes disagree about a bank balance or whether a lock is held, the damage can be serious.
+
+### Prefer availability
+
+Systems often lean toward availability when serving something is better than failing:
+
+- social feeds
+- caches
+- recommendation systems
+- analytics dashboards
+
+If one user sees a slightly stale follower count for a few seconds, that may be acceptable.
+
+## CAP and Modern Databases
+
+Modern systems often expose this tradeoff as configuration rather than a fixed identity.
+
+Examples include:
+
+- quorum reads and writes
+- leader-based replication
+- follower reads
+- tunable consistency levels
+- conflict-free replicated data types in specialized systems
+
+That is why reducing a database to a single CAP label is often misleading. The practical answer depends on topology, read path, write path, quorum policy, and failure scenario.
+
+## CAP Versus ACID
+
+ACID and CAP answer different questions.
+
+`ACID` asks:
+
+- how does one transaction behave inside a database?
+
+`CAP` asks:
+
+- what does a replicated system do when nodes cannot communicate?
+
+A system can care about both at the same time. For example, a database may provide ACID transactions on each node while still making CAP tradeoffs across replicas during partitions.
+
+## Closing View
+
+CAP is not a slogan about choosing any two properties you like.
+
+It is a precise statement about the cost of replication under network failure: when partitions happen, you must choose whether to preserve strong consistency or remain fully available.
+
+That framing is what makes CAP useful in real architecture work.

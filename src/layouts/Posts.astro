@@ -19,7 +19,7 @@ const { currentPage, totalPages, paginatedPosts } = Astro.props;
 
 <Layout title={`Posts | ${SITE.title}`}>
   <Header activeNav="posts" />
-  <Main pageTitle="Posts" pageDesc="Here my posts ->">
+  <Main pageTitle="Posts" pageDesc="">
     <PostGrid title="" posts={paginatedPosts} ></PostGrid>
   </Main>
 

@@ -6,7 +6,7 @@ title: Leetcode Most Asked Questions
 author: Huy Nguyen
 pubDatetime: 2023-09-15T15:57:52.737Z
 slug: leetcode-most-asked-questions
-featured: true
+featured: false
 ogImage: https://i.ytimg.com/vi/0hzS0ytjMsc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBP1aQINK4AWjZaRKxwZMs5xhZ3Dw
 description: collect top questions in each category from leetcode
 ---

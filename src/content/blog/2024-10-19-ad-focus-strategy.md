@@ -4,7 +4,7 @@ tags:
   - ad
 title: Video Ad strategy
 author: Huy Nguyen
-pubDatetime: 2030-10-18T11:20:00.737Z
+pubDatetime: 2021-10-18T11:20:00.737Z
 slug: tiktok-video-ad-strategy
 featured: false
 ogImage: https://i.ytimg.com/vi/RiqXeUwDTmU/maxresdefault.jpg

@@ -8,9 +8,8 @@ title: "OS Threads vs Goroutines: A Deep Dive"
 author: Huy Nguyen
 pubDatetime: 2026-06-18T03:00:00Z
 slug: os-threads-vs-goroutines
-featured: true
-ogImage: /assets/go-scheduler-funny.png
-description: "Deep dive into operating system threads, context switching cost, and why Go's goroutines are cheaper for highly concurrent programs."
+featured: false
+description: "A concise comparison of OS threads and goroutines, focusing on scheduling cost, stack size, and concurrency tradeoffs."
 ---
 
 ## Table of contents

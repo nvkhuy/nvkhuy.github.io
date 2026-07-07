@@ -5,9 +5,9 @@ export const SITE: Site = {
   author: "nvkhuy",
   desc: "Website development and mobile game analysis",
   title: "nvkhuy",
-  ogImage: "https://mrwallpaper.com/images/hd/happy-patrick-star-and-spongebob-cbeyd5uj2lgmfnb1.jpg",
+  ogImage: "/assets/default-pepe.webp",
   lightAndDarkMode: true,
-  postPerPage: 6,
+  postPerPage: 12,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
 };
 

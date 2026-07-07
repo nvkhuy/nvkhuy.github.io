@@ -1,7 +1,7 @@
 import {slugifyStr} from "@utils/slugify";
 import Datetime from "./Datetime";
 import type {CollectionEntry} from "astro:content";
-import {Image} from 'astro:assets';
+import {SITE} from "@config";
 
 export interface Props {
   href?: string;
@@ -10,7 +10,8 @@ export interface Props {
 }
 
 export default function Card({href, frontmatter, secHeading = true}: Props) {
-  const {title, ogImage, pubDatetime, modDatetime, description} = frontmatter;
+  const {title, pubDatetime, modDatetime, description} = frontmatter;
+  const cardImage = SITE.ogImage ?? "/og.png";
 
   const headerProps = {
     style: {viewTransitionName: slugifyStr(title)},
@@ -24,7 +25,7 @@ export default function Card({href, frontmatter, secHeading = true}: Props) {
     >
       <div className="">
         <img
-          src={ogImage as string}
+          src={cardImage}
           className="object-cover w-auto h-auto rounded-lg"
           decoding="async"
           loading="lazy"

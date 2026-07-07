@@ -8,9 +8,8 @@ title: "Go's Scheduler: How the G-M-P Model Works"
 author: Huy Nguyen
 pubDatetime: 2026-06-14T02:50:00Z
 slug: go-scheduler-gmp-model
-featured: true
-ogImage: /assets/go-scheduler-funny.png
-description: "How Go schedules goroutines."
+featured: false
+description: "An overview of how Go's G-M-P scheduler maps goroutines onto OS threads efficiently."
 ---
 
 ## Table of contents

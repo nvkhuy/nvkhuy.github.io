@@ -13,8 +13,8 @@ import {SOCIALS} from "@config";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({data}) => data.featured);
-const recentPosts = sortedPosts.filter(({data}) => !data.featured);
+const featuredPosts = sortedPosts.slice(0, 3);
+const recentPosts = sortedPosts.slice(3);
 
 const socialCount = SOCIALS.filter((social) => social.active).length;
 ---

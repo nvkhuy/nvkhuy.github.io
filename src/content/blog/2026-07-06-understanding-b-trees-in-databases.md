@@ -8,9 +8,8 @@ title: "The Anatomy of Database Indexing: B-Trees and B+ Trees"
 author: Huy Nguyen
 pubDatetime: 2026-07-06T13:10:00Z
 slug: understanding-b-trees-in-databases
-featured: true
-ogImage: /assets/b_tree_fun_cover.jpg
-description: "A hardware-first guide to B-Trees and B+ Trees: why databases use them, how pages split and merge, how B+ Trees support range scans, and how real engines manage pages, latches, and buffer pools."
+featured: false
+description: "A practical guide to why databases use B-Trees and B+ Trees for fast lookups and range scans."
 ---
 
 ## Table of contents

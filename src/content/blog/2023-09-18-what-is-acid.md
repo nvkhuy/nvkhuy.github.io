@@ -2,64 +2,271 @@
 tags:
   - interview
   - principle
+  - database
 title: What is ACID
 author: Huy Nguyen
 pubDatetime: 2023-09-18T15:57:52.737Z
 slug: what-is-acid
 featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
-description: explain what is acid and usage
+description: A practical explanation of ACID and what each transaction guarantee means in real systems.
 ---
 
 ## Table of contents
 
-ACID is an acronym that represents a set of properties or characteristics that ensure reliable and predictable database transactions. These properties are essential for maintaining the integrity and consistency of data within a database. The ACID properties stand for:
+ACID is the contract a database offers for a transaction.
 
-1. **Atomicity (A):**
+When engineers say a system is "ACID compliant," they usually mean this: the database can group multiple reads and writes into a single unit of work and provide strong guarantees about how that unit behaves, even when there are concurrent requests, crashes, or retries.
 
-   - Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the changes made in a transaction are applied, or none of them are. If any part of the transaction fails, the entire transaction is rolled back, leaving the database in its original state.
-   - Example: Consider a banking application where a user transfers money from one account to another. Atomicity ensures that if the withdrawal from one account succeeds but the deposit to the other fails (e.g., due to an error), the entire transaction is rolled back, and the user's balance remains unchanged.
+That matters because most real bugs around data are not syntax bugs. They are state bugs:
 
-2. **Consistency (C):**
+- money deducted from one account but not credited to another
+- inventory sold twice
+- one request reading half-finished work from another request
+- a system confirming success and then losing the write after a crash
 
-   - Consistency ensures that a transaction takes the database from one consistent state to another consistent state. It enforces data integrity rules, constraints, and relationships defined in the database schema. If a transaction violates these rules, it is rolled back.
-   - Example: In a database that tracks orders and inventory, consistency ensures that an order cannot be created if there is insufficient inventory for the requested items. If an order violates this constraint, the transaction is rolled back, and the database remains in a consistent state.
+ACID exists to make those failures far less likely and easier to reason about.
 
-3. **Isolation (I):**
+## The Mental Model
 
-   - Isolation ensures that concurrent transactions do not interfere with each other. Each transaction should appear to be executed in isolation, as if it were the only transaction in the system. This prevents issues like race conditions and ensures that the final state of the database is consistent.
-   - Example: In a multi-user system, two users simultaneously updating the same record should not result in one user's changes overwriting the other's. Isolation mechanisms, such as locks or transaction isolation levels, prevent such interference.
+A transaction is a boundary around a set of operations.
 
-4. **Durability (D):**
-   - Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent system failures, such as power outages or crashes. The data is stored in a non-volatile storage medium like disk or solid-state storage to ensure durability.
-   - Example: If a user submits an order and receives a confirmation, the order data should not be lost even if the database server crashes immediately after the confirmation is sent. Durability ensures that the order data is not lost during such failures.
+Inside that boundary, the database promises four things:
 
-These ACID properties are crucial for ensuring the reliability and integrity of data in a database management system, especially in scenarios where transactions involve critical and sensitive data. Database systems like traditional relational databases (e.g., PostgreSQL, Oracle, SQL Server) are known for adhering to the ACID properties. However, it's important to note that strict adherence to ACID can sometimes impact system performance, which has led to the emergence of databases that offer a different set of trade-offs known as "BASE" (Basically Available, Soft state, Eventually consistent).
+1. `Atomicity`
+2. `Consistency`
+3. `Isolation`
+4. `Durability`
 
-ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure reliable and predictable database transactions. While ACID provides strong guarantees for data integrity and consistency, it also comes with its own set of advantages and disadvantages:
+The right way to think about ACID is not "databases are magically correct." The right way is: if the application defines a valid transaction and the database is configured correctly, the engine gives predictable behavior under failure and concurrency.
 
-**Advantages of ACID:**
+```mermaid
+flowchart TD
+    T[Transaction begins] --> A[Atomicity<br/>all or nothing]
+    A --> C[Consistency<br/>invariants stay valid]
+    C --> I[Isolation<br/>concurrent work is controlled]
+    I --> D[Durability<br/>committed data survives crashes]
+    D --> R[System of record remains trustworthy]
+```
 
-1. **Data Integrity:** ACID transactions ensure that data remains in a consistent and reliable state, even in the face of system failures or errors. This is crucial for applications that handle critical or sensitive data.
+## Atomicity
 
-2. **Consistency:** ACID transactions enforce data integrity rules, constraints, and relationships defined in the database schema. This consistency ensures that the database remains in a valid state at all times.
+Atomicity means a transaction is all-or-nothing.
 
-3. **Isolation:** ACID provides isolation mechanisms that prevent concurrent transactions from interfering with each other, reducing the risk of data corruption and race conditions.
+If a transaction contains five writes, the database does not leave you with the first three committed and the last two missing. Either the whole transaction commits, or the whole transaction is rolled back.
 
-4. **Durability:** ACID guarantees that once a transaction is committed, its changes are permanent and will survive system failures. This ensures that data remains available even after unexpected crashes.
+### Example
 
-5. **Predictability:** Developers can rely on the predictability and reliability of ACID transactions when designing and implementing applications. This makes it easier to reason about how data changes and ensure the correctness of the application's logic.
+In a bank transfer:
 
-**Disadvantages of ACID:**
+1. subtract `100` from account `A`
+2. add `100` to account `B`
+3. write an audit record
 
-1. **Performance Overhead:** ACID transactions often come with a performance overhead due to the need for locking, logging, and ensuring strong consistency. This overhead can impact the throughput and response times of database operations, especially in high-concurrency scenarios.
+Without atomicity, a crash between steps 1 and 2 could permanently lose money. With atomicity, either all three changes become visible, or none of them do.
 
-2. **Complexity:** Implementing and managing ACID transactions can be complex and require careful design and planning. Handling transactions, locking, and isolation levels can be challenging in distributed systems.
+```mermaid
+flowchart LR
+    subgraph Bad[Without Atomicity]
+        B1[Subtract 100 from A] --> B2[Crash before crediting B]
+        B2 --> B3[Partial state remains]
+    end
 
-3. **Scalability Challenges:** ACID properties can make it difficult to scale horizontally because maintaining strong consistency across multiple distributed nodes can be complex and can limit scalability.
+    subgraph Good[With Atomicity]
+        G1[Begin transaction] --> G2[Debit A]
+        G2 --> G3[Credit B]
+        G3 --> G4[Write audit log]
+        G4 --> G5[Commit all changes together]
+    end
+```
 
-4. **Inflexibility:** ACID's strict requirements may not be suitable for all types of applications. In some cases, relaxed consistency models (e.g., BASE) may be more appropriate, especially for applications where high availability and partition tolerance are paramount.
+### Why it matters
 
-5. **Resource Utilization:** ACID transactions can tie up system resources, such as locks and memory, for extended periods, potentially leading to resource contention and bottlenecks.
+Atomicity is the guarantee that lets you model a business action as one unit instead of manually recovering from partial writes everywhere in the codebase.
 
-In summary, ACID transactions are well-suited for applications where data integrity, consistency, and predictability are critical, such as financial systems, healthcare applications, and other mission-critical systems. However, they may introduce performance and scalability challenges in large, high-concurrency systems. Choosing whether to use ACID or a more relaxed consistency model (e.g., BASE) depends on the specific requirements and trade-offs of your application.
+## Consistency
+
+Consistency means a committed transaction must leave the database in a valid state according to its rules.
+
+Those rules can come from:
+
+- primary key and foreign key constraints
+- unique constraints
+- check constraints
+- triggers
+- application invariants enforced inside the transaction
+
+If the transaction would violate those rules, the database rejects it.
+
+### Example
+
+Suppose your schema says:
+
+- an order must reference an existing customer
+- inventory cannot go below zero
+
+A transaction that creates an order for a nonexistent customer or oversells inventory should fail. The database should not commit invalid state.
+
+```mermaid
+flowchart TD
+    S0[Valid state<br/>inventory = 3] --> T0[Transaction tries to sell 2 units]
+    T0 --> C0{Invariant check}
+    C0 -->|inventory stays >= 0| S1[Commit valid state<br/>inventory = 1]
+    C0 -->|inventory would be < 0| S2[Reject transaction<br/>state unchanged]
+```
+
+### Important nuance
+
+This is the most misunderstood letter in ACID.
+
+ACID consistency does **not** mean "all replicas instantly agree" or "every read sees the latest write." That is a distributed systems topic. In ACID, consistency means preservation of invariants.
+
+## Isolation
+
+Isolation means concurrent transactions should not corrupt each other or observe invalid intermediate state.
+
+If two requests hit the same rows at the same time, each one should behave as though the database has a defined concurrency policy, not random interleaving.
+
+### Example
+
+Assume two users both try to buy the last item in stock.
+
+If both transactions read `inventory = 1` and both decrement it, you may end up at `-1` or oversell the item unless the database isolates those operations correctly.
+
+```mermaid
+sequenceDiagram
+    participant T1 as Transaction 1
+    participant DB as Database
+    participant T2 as Transaction 2
+
+    T1->>DB: Read inventory = 1
+    T2->>DB: Read inventory = 1
+    T1->>DB: Reserve item
+    T2->>DB: Reserve item
+    DB-->>T1: Commit succeeds
+    DB-->>T2: Must wait, retry, or fail
+```
+
+Isolation prevents anomalies such as:
+
+- dirty reads: reading uncommitted data
+- non-repeatable reads: reading a different value later in the same transaction
+- phantom reads: a query returning a different set of rows later in the same transaction
+- lost updates: one transaction overwriting another without noticing
+
+### Isolation is not binary
+
+Databases expose isolation levels because stronger isolation usually costs more in throughput or latency.
+
+Common levels include:
+
+- `Read Committed`
+- `Repeatable Read`
+- `Serializable`
+
+A staff-level design discussion should always ask: what anomaly is acceptable here, and what isolation level actually prevents it?
+
+## Durability
+
+Durability means once the database acknowledges a commit, that commit survives process crashes, machine restarts, and other failures the system is designed to tolerate.
+
+In practice, databases implement durability with mechanisms such as:
+
+- write-ahead logs
+- fsync or equivalent persistence barriers
+- replication
+- recovery procedures during restart
+
+### Example
+
+If a checkout request returns `200 OK` after committing an order, that order must still exist after the database restarts one second later.
+
+If the system can acknowledge success and then lose the write, it is not providing meaningful durability.
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant DB
+    participant Disk
+
+    App->>DB: Commit transaction
+    DB->>Disk: Persist WAL / commit record
+    Disk-->>DB: Flush confirmed
+    DB-->>App: Commit acknowledged
+    Note over DB: Process crashes
+    DB->>Disk: Recover from durable log
+```
+
+## A Practical Example
+
+Consider an e-commerce checkout transaction:
+
+1. create the order
+2. reserve inventory
+3. create a payment record
+4. write an audit event
+
+ACID gives you this reasoning model:
+
+- `Atomicity`: either all four steps commit or none do
+- `Consistency`: foreign keys, inventory rules, and business invariants remain valid
+- `Isolation`: two customers cannot silently consume the same unit of stock
+- `Durability`: once confirmed, the order survives a crash
+
+```mermaid
+flowchart TD
+    C1[Create order] --> C2[Reserve inventory]
+    C2 --> C3[Create payment record]
+    C3 --> C4[Write audit event]
+    C4 --> C5{Commit?}
+    C5 -->|Yes| C6[All changes visible]
+    C5 -->|No| C7[Rollback everything]
+```
+
+That is why ACID is not a theory-only concept. It is the foundation for systems where money, inventory, identity, and compliance data must stay correct.
+
+## What ACID Does Not Mean
+
+ACID is powerful, but it does not solve everything.
+
+It does not automatically give you:
+
+- correct application logic
+- globally consistent behavior across multiple services
+- safe integration with external systems like email or payment gateways
+- infinite horizontal scalability
+
+For example, if a transaction commits and then your service crashes before publishing a Kafka event, ACID inside the database did its job. Your cross-system workflow still needs patterns such as an outbox table, idempotency keys, and retry handling.
+
+## Tradeoffs
+
+The cost of strong guarantees is usually coordination.
+
+That coordination may show up as:
+
+- locks
+- retries due to serialization conflicts
+- more disk I/O from transaction logs
+- lower write throughput under contention
+
+Good engineering is not about worshipping ACID or avoiding it. It is about using the strongest guarantees where correctness matters and understanding the throughput cost you are buying.
+
+## When ACID Matters Most
+
+ACID should be the default posture when a mistake is expensive.
+
+Typical examples:
+
+- payments and ledgers
+- orders and inventory
+- identity and permissions
+- billing
+- compliance-sensitive workflows
+
+If a bad write can cost money, create legal exposure, or require manual repair, start with ACID semantics and relax only with evidence.
+
+## Closing View
+
+ACID is best understood as an engineering tool for keeping state transitions correct under concurrency and failure.
+
+It is not just an interview acronym. It is the reason a database can be trusted as the system of record.
