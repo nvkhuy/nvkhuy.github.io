@@ -4,6 +4,7 @@ import "@styles/base.css";
 // import {ViewTransitions} from "astro:transitions";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const googleAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID ?? "G-FLXLZ5BFS5";
 
 export interface Props {
   title?: string;
@@ -106,20 +107,76 @@ const socialImageURL = new URL(
       )
     }
 
+    {/* JSON-LD Structured Data */}
+    {
+      pubDatetime ? (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": title,
+            "description": description,
+            "image": [socialImageURL],
+            "datePublished": pubDatetime.toISOString(),
+            ...(modDatetime && { "dateModified": modDatetime.toISOString() }),
+            "author": [
+              {
+                "@type": "Person",
+                "name": author,
+                "url": SITE.website,
+              },
+            ],
+          })}
+        />
+      ) : (
+        (Astro.url.pathname === "/" || Astro.url.pathname === "") && (
+          <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": SITE.title,
+              "url": SITE.website,
+              "description": SITE.desc,
+              "author": {
+                "@type": "Person",
+                "name": SITE.author,
+              }
+            })}
+          />
+        )
+      )
+    }
+
     <!--<ViewTransitions/>-->
 
     <script is:inline src="/toggle-theme.js"></script>
-    <script
-      type="text/partytown"
-      src="https://www.googletagmanager.com/gtag/js?id=G-FLXLZ5BFS5"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-FLXLZ5BFS5");
-    </script>
+    {
+      googleAnalyticsId && (
+        <>
+          <script
+            is:inline
+            type="text/partytown"
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          />
+          <script
+            is:inline
+            type="text/partytown"
+            set:html={`
+              window.dataLayer = window.dataLayer || [];
+              function gtag() {
+                dataLayer.push(arguments);
+              }
+              gtag("js", new Date());
+              gtag("config", "${googleAnalyticsId}");
+            `}
+          />
+        </>
+      )
+    }
   </head>
   <body>
     <slot />
