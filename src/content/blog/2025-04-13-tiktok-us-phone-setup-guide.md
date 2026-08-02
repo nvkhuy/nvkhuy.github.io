@@ -28,7 +28,7 @@ This is why I target US users instead of local users simply put, users in my cou
 
 ## Step 1: Factory Reset the iPhone
 
-![Step 1 - Factory Reset](/assets/tiktok-step1.jpg)
+![Step 1 - Factory Reset](/assets/tiktok-step1.webp)
 
 Before setting up any iPhone for use in a TikTok farm, you need to ensure the device is in a completely clean state. A factory reset wipes all previous data, accounts, settings, cached location info, and residual app configurations giving you a blank slate that won't carry over any digital fingerprints from prior usage.
 
@@ -50,7 +50,7 @@ TikTok's detection systems analyze device-level signals including previously ass
 
 ## Step 2: Set Language and Region
 
-![Step 2 - Set Language and Region](/assets/tiktok-step2.jpg)
+![Step 2 - Set Language and Region](/assets/tiktok-step2.webp)
 
 Right after the iPhone reboots to the "Hello" screen, you'll be asked to choose a language and country/region. These aren't just display preferences, they directly affect how the device behaves and how TikTok categorizes your account.
 
@@ -75,7 +75,7 @@ Right after the iPhone reboots to the "Hello" screen, you'll be asked to choose 
 
 ## Step 3: Create a New iCloud Account
 
-![Step 3 - Create a New iCloud Account](/assets/tiktok-step3.jpg)
+![Step 3 - Create a New iCloud Account](/assets/tiktok-step3.webp)
 
 Before signing into the iPhone with an Apple ID, you need to create a completely fresh iCloud account. Using an old or previously used Apple ID will carry over data associations and device history, which can compromise the clean fingerprint you established in Steps 1 and 2.
 
@@ -104,11 +104,11 @@ Before signing into the iPhone with an Apple ID, you need to create a completely
 
 ## Step 4: Set App Store Region to Target Country
 
-![Step 4 - App Store Region](/assets/tiktok-step4-1.jpg)
+![Step 4 - App Store Region](/assets/tiktok-step4-1.webp)
 
 Even though you already selected a region during the initial setup in Step 2, the App Store region is a separate setting tied to your Apple ID. You need to make sure this also matches your target country so that you download the correct regional version of apps, especially TikTok, which can have different builds and content policies depending on the market.
 
-![Step 4 - Billing Address](/assets/tiktok-step4-2.jpg)
+![Step 4 - Billing Address](/assets/tiktok-step4-2.webp)
 
 ### How to do it
 
@@ -136,7 +136,7 @@ Since you're not physically in the target country, you'll need a valid-looking a
 
 ## Step 5: Install and Configure VPN/Proxy
 
-![Step 5 - VPN and Proxy](/assets/tiktok-step5.jpg)
+![Step 5 - VPN and Proxy](/assets/tiktok-step5.webp)
 
 With the device fully set up and the App Store region configured, you now need to install a VPN or proxy to make sure your internet traffic comes from an IP address in your target country. This is one of the most critical steps a wrong choice here can undo all the work from the previous steps.
 
@@ -162,11 +162,11 @@ The VPN/proxy is the foundation of your geo-spoofing setup. Every other signal l
 
 ## Step 6: Create TikTok Accounts
 
-![Step 6 - Create TikTok Accounts](/assets/tiktok-step6-1.jpg)
+![Step 6 - Create TikTok Accounts](/assets/tiktok-step6-1.webp)
 
 Now that your device is fully configured with a clean fingerprint, correct region settings, and a reliable VPN, you're ready to create your TikTok accounts. This step requires patience rushing it is one of the fastest ways to get flagged.
 
-![Step 6 - Account Warmup](/assets/tiktok-step6-2.jpg)
+![Step 6 - Account Warmup](/assets/tiktok-step6-2.webp)
 
 ### How to do it
 
