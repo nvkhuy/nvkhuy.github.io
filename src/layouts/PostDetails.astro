@@ -128,6 +128,18 @@ const layoutProps = {
       graph.appendChild(svg);
       mermaid.render(id, content).then((result) => {
         graph.innerHTML = result.svg;
+        // Fix mermaid viewBox clipping: expand height so last text line is not cut off
+        const renderedSvg = graph.querySelector("svg");
+        if (renderedSvg) {
+          const vb = renderedSvg.getAttribute("viewBox");
+          if (vb) {
+            const parts = vb.split(" ");
+            if (parts.length === 4) {
+              parts[3] = String(parseFloat(parts[3]) + 40);
+              renderedSvg.setAttribute("viewBox", parts.join(" "));
+            }
+          }
+        }
       });
     }
   }
