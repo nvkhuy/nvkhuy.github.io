@@ -181,17 +181,18 @@ sequenceDiagram
     participant Target as Target VPS (port 5432)
     participant FW as Firewall (if any)
 
-    Scanner->>Target: SYN to port 5432
+    Scanner->>Target: TCP SYN to port 5432
     alt Port is open, no firewall
-        Target->>Scanner: SYN-ACK
-        Scanner->>Target: ACK (connection established)
-        Target->>Scanner: PostgreSQL startup message
+        Target->>Scanner: TCP SYN-ACK
+        Scanner->>Target: TCP ACK (connection established)
+        Scanner->>Target: PostgreSQL StartupMessage / SSLRequest
+        Target->>Scanner: PostgreSQL Auth Request / Banner
         Scanner->>Scanner: Add IP to brute-force queue
     else Port is filtered by firewall
         FW--xScanner: DROP (no response)
         Scanner->>Scanner: Skip — move to next IP
     else Port is closed
-        Target->>Scanner: RST
+        Target->>Scanner: TCP RST
         Scanner->>Scanner: Skip — move to next IP
     end
 ```
@@ -202,15 +203,15 @@ Once a PostgreSQL server is identified, PGMiner attempts to authenticate as the 
 
 | Priority | Password tried          | Why it works                           |
 |----------|-------------------------|----------------------------------------|
-| 1        | _(empty string)_        | Default on many installations          |
+| 1        | _(empty string)_        | Default on many unconfigured installations |
 | 2        | `postgres`              | Username = password, extremely common  |
 | 3        | `password`              | Universal bad password                 |
-| 4        | `123456`                | Another universal bad password         |
+| 4        | `123456`                | Common sequential bad password         |
 | 5        | `admin`                 | Generic admin credential               |
 | 6        | `root`                  | Common for Linux-minded admins         |
-| 7        | `trust` (no password)   | pg_hba.conf set to trust auth method   |
+| 7        | _(no password sent)_    | Exploits servers with `trust` auth in `pg_hba.conf` |
 
-The `trust` authentication method is particularly dangerous. When `pg_hba.conf` is configured with `trust` for remote connections, **no password is required at all**.
+The `trust` authentication method is particularly dangerous. When `pg_hba.conf` is configured with `trust` for remote connections, the server bypasses password checks entirely — any connection attempt is accepted unconditionally without requiring a password.
 
 ```mermaid
 flowchart TD
@@ -501,13 +502,13 @@ This section catalogs every common misconfiguration that makes a PostgreSQL VPS 
 | 🟢 **Operational** | No regular security audits | MEDIUM |
 | 🟢 **Operational** | Unpatched PostgreSQL version | HIGH |
 
-### Mistake 1: Using Default or Weak Passwords
+### Mistake 1: Using Default, Weak, or Unset Passwords
 
-This is the single most common enabler. Many PostgreSQL installations ship with the `postgres` superuser account having either no password or the password `postgres`.
+This is the single most common enabler. Many PostgreSQL installations ship with the `postgres` superuser account having either no password configured or a trivial password like `postgres`.
 
 ```bash
-# How to check if your postgres user has a weak password:
-sudo -u postgres psql -c "SELECT usename, passwd IS NOT NULL as has_password FROM pg_shadow WHERE usename = 'postgres';"
+# Check if the postgres superuser has a password configured:
+sudo -u postgres psql -c "SELECT usename, passwd IS NOT NULL AS has_password FROM pg_shadow WHERE usename = 'postgres';"
 ```
 
 **Risk level: CRITICAL** — This alone is enough for PGMiner to compromise your server.
@@ -535,9 +536,12 @@ ss -tlnp | grep 5432
 # You want to see 127.0.0.1:5432
 ```
 
-### Mistake 4: Running PostgreSQL as Root
+### Mistake 4: Running PostgreSQL or Containers with Excessive Privileges
 
-If PostgreSQL runs as root, then `COPY FROM PROGRAM` executes commands **as root**. The attacker gets full system access immediately, not just access as the `postgres` user.
+By design, PostgreSQL's server daemon refuses to start directly as root (`postgres: cannot be run as root`). However, severe privilege issues still occur when:
+- The `postgres` OS user is granted passwordless `sudo` (`NOPASSWD: ALL`) in `/etc/sudoers`.
+- PostgreSQL runs inside a Docker container configured with `--privileged` or root user namespace mappings.
+- The host OS is unpatched, allowing local privilege escalation (LPE) from the `postgres` user to `root`.
 
 ```bash
 # Check which user PostgreSQL runs as:
@@ -566,24 +570,26 @@ listen_addresses = '*'
 listen_addresses = 'localhost'
 ```
 
-### Mistake 7: Not Revoking pg_execute_server_program
+### Mistake 7: Granting Superuser or Execution Roles to Applications
 
-Even if you need remote database access, you can specifically revoke the ability to run `COPY FROM PROGRAM`:
+In PostgreSQL, only superusers and members of the `pg_execute_server_program` role (introduced in PostgreSQL 11) can execute `COPY ... FROM PROGRAM`. A major security mistake is using the superuser `postgres` account in web application connection strings or granting excessive roles to standard application users.
 
 ```sql
--- Revoke the ability to execute programs from non-superusers:
-REVOKE pg_execute_server_program FROM PUBLIC;
+-- Check which users have superuser or pg_execute_server_program:
+SELECT rolname, rolsuper,
+       pg_has_role(rolname, 'pg_execute_server_program', 'member') AS can_exec_program
+FROM pg_roles;
 ```
 
 ### Mistake 8: No Connection Logging
 
-If you do not log connections, you will not know when an attacker is brute-forcing your database.
+If you do not log connections, you will not know when an attacker is brute-forcing your database. While authentication failures are logged by default at `FATAL` level in PostgreSQL, enabling connection and disconnection logging provides the full audit trail with timestamps and client IPs.
 
 ```conf
 # In postgresql.conf:
 log_connections = on
 log_disconnections = on
-log_failed_authentication = on  -- PostgreSQL 15+
+log_line_prefix = '%m [%p] %q%u@%d %h '
 ```
 
 ### Mistake 9: No CPU/Resource Monitoring
@@ -609,7 +615,7 @@ flowchart LR
     subgraph "Defense"
         D1["Firewall<br/>Block 5432 from internet<br/>&nbsp;"]
         D2["Strong password<br/>+ scram-sha-256<br/>&nbsp;"]
-        D3["Revoke<br/>pg_execute_server_program<br/>&nbsp;"]
+        D3["Least-privilege roles<br/>No remote superuser<br/>&nbsp;"]
         D4["Egress filtering<br/>Block outbound to unknown<br/>&nbsp;"]
         D5["Resource limits<br/>+ monitoring<br/>&nbsp;"]
     end
@@ -685,17 +691,21 @@ ssh -L 5432:localhost:5432 user@your-vps-ip
 # Traffic goes through the encrypted SSH tunnel
 ```
 
-### Defense 4: Revoke COPY FROM PROGRAM
+### Defense 4: Enforce Least Privilege (Never Expose Superuser to Apps)
+
+Superusers bypass all privilege checks, so `REVOKE` commands cannot restrict a compromised `postgres` account. The robust defense is ensuring external applications and remote clients **never** connect using a superuser or roles with `pg_execute_server_program`:
 
 ```sql
--- For all non-superuser roles:
-REVOKE pg_execute_server_program FROM PUBLIC;
+-- 1. Check existing roles to verify no application role has execution privileges:
+SELECT rolname, rolsuper,
+       pg_has_role(rolname, 'pg_execute_server_program', 'member') AS can_exec_program
+FROM pg_roles;
 
--- Create application-specific roles with minimal privileges:
-CREATE ROLE app_user WITH LOGIN PASSWORD 'strong-password';
+-- 2. Create application-specific roles with minimal privileges:
+CREATE ROLE app_user WITH LOGIN PASSWORD 'USE-A-STRONG-PASSWORD-HERE';
 GRANT CONNECT ON DATABASE myapp TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
--- This role cannot use COPY FROM PROGRAM
+-- app_user CANNOT run COPY FROM PROGRAM or execute OS commands
 ```
 
 ### Defense 5: Enable Logging and Monitoring
@@ -704,6 +714,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
 # In postgresql.conf:
 log_connections = on
 log_disconnections = on
+log_line_prefix = '%m [%p] %q%u@%d %h '
 log_statement = 'ddl'
 log_min_duration_statement = 1000  # Log slow queries (ms)
 
@@ -718,8 +729,9 @@ sudo apt install fail2ban
 # Create /etc/fail2ban/filter.d/postgresql.conf:
 cat << 'EOF' | sudo tee /etc/fail2ban/filter.d/postgresql.conf
 [Definition]
-failregex = FATAL:  password authentication failed for user .* <HOST>
-            FATAL:  no pg_hba.conf entry for host "<HOST>"
+failregex = ^.* <HOST> FATAL:  password authentication failed for user .*
+            ^.* <HOST> FATAL:  no pg_hba.conf entry for host .*
+            ^.* <HOST> FATAL:  role ".*" does not exist
 ignoreregex =
 EOF
 
@@ -753,15 +765,22 @@ sudo systemctl edit postgresql
 
 ### Defense 7: Egress Filtering
 
-Block the server from making outbound connections to unknown hosts. This prevents the stager from downloading the miner payload.
+Block the server from making outbound connections to unknown hosts. This prevents downloaded stagers from reaching C2 servers or downloading mining binaries, and stops miners from connecting to remote mining pools.
 
 ```bash
-# Allow outbound only to known destinations:
-sudo iptables -A OUTPUT -d apt.ubuntu.com -j ACCEPT
-sudo iptables -A OUTPUT -d security.ubuntu.com -j ACCEPT
-# ... add your known destinations
-sudo iptables -A OUTPUT -p tcp --dport 80 -j DROP
-sudo iptables -A OUTPUT -p tcp --dport 443 -j DROP
+# Allow loopback interface:
+sudo iptables -A OUTPUT -o lo -j ACCEPT
+
+# Allow established and related connections:
+sudo iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Allow DNS queries (UDP/TCP 53):
+sudo iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
+
+# Restrict outbound HTTP/HTTPS and known mining pool ports (e.g., 3333, 4444, 14444):
+# Allow only verified outbound repositories/APIs, drop unauthorized traffic:
+sudo iptables -A OUTPUT -p tcp -m multiport --dports 80,443,3333,4444,14444 -j REJECT
 ```
 
 ### Complete Hardening Checklist
@@ -783,7 +802,7 @@ flowchart TD
     end
 
     subgraph "Layer 3: Authorization"
-        Z1["✅ pg_execute_server_program<br/>revoked from PUBLIC<br/>&nbsp;"]
+        Z1["✅ Least-privilege roles<br/>No execution privileges<br/>&nbsp;"]
         Z2["✅ Application uses<br/>minimal-privilege role<br/>&nbsp;"]
         Z3["✅ Superuser access<br/>restricted to localhost<br/>&nbsp;"]
     end
@@ -935,7 +954,7 @@ print_phase "PHASE 1: RECONNAISSANCE — Port Scanning"
 echo -e "${RED}🔴 ATTACKER ACTION:${NC} Scanning for PostgreSQL on port 15432..."
 echo ""
 
-if nc -zv 127.0.0.1 15432 2>&1; then
+if (nc -zv 127.0.0.1 15432 2>&1) || (timeout 2 bash -c "</dev/tcp/127.0.0.1/15432" 2>/dev/null); then
     echo ""
     echo -e "${RED}  ✅ Port 15432 is OPEN — target added to brute-force queue${NC}"
 else
@@ -1158,43 +1177,43 @@ sequenceDiagram
     participant A as Attacker (Script)
     participant PG as PostgreSQL (Lab)
     participant OS as Container OS
-    participant Note as What PGMiner Would Do
+    participant RealPG as What PGMiner Would Do
 
     rect rgb(52, 152, 219)
-        Note over A,Note: Phase 1 — Reconnaissance
+        Note over A,RealPG: Phase 1 — Reconnaissance
         A->>PG: nc -zv 127.0.0.1 15432
         PG->>A: Connection accepted
-        Note over Note: Real PGMiner: masscan<br/>millions of IPs
+        Note over RealPG: Real PGMiner: masscan<br/>millions of IPs
     end
 
     rect rgb(230, 126, 34)
-        Note over A,Note: Phase 2 — Brute-Force
+        Note over A,RealPG: Phase 2 — Brute-Force
         A->>PG: docker exec psql -U postgres
         PG->>A: Authentication OK (trust)
-        Note over Note: Real PGMiner: tries 5-10<br/>common passwords
+        Note over RealPG: Real PGMiner: tries 5-10<br/>common passwords
     end
 
     rect rgb(231, 76, 60)
-        Note over A,Note: Phase 3 — Initial Access
+        Note over A,RealPG: Phase 3 — Initial Access
         A->>PG: COPY cmd_exec FROM PROGRAM 'uname -a'
         PG->>OS: spawns sh -c uname -a
         OS->>PG: Linux kernel + arch output
         PG->>A: Returns OS information
-        Note over Note: Real PGMiner: runs<br/>curl c2/payload.sh piped to bash
+        Note over RealPG: Real PGMiner: runs<br/>curl c2/payload.sh piped to bash
     end
 
     rect rgb(142, 68, 173)
-        Note over A,Note: Phase 4-6 — Payload + Persistence
+        Note over A,RealPG: Phase 4-6 — Payload + Persistence
         A->>PG: COPY FROM PROGRAM 'echo marker into /tmp/...'
         PG->>OS: Creates marker file
-        Note over Note: Real PGMiner: downloads XMRig,<br/>installs cron job,<br/>kills competing miners
+        Note over RealPG: Real PGMiner: downloads XMRig,<br/>installs cron job,<br/>kills competing miners
     end
 
     rect rgb(44, 62, 80)
-        Note over A,Note: Phase 7 — Mining
+        Note over A,RealPG: Phase 7 — Mining
         A->>PG: COPY FROM PROGRAM 'dd if=/dev/urandom...'
         PG->>OS: Brief CPU stress (3 seconds)
-        Note over Note: Real PGMiner: XMRig runs<br/>indefinitely at 75% CPU
+        Note over RealPG: Real PGMiner: XMRig runs<br/>indefinitely at 75% CPU
     end
 ```
 
@@ -1236,9 +1255,9 @@ The full defense is straightforward:
 1. **Never expose port 5432 to the internet** — use a firewall
 2. **Never use weak passwords** — use long, random passwords with SCRAM-SHA-256
 3. **Never use trust authentication** for remote connections
-4. **Revoke `pg_execute_server_program`** from all non-essential roles
+4. **Never expose superusers or execution roles to applications** — enforce least privilege
 5. **Monitor CPU usage** — a sudden spike to 75%+ is a red flag
-6. **Log everything** — failed auth attempts, connections, DDL statements
+6. **Log connections and queries** — failed auth attempts, connection events, DDL statements
 
 ```mermaid
 flowchart TD
@@ -1254,8 +1273,8 @@ flowchart TD
     C -->|Yes| FIX3["🔧 Change to<br/>scram-sha-256<br/>&nbsp;"]
     C -->|No| D
 
-    D["Is pg_execute_server_program<br/>revoked from PUBLIC?<br/>&nbsp;"]
-    D -->|No| FIX4["🔧 REVOKE pg_execute_server_program<br/>FROM PUBLIC<br/>&nbsp;"]
+    D["Are app roles restricted<br/>(non-superuser)?<br/>&nbsp;"]
+    D -->|No| FIX4["🔧 Enforce least privilege<br/>Create minimal app role<br/>&nbsp;"]
     D -->|Yes| E
 
     E["Is CPU monitoring<br/>enabled with alerts?<br/>&nbsp;"]
